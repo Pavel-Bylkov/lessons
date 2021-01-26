@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pong3dgpl.gameplay</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pong3dgpl-module.html">Module&nbsp;pong3dgpl</a> ::
+        Class&nbsp;gameplay
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pong3dgpl.gameplay-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class gameplay</h1><p class="nomargin-top"><span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pong3dgp" name="uml_class_diagram_for_pong3dgp">
+<area shape="rect" href="pong3dgpl.gameplay-class.html#BALLSPEED" title="pong3dgpl.gameplay.BALLSPEED" alt="" coords="179,551,448,569"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#BALLSPEEDMAX" title="pong3dgpl.gameplay.BALLSPEEDMAX" alt="" coords="179,569,448,588"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#CPUSPD" title="pong3dgpl.gameplay.CPUSPD" alt="" coords="179,588,448,607"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#NPCSPD" title="pong3dgpl.gameplay.NPCSPD" alt="" coords="179,607,448,625"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#PADVEL" title="pong3dgpl.gameplay.PADVEL" alt="" coords="179,625,448,644"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#foesdefeated" title="pong3dgpl.gameplay.foesdefeated" alt="" coords="179,644,448,663"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#totsets" title="pong3dgpl.gameplay.totsets" alt="" coords="179,663,448,681"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#ballinpulse" title="pong3dgpl.gameplay.ballinpulse" alt="" coords="179,684,448,703"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#ballreset" title="pong3dgpl.gameplay.ballreset" alt="" coords="179,703,448,721"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#ballrestart" title="to start the ball off the pad" alt="" coords="179,721,448,740"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#bot0" title="npc AI (actually very dumb)" alt="" coords="179,740,448,759"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#bot1" title="npc AI (less dumb)" alt="" coords="179,759,448,777"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#checkmatchball" title="pong3dgpl.gameplay.checkmatchball" alt="" coords="179,777,448,796"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#collideEventIn" title="pong3dgpl.gameplay.collideEventIn" alt="" coords="179,796,448,815"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#endset" title="a set is won by one player" alt="" coords="179,815,448,833"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#gameover" title="pong3dgpl.gameplay.gameover" alt="" coords="179,833,448,852"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#humanvscpuscore" title="pong3dgpl.gameplay.humanvscpuscore" alt="" coords="179,852,448,871"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#intermessage" title="pong3dgpl.gameplay.intermessage" alt="" coords="179,871,448,889"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#mainloop" title="pong3dgpl.gameplay.mainloop" alt="" coords="179,889,448,908"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#npcloop" title="pong3dgpl.gameplay.npcloop" alt="" coords="179,908,448,927"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html#xsetpadvel" title="pong3dgpl.gameplay.xsetpadvel" alt="" coords="179,945,448,964"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html" title="Pong3D gameplay class." alt="" coords="177,533,449,965"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#__init__" title="gamelogic01.gameplaybase.__init__" alt="" coords="17,335,609,353"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#dbgprint" title="gamelogic01.gameplaybase.dbgprint" alt="" coords="17,353,609,372"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#finish" title="gamelogic01.gameplaybase.finish" alt="" coords="17,372,609,391"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#loadeffects" title="gamelogic01.gameplaybase.loadeffects" alt="" coords="17,391,609,409"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#pause" title="gamelogic01.gameplaybase.pause" alt="" coords="17,409,609,428"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#playeffect" title="gamelogic01.gameplaybase.playeffect" alt="" coords="17,428,609,447"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#startclock" title="gamelogic01.gameplaybase.startclock" alt="" coords="17,447,609,465"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#stopclock" title="gamelogic01.gameplaybase.stopclock" alt="" coords="17,465,609,484"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#walktree" title="gamelogic01.gameplaybase.walktree" alt="" coords="17,484,609,503"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html" title="To make a custom game, fist start subclassing this." alt="" coords="16,309,611,504"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.accept" alt="" coords="177,36,449,55"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.acceptOnce" alt="" coords="177,55,449,73"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.addTask" alt="" coords="177,73,449,92"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.classTree" alt="" coords="177,92,449,111"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.detectLeaks" alt="" coords="177,111,449,129"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.doMethodLater" alt="" coords="177,129,449,148"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.getAllAccepting" alt="" coords="177,148,449,167"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignore" alt="" coords="177,167,449,185"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignoreAll" alt="" coords="177,185,449,204"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isAccepting" alt="" coords="177,204,449,223"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isIgnoring" alt="" coords="177,223,449,241"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeAllTasks" alt="" coords="177,241,449,260"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeTask" alt="" coords="177,260,449,279"/>
+<area shape="rect" href="javascript:void(0);" title="This is the class that all Direct/SAL classes should inherit from" alt="" coords="176,11,451,280"/>
+</map>
+  <img src="uml_class_diagram_for_pong3dgp.gif" alt='' usemap="#uml_class_diagram_for_pong3dgp" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Pong3D gameplay class. Derived from a generic base gameply class, this
+  is custom-specialized to play the pong3D game.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gamelogic01.gameplaybase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">parent</span>,
+        <span class="summary-sig-arg">settings</span>=<span class="summary-sig-default"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">opponent</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">human</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">playernames</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">CPU0</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Player1</code><code class="variable-quote">'</code><code class="variable-group">]</code><code class="variable-group">}</code></span>,
+        <span class="summary-sig-arg">callback</span>=<span class="summary-sig-default">None</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="ballinpulse"></a><span class="summary-sig-name">ballinpulse</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">vec</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.ballinpulse">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="ballreset"></a><span class="summary-sig-name">ballreset</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">foo</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.ballreset">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="ballrestart"></a><span class="summary-sig-name">ballrestart</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">foo</span>=<span class="summary-sig-default">None</span>)</span><br />
+      to start the ball off the pad</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.ballrestart">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="bot0"></a><span class="summary-sig-name">bot0</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">padz</span>,
+        <span class="summary-sig-arg">ballpos</span>,
+        <span class="summary-sig-arg">balldir</span>)</span><br />
+      npc AI (actually very dumb)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.bot0">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="bot1"></a><span class="summary-sig-name">bot1</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">padz</span>,
+        <span class="summary-sig-arg">ballpos</span>,
+        <span class="summary-sig-arg">balldir</span>)</span><br />
+      npc AI (less dumb)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.bot1">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="checkmatchball"></a><span class="summary-sig-name">checkmatchball</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.checkmatchball">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="collideEventIn"></a><span class="summary-sig-name">collideEventIn</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">entry</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.collideEventIn">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="dbgprint"></a><span class="summary-sig-name">dbgprint</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.dbgprint">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="endset"></a><span class="summary-sig-name">endset</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      a set is won by one player</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.endset">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="finish"></a><span class="summary-sig-name">finish</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.finish">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="gameover"></a><span class="summary-sig-name">gameover</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.gameover">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="humanvscpuscore"></a><span class="summary-sig-name">humanvscpuscore</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.humanvscpuscore">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="intermessage"></a><span class="summary-sig-name">intermessage</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>,
+        <span class="summary-sig-arg">scale</span>=<span class="summary-sig-default">0.1</span>,
+        <span class="summary-sig-arg">delay</span>=<span class="summary-sig-default">-1</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.intermessage">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="loadeffects"></a><span class="summary-sig-name">loadeffects</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.loadeffects">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="mainloop"></a><span class="summary-sig-name">mainloop</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">task</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.mainloop">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="npcloop"></a><span class="summary-sig-name">npcloop</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">task</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.npcloop">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pong3dgpl.gameplay-class.html#onfinish" class="summary-sig-name">onfinish</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.onfinish">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="pause"></a><span class="summary-sig-name">pause</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">force</span>=<span class="summary-sig-default">None</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.pause">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="playeffect"></a><span class="summary-sig-name">playeffect</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.playeffect">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="playerscore"></a><span class="summary-sig-name">playerscore</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">player</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.playerscore">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pong3dgpl.gameplay-class.html#setcamera" class="summary-sig-name">setcamera</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      WARNING you actually cannot dynamically switch from 2d to 3d and 
+      vice-versa but just stay stick to one dimension or the other one</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setcamera">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pong3dgpl.gameplay-class.html#setgame" class="summary-sig-name">setgame</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setgame">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pong3dgpl.gameplay-class.html#setinputs" class="summary-sig-name">setinputs</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setinputs">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setmaintask"></a><span class="summary-sig-name">setmaintask</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">on</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setmaintask">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setpadvel"></a><span class="summary-sig-name">setpadvel</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">p</span>,
+        <span class="summary-sig-arg">v</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setpadvel">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pong3dgpl.gameplay-class.html#setscene" class="summary-sig-name">setscene</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setscene">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="si_easyinput"></a><span class="summary-sig-name">si_easyinput</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.si_easyinput">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="si_noeasyinput"></a><span class="summary-sig-name">si_noeasyinput</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.si_noeasyinput">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="startclock"></a><span class="summary-sig-name">startclock</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.startclock">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="stopclock"></a><span class="summary-sig-name">stopclock</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.stopclock">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="toggle_collisions"></a><span class="summary-sig-name">toggle_collisions</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.toggle_collisions">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="updatescore"></a><span class="summary-sig-name">updatescore</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.updatescore">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="walktree"></a><span class="summary-sig-name">walktree</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">top</span>,
+        <span class="summary-sig-arg">ext</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">.ogg</code><code class="variable-quote">'</code></span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameplaybase-class.html">gamelogic01.gameplaybase</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.walktree">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="wallbouncheck"></a><span class="summary-sig-name">wallbouncheck</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">reset</span>=<span class="summary-sig-default">False</span>)</span><br />
+      check for triple bounces in a player's middlefield</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.wallbouncheck">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="xsetpadvel"></a><span class="summary-sig-name">xsetpadvel</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.xsetpadvel">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.showbase.DirectObject.DirectObject</code></b>:
+      <code>accept</code>,
+      <code>acceptOnce</code>,
+      <code>addTask</code>,
+      <code>classTree</code>,
+      <code>detectLeaks</code>,
+      <code>doMethodLater</code>,
+      <code>getAllAccepting</code>,
+      <code>ignore</code>,
+      <code>ignoreAll</code>,
+      <code>isAccepting</code>,
+      <code>isIgnoring</code>,
+      <code>removeAllTasks</code>,
+      <code>removeTask</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="BALLSPEED"></a><span class="summary-name">BALLSPEED</span> = <code title="1.0">1.0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="BALLSPEEDMAX"></a><span class="summary-name">BALLSPEEDMAX</span> = <code title="2.0">2.0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="CPUSPD"></a><span class="summary-name">CPUSPD</span> = <code title="0.15">0.15</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="NPCSPD"></a><span class="summary-name">NPCSPD</span> = <code title="1.0">1.0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PADVEL"></a><span class="summary-name">PADVEL</span> = <code title="1.0">1.0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="foesdefeated"></a><span class="summary-name">foesdefeated</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="totsets"></a><span class="summary-name">totsets</span> = <code title="0">0</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="onfinish"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">onfinish</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.onfinish">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="gamelogic01.gameplaybase-class.html#onfinish">gamelogic01.gameplaybase.onfinish</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setcamera"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setcamera</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setcamera">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>WARNING you actually cannot dynamically switch from 2d to 3d and 
+  vice-versa but just stay stick to one dimension or the other one</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="gamelogic01.gameplaybase-class.html#setcamera">gamelogic01.gameplaybase.setcamera</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setgame"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setgame</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setgame">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="gamelogic01.gameplaybase-class.html#setgame">gamelogic01.gameplaybase.setgame</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setinputs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setinputs</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setinputs">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="gamelogic01.gameplaybase-class.html#setinputs">gamelogic01.gameplaybase.setinputs</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setscene"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setscene</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pong3dgpl-pysrc.html#gameplay.setscene">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="gamelogic01.gameplaybase-class.html#setscene">gamelogic01.gameplaybase.setscene</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Sep 21 14:49:51 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

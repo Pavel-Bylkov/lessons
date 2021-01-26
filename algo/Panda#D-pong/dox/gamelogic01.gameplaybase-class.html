@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>gamelogic01.gameplaybase</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="gamelogic01-module.html">Module&nbsp;gamelogic01</a> ::
+        Class&nbsp;gameplaybase
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="gamelogic01.gameplaybase-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class gameplaybase</h1><p class="nomargin-top"><span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_gamelogi_2" name="uml_class_diagram_for_gamelogi_2">
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#__init__" title="gamelogic01.gameplaybase.__init__" alt="" coords="17,335,609,353"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#dbgprint" title="gamelogic01.gameplaybase.dbgprint" alt="" coords="17,353,609,372"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#finish" title="gamelogic01.gameplaybase.finish" alt="" coords="17,372,609,391"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#loadeffects" title="gamelogic01.gameplaybase.loadeffects" alt="" coords="17,391,609,409"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#onfinish" title="gamelogic01.gameplaybase.onfinish" alt="" coords="17,409,609,428"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#pause" title="gamelogic01.gameplaybase.pause" alt="" coords="17,428,609,447"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#playeffect" title="gamelogic01.gameplaybase.playeffect" alt="" coords="17,447,609,465"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#setcamera" title="gamelogic01.gameplaybase.setcamera" alt="" coords="17,465,609,484"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#setgame" title="gamelogic01.gameplaybase.setgame" alt="" coords="17,484,609,503"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#setinputs" title="gamelogic01.gameplaybase.setinputs" alt="" coords="17,503,609,521"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#setscene" title="gamelogic01.gameplaybase.setscene" alt="" coords="17,521,609,540"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#startclock" title="gamelogic01.gameplaybase.startclock" alt="" coords="17,540,609,559"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#stopclock" title="gamelogic01.gameplaybase.stopclock" alt="" coords="17,559,609,577"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html#walktree" title="gamelogic01.gameplaybase.walktree" alt="" coords="17,577,609,596"/>
+<area shape="rect" href="gamelogic01.gameplaybase-class.html" title="To make a custom game, fist start subclassing this." alt="" coords="16,309,611,597"/>
+<area shape="rect" href="pong3dgpl.gameplay-class.html" title="Pong3D gameplay class." alt="" coords="247,627,380,653"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.accept" alt="" coords="177,36,449,55"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.acceptOnce" alt="" coords="177,55,449,73"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.addTask" alt="" coords="177,73,449,92"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.classTree" alt="" coords="177,92,449,111"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.detectLeaks" alt="" coords="177,111,449,129"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.doMethodLater" alt="" coords="177,129,449,148"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.getAllAccepting" alt="" coords="177,148,449,167"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignore" alt="" coords="177,167,449,185"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignoreAll" alt="" coords="177,185,449,204"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isAccepting" alt="" coords="177,204,449,223"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isIgnoring" alt="" coords="177,223,449,241"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeAllTasks" alt="" coords="177,241,449,260"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeTask" alt="" coords="177,260,449,279"/>
+<area shape="rect" href="javascript:void(0);" title="This is the class that all Direct/SAL classes should inherit from" alt="" coords="176,11,451,280"/>
+</map>
+  <img src="uml_class_diagram_for_gamelogi_2.gif" alt='' usemap="#uml_class_diagram_for_gamelogi_2" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>To make a custom game, fist start subclassing this.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gamelogic01.gameplaybase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">parent</span>,
+        <span class="summary-sig-arg">settings</span>=<span class="summary-sig-default"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">opponent</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">human</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">playernames</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">CPU0</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Player1</code><code class="variable-quote">'</code><code class="variable-group">]</code><code class="variable-group">}</code></span>,
+        <span class="summary-sig-arg">callback</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="dbgprint"></a><span class="summary-sig-name">dbgprint</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.dbgprint">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="finish"></a><span class="summary-sig-name">finish</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.finish">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="loadeffects"></a><span class="summary-sig-name">loadeffects</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.loadeffects">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="onfinish"></a><span class="summary-sig-name">onfinish</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.onfinish">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="pause"></a><span class="summary-sig-name">pause</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">force</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.pause">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="playeffect"></a><span class="summary-sig-name">playeffect</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.playeffect">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setcamera"></a><span class="summary-sig-name">setcamera</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.setcamera">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setgame"></a><span class="summary-sig-name">setgame</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.setgame">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setinputs"></a><span class="summary-sig-name">setinputs</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.setinputs">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setscene"></a><span class="summary-sig-name">setscene</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.setscene">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="startclock"></a><span class="summary-sig-name">startclock</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.startclock">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="stopclock"></a><span class="summary-sig-name">stopclock</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.stopclock">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="walktree"></a><span class="summary-sig-name">walktree</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">top</span>,
+        <span class="summary-sig-arg">ext</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">.ogg</code><code class="variable-quote">'</code></span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.walktree">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.showbase.DirectObject.DirectObject</code></b>:
+      <code>accept</code>,
+      <code>acceptOnce</code>,
+      <code>addTask</code>,
+      <code>classTree</code>,
+      <code>detectLeaks</code>,
+      <code>doMethodLater</code>,
+      <code>getAllAccepting</code>,
+      <code>ignore</code>,
+      <code>ignoreAll</code>,
+      <code>isAccepting</code>,
+      <code>isIgnoring</code>,
+      <code>removeAllTasks</code>,
+      <code>removeTask</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">parent</span>,
+        <span class="sig-arg">settings</span>=<span class="sig-default"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">opponent</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">human</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">playernames</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">CPU0</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Player1</code><code class="variable-quote">'</code><code class="variable-group">]</code><code class="variable-group">}</code></span>,
+        <span class="sig-arg">callback</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="gamelogic01-pysrc.html#gameplaybase.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        direct.showbase.DirectObject.DirectObject.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Sep 21 14:49:51 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,893 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pong3dglo.myGame</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pong3dglo-module.html">Module&nbsp;pong3dglo</a> ::
+        Class&nbsp;myGame
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pong3dglo.myGame-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class myGame</h1><p class="nomargin-top"><span class="codelink"><a href="pong3dglo-pysrc.html#myGame">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pong3dgl" name="uml_class_diagram_for_pong3dgl">
+<area shape="rect" href="pong3dglo.myGame-class.html#GS_MODES" title="pong3dglo.myGame.GS_MODES" alt="" coords="172,1063,364,1081"/>
+<area shape="rect" href="pong3dglo.myGame-class.html#GS_OPPONENTS" title="pong3dglo.myGame.GS_OPPONENTS" alt="" coords="172,1081,364,1100"/>
+<area shape="rect" href="pong3dglo.myGame-class.html#SCOREFILE" title="pong3dglo.myGame.SCOREFILE" alt="" coords="172,1100,364,1119"/>
+<area shape="rect" href="pong3dglo.myGame-class.html#__init__" title="pong3dglo.myGame.__init__" alt="" coords="172,1121,364,1140"/>
+<area shape="rect" href="pong3dglo.myGame-class.html#postgameover" title="manages what happens as the game ends" alt="" coords="172,1140,364,1159"/>
+<area shape="rect" href="pong3dglo.myGame-class.html#setgamemode" title="pong3dglo.myGame.setgamemode" alt="" coords="172,1159,364,1177"/>
+<area shape="rect" href="pong3dglo.myGame-class.html#setopponent" title="pong3dglo.myGame.setopponent" alt="" coords="172,1177,364,1196"/>
+<area shape="rect" href="pong3dglo.myGame-class.html#setvideo" title="handler called by menu_options_video" alt="" coords="172,1196,364,1215"/>
+<area shape="rect" href="pong3dglo.myGame-class.html" title="Pong game logic derived from simple gemelogic base class." alt="" coords="171,1045,365,1216"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#gameplayshell" title="gamelogic01.gameLogic01.gameplayshell" alt="" coords="168,695,368,713"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#playingtune" title="gamelogic01.gameLogic01.playingtune" alt="" coords="168,713,368,732"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#abortgame" title="gamelogic01.gameLogic01.abortgame" alt="" coords="168,735,368,753"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#dbgprint" title="gamelogic01.gameLogic01.dbgprint" alt="" coords="168,753,368,772"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#defaultFilter" title="This is the function that is called if there is no filterState() method for a particular state name." alt="" coords="168,772,368,791"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#enterGameplay" title="will enter here after &#39;Gameplay&#39; FSM request." alt="" coords="168,791,368,809"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#enterMenu" title="gamelogic01.gameLogic01.enterMenu" alt="" coords="168,809,368,828"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#enterTitle" title="gamelogic01.gameLogic01.enterTitle" alt="" coords="168,828,368,847"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#exitGameplay" title="gamelogic01.gameLogic01.exitGameplay" alt="" coords="168,847,368,865"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#exitMenu" title="gamelogic01.gameLogic01.exitMenu" alt="" coords="168,865,368,884"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#exitTitle" title="gamelogic01.gameLogic01.exitTitle" alt="" coords="168,884,368,903"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#filterGameplay" title="gamelogic01.gameLogic01.filterGameplay" alt="" coords="168,903,368,921"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#filterMenu" title="gamelogic01.gameLogic01.filterMenu" alt="" coords="168,921,368,940"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#filterTitle" title="gamelogic01.gameLogic01.filterTitle" alt="" coords="168,940,368,959"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#istuneplaying" title="gamelogic01.gameLogic01.istuneplaying" alt="" coords="168,959,368,977"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html#walktree" title="gamelogic01.gameLogic01.walktree" alt="" coords="168,996,368,1015"/>
+<area shape="rect" href="gamelogic01.gameLogic01-class.html" title="gamelogic01.gameLogic01" alt="" coords="167,677,369,1016"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.accept" alt="" coords="132,36,404,55"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.acceptOnce" alt="" coords="132,55,404,73"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.addTask" alt="" coords="132,73,404,92"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.classTree" alt="" coords="132,92,404,111"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.detectLeaks" alt="" coords="132,111,404,129"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.doMethodLater" alt="" coords="132,129,404,148"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.getAllAccepting" alt="" coords="132,148,404,167"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignore" alt="" coords="132,167,404,185"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignoreAll" alt="" coords="132,185,404,204"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isAccepting" alt="" coords="132,204,404,223"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isIgnoring" alt="" coords="132,223,404,241"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeAllTasks" alt="" coords="132,241,404,260"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeTask" alt="" coords="132,260,404,279"/>
+<area shape="rect" href="javascript:void(0);" title="This is the class that all Direct/SAL classes should inherit from" alt="" coords="131,11,405,280"/>
+<area shape="rect" href="javascript:void(0);" title="direct.fsm.FSM.FSM.SerialNum" alt="" coords="17,327,225,345"/>
+<area shape="rect" href="javascript:void(0);" title="direct.fsm.FSM.FSM.defaultTransitions" alt="" coords="17,345,225,364"/>
+<area shape="rect" href="javascript:void(0);" title="Provides request_State(*args) alias to request(&#39;State&#39;, *args) and &#160;demand_State(*args) alias to demand(&#39;State&#39;, *args)." alt="" coords="17,367,225,385"/>
+<area shape="rect" href="javascript:void(0);" title="direct.fsm.FSM.FSM.__repr__" alt="" coords="17,385,225,404"/>
+<area shape="rect" href="javascript:void(0);" title="Print out something useful about the fsm" alt="" coords="17,404,225,423"/>
+<area shape="rect" href="javascript:void(0);" title="direct.fsm.FSM.FSM.cleanup" alt="" coords="17,423,225,441"/>
+<area shape="rect" href="javascript:void(0);" title="This is the default function that is called if there is no enterState() &#160;method for a particular state name." alt="" coords="17,441,225,460"/>
+<area shape="rect" href="javascript:void(0);" title="This is the default function that is called if there is no exitState() &#160;method for a particular state name." alt="" coords="17,460,225,479"/>
+<area shape="rect" href="javascript:void(0);" title="Requests a state transition, by code that does not expect the request to be denied." alt="" coords="17,479,225,497"/>
+<area shape="rect" href="javascript:void(0);" title="From the off state, we can always go directly to any other state." alt="" coords="17,497,225,516"/>
+<area shape="rect" href="javascript:void(0);" title="Changes unconditionally to the indicated state." alt="" coords="17,516,225,535"/>
+<area shape="rect" href="javascript:void(0);" title="direct.fsm.FSM.FSM.getCurrentOrNextState" alt="" coords="17,535,225,553"/>
+<area shape="rect" href="javascript:void(0);" title="direct.fsm.FSM.FSM.getStateChangeEvent" alt="" coords="17,553,225,572"/>
+<area shape="rect" href="javascript:void(0);" title="direct.fsm.FSM.FSM.isInTransition" alt="" coords="17,572,225,591"/>
+<area shape="rect" href="javascript:void(0);" title="Requests a state transition (or other behavior)." alt="" coords="17,591,225,609"/>
+<area shape="rect" href="javascript:void(0);" title="array of unique states to iterate through" alt="" coords="17,628,225,647"/>
+<area shape="rect" href="javascript:void(0);" title="A Finite State Machine." alt="" coords="16,309,227,648"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.notify" alt="" coords="279,336,551,355"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.SetAllSfxEnables" alt="" coords="279,357,551,376"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.addAngularIntegrator" alt="" coords="279,376,551,395"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.addSfxManager" alt="" coords="279,395,551,413"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.backfaceCullingOff" alt="" coords="279,413,551,432"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.backfaceCullingOn" alt="" coords="279,432,551,451"/>
+<area shape="rect" href="javascript:void(0);" title="Switch mouse action" alt="" coords="279,451,551,469"/>
+<area shape="rect" href="javascript:void(0);" title="Closes the indicated window and removes it from the list of windows." alt="" coords="279,469,551,488"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.createBaseAudioManagers" alt="" coords="279,488,551,507"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.createStats" alt="" coords="279,507,551,525"/>
+<area shape="rect" href="javascript:void(0);" title="Call this function to destroy the ShowBase and stop all its tasks, freeing &#160;all of the Panda resources." alt="" coords="279,525,551,544"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.disableAllAudio" alt="" coords="279,544,551,563"/>
+<area shape="rect" href="javascript:void(0);" title="Temporarily disable the mouse control of the camera, either via the drive &#160;interface or the trackball, whichever is currently in use." alt="" coords="279,563,551,581"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.disableParticles" alt="" coords="279,581,551,600"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase.wireframeOn" alt="" coords="279,619,551,637"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.ShowBase.ShowBase" alt="" coords="277,319,552,639"/>
+</map>
+  <img src="uml_class_diagram_for_pong3dgl.gif" alt='' usemap="#uml_class_diagram_for_pong3dgl" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Pong game logic derived from simple gemelogic base class. This is the 
+  main class, subclassed off his parent base <a 
+  href="gamelogic01-module.html" class="link">gamelogic01</a> to have a 
+  custom game. Other classes are involved to manage menus, inputs, scores 
+  and such, and you can find all this stuff in the following files: <a 
+  href="gamelogic01-module.html" class="link">gameLogic01.py</a>, <a 
+  href="scorer-module.html" class="link">scorer.py</a>, <a 
+  href="dgstuff-module.html" class="link">dgstuff.py</a>, <a 
+  href="easyinput-module.html" class="link">easyinput.py</a>,</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pong3dglo.myGame-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">gameplay</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dglo-pysrc.html#myGame.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="abortgame"></a><span class="summary-sig-name">abortgame</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">foo</span>=<span class="summary-sig-default">None</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.abortgame">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="dbgprint"></a><span class="summary-sig-name">dbgprint</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.dbgprint">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gamelogic01.gameLogic01-class.html#defaultFilter" class="summary-sig-name">defaultFilter</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">args</span>)</span><br />
+      This is the function that is called if there is no filterState() 
+      method for a particular state name.
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.defaultFilter">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gamelogic01.gameLogic01-class.html#enterGameplay" class="summary-sig-name">enterGameplay</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      will enter here after 'Gameplay' FSM request.
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.enterGameplay">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="enterMenu"></a><span class="summary-sig-name">enterMenu</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.enterMenu">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="enterTitle"></a><span class="summary-sig-name">enterTitle</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.enterTitle">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="exitGameplay"></a><span class="summary-sig-name">exitGameplay</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.exitGameplay">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="exitMenu"></a><span class="summary-sig-name">exitMenu</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.exitMenu">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="exitTitle"></a><span class="summary-sig-name">exitTitle</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.exitTitle">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gamelogic01.gameLogic01-class.html#filterGameplay" class="summary-sig-name">filterGameplay</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">args</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.filterGameplay">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="filterMenu"></a><span class="summary-sig-name">filterMenu</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">*args</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.filterMenu">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="filterTitle"></a><span class="summary-sig-name">filterTitle</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">args</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.filterTitle">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="istuneplaying"></a><span class="summary-sig-name">istuneplaying</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.istuneplaying">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="playtune"></a><span class="summary-sig-name">playtune</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tunetoplay</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Helper to play sounds
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.playtune">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="pop_menu"></a><span class="summary-sig-name">pop_menu</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">foo</span>=<span class="summary-sig-default">None</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.pop_menu">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pong3dglo.myGame-class.html#postgameover" class="summary-sig-name">postgameover</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">score</span>=<span class="summary-sig-default">None</span>)</span><br />
+      manages what happens as the game ends</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dglo-pysrc.html#myGame.postgameover">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="push_entry"></a><span class="summary-sig-name">push_entry</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">menudata</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.push_entry">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="push_menu"></a><span class="summary-sig-name">push_menu</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">menudata</span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.push_menu">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setgamemode"></a><span class="summary-sig-name">setgamemode</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">index</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dglo-pysrc.html#myGame.setgamemode">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="gamelogic01.gameLogic01-class.html#setinputs" class="summary-sig-name">setinputs</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">on</span>=<span class="summary-sig-default">True</span>)</span><br />
+      FSM keyboard inputs
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.setinputs">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setopponent"></a><span class="summary-sig-name">setopponent</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">index</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dglo-pysrc.html#myGame.setopponent">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setvideo"></a><span class="summary-sig-name">setvideo</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">index</span>=<span class="summary-sig-default">None</span>)</span><br />
+      handler called by menu_options_video</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pong3dglo-pysrc.html#myGame.setvideo">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="walktree"></a><span class="summary-sig-name">walktree</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">top</span>,
+        <span class="summary-sig-arg">ext</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">.ogg</code><code class="variable-quote">'</code></span>)</span>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="gamelogic01-pysrc.html#gameLogic01.walktree">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.showbase.ShowBase.ShowBase</code></b>:
+      <code>SetAllSfxEnables</code>,
+      <code>addAngularIntegrator</code>,
+      <code>addSfxManager</code>,
+      <code>backfaceCullingOff</code>,
+      <code>backfaceCullingOn</code>,
+      <code>changeMouseInterface</code>,
+      <code>closeWindow</code>,
+      <code>createBaseAudioManagers</code>,
+      <code>createStats</code>,
+      <code>destroy</code>,
+      <code>disableAllAudio</code>,
+      <code>disableMouse</code>,
+      <code>disableParticles</code>,
+      <code>enableAllAudio</code>,
+      <code>enableMouse</code>,
+      <code>enableMusic</code>,
+      <code>enableParticles</code>,
+      <code>enableSoftwareMousePointer</code>,
+      <code>enableSoundEffects</code>,
+      <code>exitfunc</code>,
+      <code>finalizeExit</code>,
+      <code>getAlt</code>,
+      <code>getAspectRatio</code>,
+      <code>getBackgroundColor</code>,
+      <code>getControl</code>,
+      <code>getExitErrorCode</code>,
+      <code>getMeta</code>,
+      <code>getRepository</code>,
+      <code>getShift</code>,
+      <code>getSize</code>,
+      <code>initShadowTrav</code>,
+      <code>isMainWindowOpen</code>,
+      <code>isParticleMgrEnabled</code>,
+      <code>isPhysicsMgrEnabled</code>,
+      <code>loadMusic</code>,
+      <code>loadSfx</code>,
+      <code>makeAllPipes</code>,
+      <code>makeCamera</code>,
+      <code>makeCamera2d</code>,
+      <code>makeCamera2dp</code>,
+      <code>makeDefaultPipe</code>,
+      <code>makeModulePipe</code>,
+      <code>movie</code>,
+      <code>oobe</code>,
+      <code>oobeCull</code>,
+      <code>openDefaultWindow</code>,
+      <code>openMainWindow</code>,
+      <code>openWindow</code>,
+      <code>playMusic</code>,
+      <code>playSfx</code>,
+      <code>popCTrav</code>,
+      <code>printEnvDebugInfo</code>,
+      <code>pushCTrav</code>,
+      <code>removeCameraFrustum</code>,
+      <code>restart</code>,
+      <code>reviveInput</code>,
+      <code>run</code>,
+      <code>saveCubeMap</code>,
+      <code>saveSphereMap</code>,
+      <code>screenshot</code>,
+      <code>setBackgroundColor</code>,
+      <code>setFrameRateMeter</code>,
+      <code>setMouseOnNode</code>,
+      <code>setSleep</code>,
+      <code>setupDataGraph</code>,
+      <code>setupMouse</code>,
+      <code>setupMouseCB</code>,
+      <code>setupRender</code>,
+      <code>setupRender2d</code>,
+      <code>setupRender2dp</code>,
+      <code>setupWindowControls</code>,
+      <code>showCameraFrustum</code>,
+      <code>shutdown</code>,
+      <code>silenceInput</code>,
+      <code>sleepCycleTask</code>,
+      <code>startDirect</code>,
+      <code>startTk</code>,
+      <code>startWx</code>,
+      <code>textureOff</code>,
+      <code>textureOn</code>,
+      <code>toggleBackface</code>,
+      <code>toggleParticles</code>,
+      <code>toggleShowVertices</code>,
+      <code>toggleTexMem</code>,
+      <code>toggleTexture</code>,
+      <code>toggleWireframe</code>,
+      <code>updateManagers</code>,
+      <code>useDrive</code>,
+      <code>useTrackball</code>,
+      <code>userExit</code>,
+      <code>windowEvent</code>,
+      <code>wireframeOff</code>,
+      <code>wireframeOn</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.showbase.DirectObject.DirectObject</code></b>:
+      <code>accept</code>,
+      <code>acceptOnce</code>,
+      <code>addTask</code>,
+      <code>classTree</code>,
+      <code>detectLeaks</code>,
+      <code>doMethodLater</code>,
+      <code>getAllAccepting</code>,
+      <code>ignore</code>,
+      <code>ignoreAll</code>,
+      <code>isAccepting</code>,
+      <code>isIgnoring</code>,
+      <code>removeAllTasks</code>,
+      <code>removeTask</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.fsm.FSM.FSM</code></b>:
+      <code>__getattr__</code>,
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>cleanup</code>,
+      <code>defaultEnter</code>,
+      <code>defaultExit</code>,
+      <code>demand</code>,
+      <code>filterOff</code>,
+      <code>forceTransition</code>,
+      <code>getCurrentOrNextState</code>,
+      <code>getStateChangeEvent</code>,
+      <code>isInTransition</code>,
+      <code>request</code>,
+      <code>requestNext</code>,
+      <code>requestPrev</code>,
+      <code>setBroadcastStateChanges</code>,
+      <code>setStateArray</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="GS_MODES"></a><span class="summary-name">GS_MODES</span> = <code title="['3d', '3dg']"><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">3d</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">3dg</code><code class="variable-quote">'</code><code class="variable-group">]</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="GS_OPPONENTS"></a><span class="summary-name">GS_OPPONENTS</span> = <code title="['human', 'cpu']"><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">human</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">cpu</code><code class="variable-quote">'</code><code class="variable-group">]</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="SCOREFILE"></a><span class="summary-name">SCOREFILE</span> = <code title="'pong3d.sco'"><code class="variable-quote">'</code><code class="variable-string">pong3d.sco</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="gameplayshell"></a><span class="summary-name">gameplayshell</span> = <code title="None">None</code>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="playingtune"></a><span class="summary-name">playingtune</span> = <code title="None">None</code>
+      <em>(Inherited from <a href="gamelogic01.gameLogic01-class.html">gamelogic01.gameLogic01</a>)</em>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.showbase.ShowBase.ShowBase</code></b>:
+      <code>notify</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.fsm.FSM.FSM</code></b>:
+      <code>SerialNum</code>,
+      <code>defaultTransitions</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">gameplay</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pong3dglo-pysrc.html#myGame.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        direct.fsm.FSM.FSM.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="postgameover"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">postgameover</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">score</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pong3dglo-pysrc.html#myGame.postgameover">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>manages what happens as the game ends</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="gamelogic01.gameLogic01-class.html#postgameover">gamelogic01.gameLogic01.postgameover</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Sep 21 14:49:51 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

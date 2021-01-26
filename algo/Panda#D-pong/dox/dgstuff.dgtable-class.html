@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>dgstuff.dgtable</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="dgstuff-module.html">Module&nbsp;dgstuff</a> ::
+        Class&nbsp;dgtable
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="dgstuff.dgtable-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class dgtable</h1><p class="nomargin-top"><span class="codelink"><a href="dgstuff-pysrc.html#dgtable">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_dgstuff__5" name="uml_class_diagram_for_dgstuff__5">
+<area shape="rect" href="dgstuff.dgtable-class.html#addHead" title="dgstuff.dgtable.addHead" alt="" coords="132,615,316,633"/>
+<area shape="rect" href="dgstuff.dgtable-class.html#addRow" title="dgstuff.dgtable.addRow" alt="" coords="132,633,316,652"/>
+<area shape="rect" href="dgstuff.dgtable-class.html" title="Helper class to ease making of a scrolling table og columnar data." alt="" coords="131,589,317,653"/>
+<area shape="rect" href="dgstuff.dgscroll-class.html#butenex" title="Hilight management entering and exiting w/ the mouse pointer" alt="" coords="137,447,311,465"/>
+<area shape="rect" href="dgstuff.dgscroll-class.html#finish" title="dgstuff.dgscroll.finish" alt="" coords="137,465,311,484"/>
+<area shape="rect" href="dgstuff.dgscroll-class.html#onClick" title="Common callback for all the items with no specific callback defined (to be &#160;overriden)" alt="" coords="137,484,311,503"/>
+<area shape="rect" href="dgstuff.dgscroll-class.html#pause" title="pause the menu controls" alt="" coords="137,503,311,521"/>
+<area shape="rect" href="dgstuff.dgscroll-class.html#play" title="(re)start the menu controls" alt="" coords="137,521,311,540"/>
+<area shape="rect" href="dgstuff.dgscroll-class.html#scrollindex" title="dgstuff.dgscroll.scrollindex" alt="" coords="137,540,311,559"/>
+<area shape="rect" href="dgstuff.dgscroll-class.html" title="An helper class to ease to make a scroller panel" alt="" coords="136,421,312,560"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.accept" alt="" coords="88,36,360,55"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.acceptOnce" alt="" coords="88,55,360,73"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.addTask" alt="" coords="88,73,360,92"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.classTree" alt="" coords="88,92,360,111"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.detectLeaks" alt="" coords="88,111,360,129"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.doMethodLater" alt="" coords="88,129,360,148"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.getAllAccepting" alt="" coords="88,148,360,167"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignore" alt="" coords="88,167,360,185"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.ignoreAll" alt="" coords="88,185,360,204"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isAccepting" alt="" coords="88,204,360,223"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.isIgnoring" alt="" coords="88,223,360,241"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeAllTasks" alt="" coords="88,241,360,260"/>
+<area shape="rect" href="javascript:void(0);" title="direct.showbase.DirectObject.DirectObject.removeTask" alt="" coords="88,260,360,279"/>
+<area shape="rect" href="javascript:void(0);" title="This is the class that all Direct/SAL classes should inherit from" alt="" coords="87,11,361,280"/>
+<area shape="rect" href="dgstuff.dgstuff-class.html#__init__" title="dgstuff.dgstuff.__init__" alt="" coords="17,335,431,353"/>
+<area shape="rect" href="dgstuff.dgstuff-class.html#dbgprint" title="dgstuff.dgstuff.dbgprint" alt="" coords="17,353,431,372"/>
+<area shape="rect" href="dgstuff.dgstuff-class.html#settexture" title="Apply a texture over the menu panel model and set transparency &#160;automatically" alt="" coords="17,372,431,391"/>
+<area shape="rect" href="dgstuff.dgstuff-class.html" title="dgstuff.dgstuff" alt="" coords="16,309,432,392"/>
+</map>
+  <img src="uml_class_diagram_for_dgstuff__5.gif" alt='' usemap="#uml_class_diagram_for_dgstuff__5" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Helper class to ease making of a scrolling table og columnar data.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="dgstuff.dgstuff-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">data</span>)</span>
+      <em>(Inherited from <a href="dgstuff.dgstuff-class.html">dgstuff.dgstuff</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgstuff.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="addHead"></a><span class="summary-sig-name">addHead</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">rowdata</span>,
+        <span class="summary-sig-arg">w0</span>,
+        <span class="summary-sig-arg">h0</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgtable.addHead">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="addRow"></a><span class="summary-sig-name">addRow</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">index</span>,
+        <span class="summary-sig-arg">rowdata</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgtable.addRow">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="butenex"></a><span class="summary-sig-name">butenex</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">evt</span>,
+        <span class="summary-sig-arg">index</span>,
+        <span class="summary-sig-arg">pos</span>)</span><br />
+      Hilight management entering and exiting w/ the mouse pointer
+      <em>(Inherited from <a href="dgstuff.dgscroll-class.html">dgstuff.dgscroll</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgscroll.butenex">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="dbgprint"></a><span class="summary-sig-name">dbgprint</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>)</span>
+      <em>(Inherited from <a href="dgstuff.dgstuff-class.html">dgstuff.dgstuff</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgstuff.dbgprint">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="finish"></a><span class="summary-sig-name">finish</span>(<span class="summary-sig-arg">self</span>)</span>
+      <em>(Inherited from <a href="dgstuff.dgscroll-class.html">dgstuff.dgscroll</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgscroll.finish">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="onClick"></a><span class="summary-sig-name">onClick</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*value</span>)</span><br />
+      Common callback for all the items with no specific callback defined 
+      (to be overriden)
+      <em>(Inherited from <a href="dgstuff.dgscroll-class.html">dgstuff.dgscroll</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgscroll.onClick">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="dgstuff.dgscroll-class.html#pause" class="summary-sig-name">pause</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      pause the menu controls
+      <em>(Inherited from <a href="dgstuff.dgscroll-class.html">dgstuff.dgscroll</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgscroll.pause">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="dgstuff.dgscroll-class.html#play" class="summary-sig-name">play</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      (re)start the menu controls
+      <em>(Inherited from <a href="dgstuff.dgscroll-class.html">dgstuff.dgscroll</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgscroll.play">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="scrollindex"></a><span class="summary-sig-name">scrollindex</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">delta</span>)</span>
+      <em>(Inherited from <a href="dgstuff.dgscroll-class.html">dgstuff.dgscroll</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgscroll.scrollindex">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="settexture"></a><span class="summary-sig-name">settexture</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">model</span>,
+        <span class="summary-sig-arg">texture</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrapmode</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">clamp</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">scale</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Apply a texture over the menu panel model and set transparency 
+      automatically
+      <em>(Inherited from <a href="dgstuff.dgstuff-class.html">dgstuff.dgstuff</a>)</em></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="dgstuff-pysrc.html#dgstuff.settexture">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>direct.showbase.DirectObject.DirectObject</code></b>:
+      <code>accept</code>,
+      <code>acceptOnce</code>,
+      <code>addTask</code>,
+      <code>classTree</code>,
+      <code>detectLeaks</code>,
+      <code>doMethodLater</code>,
+      <code>getAllAccepting</code>,
+      <code>ignore</code>,
+      <code>ignoreAll</code>,
+      <code>isAccepting</code>,
+      <code>isIgnoring</code>,
+      <code>removeAllTasks</code>,
+      <code>removeTask</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pong3dglo-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Pong3D</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Sep 21 14:49:50 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

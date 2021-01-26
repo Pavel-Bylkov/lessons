@@ -1,0 +1,368 @@
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.62 (depth 0.12)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.62 (depth 0.12)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.53 (depth 0.0299996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.53 (depth 0.0299996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.53 (depth 0.0299995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.53 (depth 0.0299995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149995)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
+CollisionEntry:
+  from render/camera/CameraSphere
+  into render/block.egg/Cube [key]
+  at 0 0 -1.5
+  normal 0 0 1
+  interior 0 0 -1.515 (depth 0.0149996)
+  respect_prev_transform = 0
+
