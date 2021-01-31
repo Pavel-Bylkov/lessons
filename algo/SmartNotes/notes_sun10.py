@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QMessageBox,
                              QLabel, QListWidget, QLineEdit, QTextEdit,
@@ -20,10 +21,13 @@ def read_json():
         with open(file_name, "r", encoding="utf-8") as file:
             return json.load(file)
     except:
+        now = datetime.now()
         data = {
         'Добро пожаловать!': {
             'текст': 'Это самое лучшее приложение для заметок в мире!',
-            'теги': ['добро', 'инструкция']
+            'теги': ['добро', 'инструкция'],
+            "дата": f"{now.strftime('%d-%m-%Y')}",
+            "время": f"{now.strftime('%H:%M')}"
                             }
                 }
         return data
@@ -35,7 +39,7 @@ def main():
         """Создаем виджеты для приложения"""
         global list_notes, list_notes_label, button_note_create, button_note_del, button_note_save
         global field_text, list_tags, list_tags_label, field_tag, button_tag_add, button_tag_del
-        global button_tag_search
+        global button_tag_search, date_time_lable, date_time
 
         list_notes = QListWidget()
         list_notes_label = QLabel("Список заметок")
@@ -45,6 +49,8 @@ def main():
         button_note_save = QPushButton("Сохранить заметку")
 
         field_text = QTextEdit()
+        date_time_lable = QLabel("Дата и Время последнего сохранения:")
+        date_time = QLabel("")
 
         list_tags = QListWidget()
         list_tags_label = QLabel("Список тегов")
@@ -61,6 +67,11 @@ def main():
         col_2 = QVBoxLayout()
 
         col_1.addWidget(field_text)
+        row_date = QHBoxLayout()
+        row_date.addWidget(date_time_lable)
+        row_date.addWidget(date_time)
+        col_1.addLayout(row_date)
+
         col_2.addWidget(list_notes_label)
         col_2.addWidget(list_notes)
 
@@ -94,6 +105,7 @@ def main():
         """Gолучаем текст из заметки с выделенным названием и отображаем его в поле редактирования"""
         key = list_notes.selectedItems()[0].text()
         field_text.setText(notes[key]["текст"])
+        date_time.setText(f'{notes[key]["дата"]} {notes[key]["время"]}')
         list_tags.clear()
         list_tags.addItems(notes[key]["теги"])
 
@@ -101,18 +113,20 @@ def main():
         """Запрашивает название новой заметки и создаёт пустую заметку с таким именем"""
         note_name, ok = QInputDialog.getText(notes_win, "Добавить заметку", "Название заметки: ")
         if ok and note_name != "":
-            notes[note_name] = {"текст": "", "теги": []}
+            now = datetime.now()
+            notes[note_name] = {"текст": "", "теги": [], "дата": f"{now.strftime('%d-%m-%Y')}", "время": f"{now.strftime('%H:%M')}"}
             list_notes.addItem(note_name)
             list_tags.addItems(notes[note_name]["теги"])
+            write_json(notes)
 
     def save_note():
         """Сохраняет текст в выбранную заметку из словаря notes и обновляет файл с данными"""
         if list_notes.selectedItems():
             key = list_notes.selectedItems()[0].text()
             now = datetime.now()
-            notes[key]["текст"] = f"{field_text.toPlainText()}\n\n" \
-                                  f"{'-'*30}\n" \
-                                  f"{now.strftime('%d-%m-%Y - %H:%M')} - время редактирования."
+            notes[key]["текст"] = field_text.toPlainText()
+            notes[key]["дата"] = f"{now.strftime('%d-%m-%Y')}"
+            notes[key]["время"] = f"{now.strftime('%H:%M')}"
             write_json(notes)
         else:
             QMessageBox.warning(notes_win, "Уведомление", "Заметка для сохранения не выбрана!")

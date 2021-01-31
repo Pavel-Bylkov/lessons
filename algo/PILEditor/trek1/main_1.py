@@ -1,19 +1,20 @@
 from PIL import Image
 from PIL import ImageFilter
+
 #для бонусной задачи
 from PIL import ImageEnhance
 
 #открой файл с оригиналом картинки
 with Image.open('original.jpg') as pic_original:
-    print('Изображение открыто\nРазмер:', pic_original.size)
+    print('Изображение открыто\nРазмер:', pic_original.size[0], "x", pic_original.size[1])
     print('Формат:', pic_original.format)
     print('Тип:', pic_original.mode) #цветное
     pic_original.show()
 
     # сделай оригинал изображения чёрно-белым
-    pic_gray = pic_original.convert('L')    
+    pic_gray = pic_original.convert('L')
     pic_gray.save('gray.jpg')
-    print('Изображение создано\nРазмер:', pic_gray.size)
+    print('Изображение создано\nРазмер:', pic_gray.size[0], "x", pic_gray.size[1])
     print('Формат:', pic_gray.format)
     print('Тип:', pic_gray.mode) #чб
     pic_gray.show()
@@ -39,3 +40,9 @@ with Image.open('original.jpg') as pic_original:
     pic_contrast = pic_contrast.enhance(1.5)
     pic_contrast.save('contr.jpg')
     pic_contrast.show()
+
+with Image.open('gray.jpg') as pic_original:
+    print('Изображение открыто\nРазмер:', pic_original.size[0], "x", pic_original.size[1])
+    print('Формат:', pic_original.format)
+    print('Тип:', pic_original.mode) #цветное
+    pic_original.show()

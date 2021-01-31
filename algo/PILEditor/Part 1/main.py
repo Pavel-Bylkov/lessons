@@ -31,7 +31,7 @@ def main():
         col1.addWidget(lw_files)     # и список файлов
         
         col2.addWidget(lb_image, 95) # вo втором - картинка
-        
+
         row_tools = QHBoxLayout()    # и строка кнопок
         row_tools.addWidget(btn_left)
         row_tools.addWidget(btn_right)
@@ -46,7 +46,7 @@ def main():
 
     def chooseWorkdir():
         global workdir #обращаемся к глобальной переменнуой
-	    workdir = QFileDialog.getExistingDirectory()
+        workdir = QFileDialog.getExistingDirectory()
 
     def filter(files, extensions):
         result = []
@@ -71,7 +71,6 @@ def main():
 
     create_widgets()
     layout_widgets()
-
 
     btn_dir.clicked.connect(showFilenamesList)
 
