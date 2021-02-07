@@ -21,8 +21,13 @@ class Meal:
         self.price = price
         self.weight = weight
         self.callories = callories
+        self.dish = self.meal_name + "(" + self.weight + ")" + " - " + self.price
+    
+    def get_dish_information(self):
+        return self.dish
 
 class Order:
+    total = 0
     def __init__(self):
         self.menu_names = {}
 
@@ -35,7 +40,6 @@ class Order:
     def print_order(self):
         print("|","-"*100,"|", sep="")
         print("|","-"*43, "Чек", "-"*43, "|", sep="")
-        self.total = 0
         for menu_name in self.menu_names:
             print("|{:100}|".format(menu_name))
             for i in range(len(self.menu_names[menu_name])):
