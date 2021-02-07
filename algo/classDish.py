@@ -11,8 +11,6 @@ class Menu:
     def __init__(self, name):
         self.name = name
         self.products = []
-    def set_menu(self, dish):
-        self.products.append(dish)
     def menu_entry(self):
         n_dishes = int(input("Сколько блюд вы желаете добавить (введите цифру)?  "))
         for i in range(n_dishes):
@@ -21,7 +19,7 @@ class Menu:
             price = input("Введите цену за 1 порцию в рублях (только цифру): ")
             d = Dish()
             d.set_dish_information(name, quantity, price)
-            self.set_menu(d)
+            self.products.append(d)
     def menu_output(self):
         print(self.name)
         n = 1
