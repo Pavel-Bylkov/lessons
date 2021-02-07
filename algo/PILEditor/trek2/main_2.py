@@ -46,11 +46,11 @@ class ImageEditor():
 
 
 # создай объект класса ImageEditor с данными картинки-оригинала
-MyImage = ImageEditor('original.jpg')
+MyImage = ImageEditor('trek2/original.jpg')
 
 # отредактируй изображение и сохрани результат
 MyImage.do_left()
 MyImage.do_cropped()
 
-for im in MyImage.changed:
-    im.show()
+for image in MyImage.changed:
+    image.show()

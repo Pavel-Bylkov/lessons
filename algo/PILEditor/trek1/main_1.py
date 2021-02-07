@@ -5,8 +5,8 @@ from PIL import ImageFilter
 from PIL import ImageEnhance
 
 #открой файл с оригиналом картинки
-with Image.open('original.jpg') as pic_original:
-    print('Изображение открыто\nРазмер:', pic_original.size[0], "x", pic_original.size[1])
+with Image.open('trek1/original.jpg') as pic_original:
+    print('Изображение открыто\nРазмер:', pic_original.size)
     print('Формат:', pic_original.format)
     print('Тип:', pic_original.mode) #цветное
     pic_original.show()
@@ -41,8 +41,3 @@ with Image.open('original.jpg') as pic_original:
     pic_contrast.save('contr.jpg')
     pic_contrast.show()
 
-with Image.open('gray.jpg') as pic_original:
-    print('Изображение открыто\nРазмер:', pic_original.size[0], "x", pic_original.size[1])
-    print('Формат:', pic_original.format)
-    print('Тип:', pic_original.mode) #цветное
-    pic_original.show()
