@@ -14,7 +14,7 @@ class Menu:
     def set_menu(self, dish):
         self.dish = dish
         self.products.append(self.dish)
-    def menu_entry(self, n_dishes):
+    def menu_entry(self):
         n_dishes = int(input("Сколько блюд вы желаете добавить (введите цифру)?  "))
         for i in range(n_dishes):
             name = input(f"Введите название {i + 1}-го блюда: ")
