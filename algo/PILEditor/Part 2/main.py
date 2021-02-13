@@ -1,5 +1,5 @@
-# Остановились с Каримом на функции открытия и выбора папки
-from PyQt5.QtCore import Qt
+import os
+from PyQt5.QtCore import Qt # Остановились с Каримом на функции открытия и выбора папки
 from PyQt5.QtWidgets import (
    QApplication, QWidget,
    QFileDialog, # Диалог открытия файлов (и папок)
@@ -44,11 +44,25 @@ def main():
         row.addLayout(col2, 80)
         win.setLayout(row)
 
+    def filter_files(files, extensions):
+        """Возвращает список отфильтрованных файлов"""
+        result = []
+        for filename in files:
+            for ext in extensions:
+                if filename.endswith(ext):
+                    result.append(filename)
+        return result
+
     def showFilenamesList():
         """Функция для отображения содержимого выбранной папки"""
         global workdir
         extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']  # С какими типами файлов будем работать (растровая графика)
         workdir = QFileDialog.getExistingDirectory()  # Вызываем диалог для выбора папки
+        filenames = filter_files(os.listdir(workdir), extensions) # получаем список отфильтрованных файлов
+        lw_files.clear()
+        for filename in filenames:
+            lw_files.addItem(filename)
+
 
     app = QApplication([])
     win = QWidget()       
