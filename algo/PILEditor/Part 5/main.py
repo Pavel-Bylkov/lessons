@@ -113,6 +113,9 @@ def main():
     def chooseWorkdir():
         global workdir #обращаемся к глобальной переменнуой
         workdir = QFileDialog.getExistingDirectory()
+        if workdir != None and workdir != '':
+            return True
+        return False
 
     def filter(files, extensions):
         result = []
@@ -124,11 +127,11 @@ def main():
 
     def showFilenamesList():
         extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
-        chooseWorkdir()
-        filenames = filter(os.listdir(workdir), extensions)
-        lw_files.clear()
-        for filename in filenames:
-            lw_files.addItem(filename)
+        if chooseWorkdir():
+            filenames = filter(os.listdir(workdir), extensions)
+            lw_files.clear()
+            for filename in filenames:
+                lw_files.addItem(filename)
     
     app = QApplication([])
     main_win = QWidget()
