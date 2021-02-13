@@ -5,7 +5,7 @@ from PIL import ImageFilter
 from PIL import ImageEnhance
 
 #открой файл с оригиналом картинки
-with Image.open('trek1/original.jpg') as pic_original:
+with Image.open('original.jpg') as pic_original:
     print('Изображение открыто\nРазмер:', pic_original.size)
     print('Формат:', pic_original.format)
     print('Тип:', pic_original.mode) #цветное
@@ -14,7 +14,7 @@ with Image.open('trek1/original.jpg') as pic_original:
     # сделай оригинал изображения чёрно-белым
     pic_gray = pic_original.convert('L')
     pic_gray.save('gray.jpg')
-    print('Изображение создано\nРазмер:', pic_gray.size[0], "x", pic_gray.size[1])
+    print('Размер:', pic_gray.size[0], "x", pic_gray.size[1])
     print('Формат:', pic_gray.format)
     print('Тип:', pic_gray.mode) #чб
     pic_gray.show()
