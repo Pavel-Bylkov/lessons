@@ -18,17 +18,17 @@ class ImageEditor():
             self.original = Image.open(self.filename)
             self.original.show()
         except:
-            print('Файл не найден!')
+            print('Файл не удалось открыть!')
             exit()
 
-    def do_left(self):
+    def do_flip(self):
         # методы для редактирования оригинала
         rotated = self.original.transpose(Image.FLIP_LEFT_RIGHT)
         self.changed.append(rotated)
 
         # бонус. Автоматический нейминг отредатированных картинок
         temp_filename = self.filename.split('.')
-        new_filename = temp_filename[0] + str(len(self.changed)) + '.jpg'
+        new_filename = f"{temp_filename[0]}{len(self.changed)}.jpg"
 
         rotated.save(new_filename)
 
@@ -40,17 +40,17 @@ class ImageEditor():
 
         # бонус. Автоматический нейминг отредатированных картинок
         temp_filename = self.filename.split('.')
-        new_filename = temp_filename[0] + str(len(self.changed)) + '.jpg'
+        new_filename = f"{temp_filename[0]}{len(self.changed)}.jpg"
 
         cropped.save(new_filename)
 
 
 # создай объект класса ImageEditor с данными картинки-оригинала
-MyImage = ImageEditor('trek2/original.jpg')
+MyImage = ImageEditor('original.jpg')
 
 # отредактируй изображение и сохрани результат
-MyImage.do_left()
+MyImage.do_flip()
 MyImage.do_cropped()
-
+print(MyImage.changed)
 for image in MyImage.changed:
     image.show()
