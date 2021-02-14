@@ -131,4 +131,5 @@ dmypy.json
 # IDE
 algo/PILEditor/.vscode/
 algo/PyGamePro/.venv/
+algo/Examples/.vscode
 .idea/
