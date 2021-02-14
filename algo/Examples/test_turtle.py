@@ -149,20 +149,20 @@ def isTailTouching(curX, curY):
 
 screen = getscreen()
 
-screen.onkey(headUp,'up arrow')
-screen.onkey(headDown,'down arrow')
-screen.onkey(headLeft,'left arrow')
-screen.onkey(headRight,'right arrow')
+screen.onscreenclick(checkStartClick)
+
+screen.onkey(headUp, 'w')
+screen.onkey(headDown, 's')
+screen.onkey(headLeft, 'a')
+screen.onkey(headRight, 'd')
 screen.onkey(stopGame, 'q')
 # screen.onkey(addPoint, 'w')
-
-screen.onscreenclick(checkStartClick)
 
 screen.listen()
 
 while not FINISHED:
     if STARTED:
-        prize.color(colors[randint(0,6)])
+        prize.color(colors[randint(0, 6)])
         changeSnake()
         curX = head.xcor()
         curY = head.ycor() 
