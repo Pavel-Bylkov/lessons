@@ -132,4 +132,6 @@ dmypy.json
 algo/PILEditor/.vscode/
 algo/PyGamePro/.venv/
 algo/Examples/.vscode
+algo/TestSQL/.vscode/
+
 .idea/

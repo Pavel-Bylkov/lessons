@@ -28,3 +28,5 @@ print('Родились до 1900 года:', len(data))
 cursor.execute('SELECT * FROM artists ORDER BY "Birth Year"')
 data = cursor.fetchall()
 print('Самый старший:', data[0][1])
+
+conn.commit()
