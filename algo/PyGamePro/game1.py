@@ -7,8 +7,10 @@ class GameSprite(sprite.Sprite):
         super().__init__()
 
         # каждый спрайт должен хранить свойство image - изображение
-        self.image = transform.scale(image.load(player_image), (80, 80))
+        self.image = transform.scale(image.load(player_image), (60, 60))
+        # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
         self.rect = self.image.get_rect()
+        #задаем его местонахождение
         self.rect.x = player_x
         self.rect.y = player_y
 
@@ -33,7 +35,17 @@ class Player(GameSprite):
 
 #класс спрайта-врага    
 class Enemy(GameSprite):
-    pass
+    side = "left"
+    #движение врага
+    def update(self):
+        if self.rect.x <= 410:
+            self.side = "right"
+        if self.rect.x >= win_width - 85:
+            self.side = "left"
+        if self.side == "left":
+            self.rect.x -= self.speed
+        else:
+            self.rect.x += self.speed
 
 #класс элемента стены
 class Wall(sprite.Sprite):
@@ -46,8 +58,8 @@ class Wall(sprite.Sprite):
         self.height = wall_height
 
         # картинка стены - прямоугольник нужных размеров и цвета
-        self.image = Surface([self.width, self.height])
-        self.image.fill((color_1, color_2, color_3))
+        self.image = Surface([self.width, self.height]) #создаем поверхность нужной ширины и длины
+        self.image.fill((color_1, color_2, color_3)) #заполняем ее цветом
  
        # каждый спрайт должен хранить свойство rect - прямоугольник
         self.rect = self.image.get_rect()
@@ -70,6 +82,8 @@ w2 = Wall(0, 0, 250, 410, win_height / 2 - win_height / 4, 10, 350)
 
 #создаем спрайты
 packman = Player('Герои/pacman/pac-1.png', 5, win_height - 80, 5)
+monster = Enemy('Герои/pacman/cyborg.png', win_width - 80, 200, 5)
+final_sprite = GameSprite('Герои/pacman/pac-10.png', win_width - 85, win_height - 100, 0)
 
 #переменная, отвечающая за то, как кончилась игра
 finish = False
@@ -93,16 +107,25 @@ while run:
         w2.draw_wall()
         #запускаем движения спрайтов
         packman.update()
+        monster.update()
         #обновляем их в новом местоположении при каждой итерации цикла
         packman.reset()
+        monster.reset()
+        final_sprite.reset()
+
     #Проверка столкновения героя с врагом и стенами
-    if sprite.collide_rect(packman, w1) or sprite.collide_rect(packman, w2):
+    if (sprite.collide_rect(packman, monster) or sprite.collide_rect(packman, w1) 
+            or sprite.collide_rect(packman, w2)):
         finish = True
         #вычисляем отношение
         img = image.load('gameover.jpeg')
         d = img.get_width() // img.get_height()
         window.fill((0, 0, 0))
         window.blit(transform.scale(img, (win_height * d, win_height)), (90, 0))
-
+    if sprite.collide_rect(packman, final_sprite):
+        finish = True
+        img = image.load('Фоны/winner_1.jpg')
+        window.fill((0, 0, 0))
+        window.blit(transform.scale(img, (win_width, win_height)), (0, 0))
     display.update()
 
