@@ -49,25 +49,22 @@ class Enemy(GameSprite):
 
 #класс элемента стены
 class Wall(sprite.Sprite):
-    def __init__(self, color_1, color_2, color_3, wall_x, wall_y, wall_width, wall_height):
+    def __init__(self, color, x, y, width, height):
         super().__init__()
-        self.color_1 = color_1
-        self.color_2 = color_2
-        self.color_3 = color_3
-        self.width = wall_width
-        self.height = wall_height
+        self.color = color
+        self.width = width
+        self.height = height
 
         # картинка стены - прямоугольник нужных размеров и цвета
         self.image = Surface([self.width, self.height]) #создаем поверхность нужной ширины и длины
-        self.image.fill((color_1, color_2, color_3)) #заполняем ее цветом
+        self.image.fill(color) #заполняем ее цветом
  
        # каждый спрайт должен хранить свойство rect - прямоугольник
         self.rect = self.image.get_rect()
-        self.rect.x = wall_x
-        self.rect.y = wall_y
+        self.rect.x = x
+        self.rect.y = y
     def draw_wall(self):
-        draw.rect(window, (self.color_1, self.color_2, self.color_3), 
-                    (self.rect.x, self.rect.y, self.width, self.height))
+        draw.rect(window, self.color, (self.rect.x, self.rect.y, self.width, self.height))
 
 init()
 #Создаем окошко
@@ -77,11 +74,13 @@ display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 
 #создаем стены
-w1 = Wall(0, 0, 250, win_width / 2 - win_width / 3, win_height / 2, 300, 10)
-w2 = Wall(0, 0, 250, 410, win_height / 2 - win_height / 4, 10, 350)
+w1 = Wall(color=(0, 0, 250), x=(win_width / 2 - win_width / 3), 
+            y=(win_height / 2), width=300, height=10)
+w2 = Wall(color=(0, 0, 250), x=410, y=(win_height / 2 - win_height / 4), width=10, height=350)
 
 #создаем спрайты
-packman = Player('Герои/pacman/pac-1.png', 5, win_height - 80, 5)
+packman = Player(player_image='Герои/pacman/pac-1.png', 
+                    player_x=5, player_y=(win_height - 80), player_speed=5)
 monster = Enemy('Герои/pacman/cyborg.png', win_width - 80, 200, 5)
 final_sprite = GameSprite('Герои/pacman/pac-10.png', win_width - 85, win_height - 100, 0)
 
@@ -129,5 +128,6 @@ while run:
         img = image.load('Фоны/winner_1.jpg')
         window.fill((0, 0, 0))
         window.blit(transform.scale(img, (win_width, win_height)), (0, 0))
+    
     display.update()
 
