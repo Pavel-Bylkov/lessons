@@ -112,7 +112,9 @@ while run:
         packman.reset()
         monster.reset()
         final_sprite.reset()
-
+    else:
+        time.delay(4000)
+        run = False
     #Проверка столкновения героя с врагом и стенами
     if (sprite.collide_rect(packman, monster) or sprite.collide_rect(packman, w1) 
             or sprite.collide_rect(packman, w2)):
