@@ -27,7 +27,9 @@ def create():
  
     do('''CREATE TABLE IF NOT EXISTS quiz (
            id INTEGER PRIMARY KEY,
-           name VARCHAR)''')
+           name VARCHAR,
+           age_from INTEGER,
+           age_to INTEGER)''')
  
     do('''CREATE TABLE IF NOT EXISTS question (
                id INTEGER PRIMARY KEY,
@@ -48,37 +50,47 @@ def create():
 def add_questions():
     questions = [
         ('Сколько месяцев в году имеют 28 дней?', 'Все', 'Один', 'Ни одного', 'Два'),
-        ('Каким станет зелёный утёс, если упадёт в Красное море?', 'Мокрым', 'Красным', 'Не изменится', 'Фиолетовым'),
+        ('Каким станет зелёный утёс, если упадёт в Красное море?', 'Мокрым', 'Красным',
+        'Не изменится', 'Фиолетовым'),
         ('Какой рукой лучше размешивать чай?', 'Ложкой', 'Правой', 'Левой', 'Любой'),
-        ('Что не имеет длины, глубины, ширины, высоты, а можно измерить?', 'Время', 'Глупость', 'Море', 'Воздух'),
-        ('Когда сетью можно вытянуть воду?', 'Когда вода замёрзла', 'Когда нет рыбы', 'Когда уплыла золотая рыбка', 'Когда сеть порвалась'),
+        ('Что не имеет длины, глубины, ширины, высоты, а можно измерить?', 'Время', 
+        'Глупость', 'Море', 'Воздух'),
+        ('Когда сетью можно вытянуть воду?', 'Когда вода замёрзла', 'Когда нет рыбы', 
+        'Когда уплыла золотая рыбка', 'Когда сеть порвалась'),
         ('Что больше слона и ничего не весит?', 'Тень слона', 'Воздушный шар', 'Парашют', 'Облако')
     ]
     open()
-    cursor.executemany('''INSERT INTO question (question, answer, wrong1, wrong2, wrong3) VALUES (?,?,?,?,?)''', questions)
+    cursor.executemany('''INSERT INTO question (question, answer, wrong1, wrong2, wrong3)
+             VALUES (?,?,?,?,?)''', questions)
     close()
 
 def add_quiz():
     quizes = [
-        ('Своя игра', ),
-        ('Кто хочет стать миллионером?', ),
-        ('Самый умный', )
+        ('Своя игра', 5, 10),
+        ('Кто хочет стать миллионером?', 8, 12),
+        ('Самый умный', 12, 18)
     ]
     open()
-    cursor.executemany('''INSERT INTO quiz (name) VALUES (?)''', quizes)
+    cursor.executemany('''INSERT INTO quiz (name,  age_from,  age_to) VALUES (?, ?, ?)''', quizes)
     close()
  
 def add_links():
     open()
     cursor.execute('''PRAGMA foreign_keys=on''')
     query = "INSERT INTO quiz_content (quiz_id, question_id) VALUES (?,?)"
-    answer = input("Добавить связь (y / n)?")
+    conf_tabl = [[1, 1],  [1, 3], [1, 5], [1, 6],
+                [2, 2], [2, 4],
+                [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6]]
+    for conf in conf_tabl:
+        cursor.execute(query, conf)
+        conn.commit()
+    """answer = input("Добавить связь (y / n)?")
     while answer != 'n':
         quiz_id = int(input("id викторины: "))
         question_id = int(input("id вопроса: "))
         cursor.execute(query, [quiz_id, question_id])
         conn.commit()
-        answer = input("Добавить связь (y / n)?")
+        answer = input("Добавить связь (y / n)?")"""
     close()
 
 def clear_db():
