@@ -1,4 +1,7 @@
 import sqlite3
+
+from content_for_db import questions, quizes, conf_tabl
+
 db_name = 'quiz.sqlite'
 conn = None
 cursor = None
@@ -6,11 +9,8 @@ cursor = None
 def open():
     global conn, cursor
     conn = None
-    try:
-        conn = sqlite3.connect(db_name)
-        cursor = conn.cursor()
-    except Error as e:
-        print(e)
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
 
 def do(string):
     cursor.execute(string)
@@ -48,28 +48,12 @@ def create():
     close()
 
 def add_questions():
-    questions = [
-        ('Сколько месяцев в году имеют 28 дней?', 'Все', 'Один', 'Ни одного', 'Два'),
-        ('Каким станет зелёный утёс, если упадёт в Красное море?', 'Мокрым', 'Красным',
-        'Не изменится', 'Фиолетовым'),
-        ('Какой рукой лучше размешивать чай?', 'Ложкой', 'Правой', 'Левой', 'Любой'),
-        ('Что не имеет длины, глубины, ширины, высоты, а можно измерить?', 'Время', 
-        'Глупость', 'Море', 'Воздух'),
-        ('Когда сетью можно вытянуть воду?', 'Когда вода замёрзла', 'Когда нет рыбы', 
-        'Когда уплыла золотая рыбка', 'Когда сеть порвалась'),
-        ('Что больше слона и ничего не весит?', 'Тень слона', 'Воздушный шар', 'Парашют', 'Облако')
-    ]
     open()
     cursor.executemany('''INSERT INTO question (question, answer, wrong1, wrong2, wrong3)
              VALUES (?,?,?,?,?)''', questions)
     close()
 
 def add_quiz():
-    quizes = [
-        ('Своя игра', 5, 10),
-        ('Кто хочет стать миллионером?', 8, 12),
-        ('Самый умный', 12, 18)
-    ]
     open()
     cursor.executemany('''INSERT INTO quiz (name,  age_from,  age_to) VALUES (?, ?, ?)''', quizes)
     close()
@@ -78,9 +62,6 @@ def add_links():
     open()
     cursor.execute('''PRAGMA foreign_keys=on''')
     query = "INSERT INTO quiz_content (quiz_id, question_id) VALUES (?,?)"
-    conf_tabl = [[1, 1],  [1, 3], [1, 5], [1, 6],
-                [2, 2], [2, 4],
-                [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6]]
     for conf in conf_tabl:
         cursor.execute(query, conf)
         conn.commit()
@@ -138,8 +119,8 @@ def main():
     add_quiz()
     add_links()
     show_tables()
-    # Вывод в консоль вопроса с id=3, id викторины = 1
-    print(get_question_after(3, 1))
+    # Вывод в консоль вопроса с id=1, id викторины = 1
+    print(get_question_after(1, 1))
 
 if __name__ == "__main__":
     main()

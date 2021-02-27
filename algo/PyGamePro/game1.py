@@ -100,7 +100,6 @@ while run:
     if not finish:
         #обновляем фон каждую итерацию
         window.fill((0, 0, 0))
-
         #рисуем стены
         w1.draw_wall()
         w2.draw_wall()
