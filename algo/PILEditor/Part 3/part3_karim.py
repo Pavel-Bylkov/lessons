@@ -1,6 +1,6 @@
 import os
 
-from PyQt5.QtCore import Qt # Остановились с Каримом на функции открытия и выбора папки
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
    QApplication, QWidget,
    QFileDialog, # Диалог открытия файлов (и папок)
@@ -24,6 +24,7 @@ class MainWin(QWidget):
         super().__init__()  # вызываем конструктор родительского класса
         self.resize(win_weight, win_height)
         self.setWindowTitle('Easy Editor')
+        self.save_dir = "Modified"
 
         self.create_widgets()
         self.layout_widgets()
@@ -66,6 +67,11 @@ class MainWin(QWidget):
 
     def connects(self):
         self.btn_dir.clicked.connect(self.showFilenamesList)
+        self.btn_bw.clicked.connect(self.do_bw)
+        self.btn_left.clicked.connect(self.do_left)
+        self.btn_right.clicked.connect(self.do_right)
+        self.btn_flip.clicked.connect(self.do_flip)
+        self.btn_sharp.clicked.connect(self.do_sharpen)
         self.lw_files.itemClicked.connect(self.showChosenImage)
 
     def filter_files(self):
@@ -85,7 +91,7 @@ class MainWin(QWidget):
             filenames = self.filter_files()
             self.lw_files.clear()
             self.lw_files.addItems(filenames)
-
+            
     def showChosenImage(self):
         """Функция показывает картинку при выборе файла"""
         if self.lw_files.selectedItems():
@@ -105,6 +111,46 @@ class MainWin(QWidget):
         self.lb_image.setPixmap(pixmapimage)
         self.lb_image.show()
 
+    def create_save_dir(self):
+        path = os.path.join(self.workdir, self.save_dir)
+        if not(os.path.exists(path) or os.path.isdir(path)):
+            os.mkdir(path)
+
+    def saveImage(self):
+        ''' сохраняет копию файла в подпапке '''
+        self.create_save_dir()
+        image_path = os.path.join(self.workdir, self.save_dir, self.filename)
+        self.image.save(image_path)
+
+    def do_bw(self):
+        self.image = self.image.convert("L")
+        self.saveImage()
+        self.image_path = os.path.join(self.workdir, self.save_dir, self.filename)
+        self.showImage()
+
+    def do_flip(self):
+        self.image = self.image.transpose(Image.FLIP_LEFT_RIGHT)
+        self.saveImage()
+        self.image_path = os.path.join(self.workdir, self.save_dir, self.filename)
+        self.showImage()
+        
+    def do_left(self):
+        self.image = self.image.transpose(Image.ROTATE_90)
+        self.saveImage()
+        self.image_path = os.path.join(self.workdir, self.save_dir, self.filename)
+        self.showImage()
+    
+    def do_right(self):
+        self.image = self.image.transpose(Image.ROTATE_270)
+        self.saveImage()
+        self.image_path = os.path.join(self.workdir, self.save_dir, self.filename)
+        self.showImage()
+    
+    def do_sharpen(self):
+        self.image = self.image.filter(ImageFilter.SHARPEN)
+        self.saveImage()
+        self.image_path = os.path.join(self.workdir, self.save_dir, self.filename)
+        self.showImage()
 
 def main():
     app = QApplication([])
