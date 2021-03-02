@@ -1,5 +1,44 @@
+from BaseOnlineCafe.admin_interface import del_dish
 from base_dish import Dish, Menu, Receipt
 
+def print_all_menu(all_menu):
+    """Вывести содержимое меню"""
+    if all_menu:
+        print("""Список доступных меню:""")
+        for n in all_menu:
+            print(n, "-", all_menu[n].menu_name)
+    else:
+        print("Список меню пуст.")
+
+run = True
+        while run:
+            print('''Введите номер меню, для просмотра
+            0 - Вернуться назад в Режим Админа
+            Чтобы сделать какое либо действие, введите соответствующие цифры.
+            ''')
+            question = input("Что вы желаете сделать?")
+            if question == "0":
+                run = False
+            elif question in all_menu:
+                all_menu[question].print_menu()
+            else:
+                print("Выбор не распознан.Попробуйте ещё раз ...")
+
+def order_entry(receipt, all_menu):
+    run = True
+    while run:
+        print_all_menu(all_menu)
+        print('''Введите номер меню, для выбора бюлюда
+            0 - Вернуться назад
+            Чтобы сделать какое либо действие, введите соответствующие цифры.
+            ''')
+        question = input("Что вы желаете сделать?")
+        if question in all_menu:
+            all_menu[question].print_menu()
+        elif question == "0":
+            run = False
+        else:
+            print("Выбор не распознан.Попробуйте ещё раз ...")
 
 def user(all_menu):
     """Сделать заказ"""
@@ -17,22 +56,14 @@ def user(all_menu):
         ''')
         question = input("Что вы желаете сделать?")
         if question == "1":
-            add_menu(all_menu)
+            order_entry(receipt, all_menu)
         elif question == "2":
-            print_all_menu(all_menu)
+            receipt.print_receipt()
         elif question == "3":
-            edit_menu(all_menu, all_dishes)
-        elif question == "4":
-            del_menu(all_menu)
-        elif question == "5":
-            add_dish(all_dishes)
-        elif question == "6":
-            print_all_dishes(all_dishes)
-        elif question == "7":
-            edit_dish(all_dishes)
-        elif question == "8":
-            del_dish(all_dishes)
+            del_n = int(input("Введите номер блюда, для удаления: "))
+            receipt.del_dish(del_n)
         elif question != "0":
             print("Выбор не распознан.Попробуйте ещё раз ...")
         else:
+            receipt.print_receipt()
             run = False

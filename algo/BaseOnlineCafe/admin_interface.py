@@ -1,5 +1,12 @@
 from base_dish import Dish, Menu, Receipt
- 
+
+def add_dish(menu, all_dishes):
+    number_dish = input("Введите номер блюда ")
+    if number_dish in all_dishes:
+        menu.add_dish(all_dishes[number_dish])
+    else:
+        print("неверный номер блюда")
+
 def add_menu(all_menu, all_dishes):
     """Создать новое меню (добавить)"""
     menu_name = input("Введите названию меню")
@@ -16,17 +23,9 @@ def add_menu(all_menu, all_dishes):
         ''')
         question = input("Что вы желаете сделать?")
         if question == "1":
-            number_dish = input("Введите номер блюда ")
-            if number_dish in all_dishes:
-                all_menu[number_menu].add_dish(all_dishes[number_dish])
-            else:
-                print("неверный номер блюда")
+            add_dish(all_menu[number_menu], all_dishes)
         elif question == "2":
-            if all_dishes:
-                for n in all_dishes:
-                    print(n, "-", all_dishes[n].get_dish_info())
-            else:
-                print("Сначала заполните список блюд.")
+            print_all_dishes(all_dishes)
         elif question != "0":
             print("Выбор не распознан.Попробуйте ещё раз ...")
         else:
@@ -60,20 +59,40 @@ def edit_menu(all_menu, all_dishes):
         print("""Список доступных меню:""")
         for n in all_menu:
             print(n, "-", all_menu[n].menu_name)
-        run = True
-        while run:
-            print('''Введите номер меню, для редактирования
-            0 - Вернуться назад в Режим Админа
-            Чтобы сделать какое либо действие, введите соответствующие цифры.
-            ''')
-            question = input("Что вы желаете сделать?")
-            if question == "0":
-                run = False
-            elif question in all_menu:
-                all_menu[question].print_menu()
-                all_menu[question].edit()
-            else:
-                print("Выбор не распознан.Попробуйте ещё раз ...")
+        print('''Введите номер меню, для редактирования
+        0 - Вернуться назад в Режим Админа
+        Чтобы сделать какое либо действие, введите соответствующие цифры.
+        ''')
+        question = input("Что вы желаете сделать?")
+        if question == "0":
+            run = False
+        elif question in all_menu:
+            run = True
+            while run:
+                print('''Режим редактирования меню {}:
+                Вам доступны следующие действия:
+                1 - Изменить название
+                2 - Вывести список блюд
+                3 - Удалить блюдо
+                4 - Добавить блюдо
+                0 - Выйти из режима редактирования
+                Чтобы сделать какое либо действие, введите соответствующие цифры.
+                '''.format(self.menu_name))
+                question2 = input("Что вы желаете сделать?")
+                if question2 == "1":
+                    all_menu[question].edit_name()
+                elif question2 == "2":
+                    all_menu[question].print_menu()
+                elif question2 == '3':
+                    number = int(input("""Введите номер блюда для удаления 
+                    (0 - вернуться назад): """))
+                    all_menu[question].del_dish(number)
+                elif question2 == '4':
+                    add_dish(all_menu[question], all_dishes)
+                elif question == "0":
+                    run = False
+                else:
+                    print("Выбор не распознан.Попробуйте ещё раз ...")
     else:
         print("Список меню пуст.")
 
@@ -137,8 +156,22 @@ def edit_dish(all_dishes):
             if question == "0":
                 run = False
             elif question in all_dishes:
-                print(all_dishes[question].get_dish_info())
-                all_dishes[question].edit()
+                print("Редактируется блюдо:", all_dishes[question].get_dish_info(),
+                '''
+                Вам доступны следующие действия:
+                1 - Изменить название
+                2 - Изменить вес
+                3 - Изменить цену
+                0 - Выйти из режима редактирования
+                Чтобы сделать какое либо действие, введите соответствующие цифры.
+                ''')
+                question2 = input("Что вы желаете сделать?")
+                if question2 == "1":
+                    all_dishes[question].edit_name()
+                elif question2 == "2":
+                    all_dishes[question].edit_weight()
+                elif question2 == '3':
+                    all_dishes[question].edit_price()
             else:
                 print("Выбор не распознан.Попробуйте ещё раз ...")
     else:
