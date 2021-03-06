@@ -4,11 +4,11 @@ from pygame import *
 #класс-родитель для спрайтов 
 class GameSprite(sprite.Sprite):
     #конструктор класса
-    def __init__(self, player_image, player_x, player_y, player_speed):
+    def __init__(self, player_image, player_x, player_y, player_speed, hero_size):
         super().__init__()
  
         # каждый спрайт должен хранить свойство image - изображение
-        self.image = transform.scale(image.load(player_image), (65, 65))
+        self.image = transform.scale(image.load(player_image), hero_size)
         self.speed = player_speed
  
         # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
@@ -19,23 +19,45 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
+class Wall(sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        self.image = Surface((width, height))
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+init()
+GREEN = (0, 255, 0)
 #Игровая сцена:
-win_width = 700
-win_height = 500
+win_width, win_height = 700, 500
+hero_size = 60, 60
 window = display.set_mode((win_width, win_height))
 display.set_caption("Maze")
 background = transform.scale(image.load("background.jpg"), (win_width, win_height))
 
 #Персонажи игры:
-player = GameSprite('hero.png', 5, win_height - 80, 4)
-monster = GameSprite('cyborg.png', win_width - 80, 280, 2)
-final = GameSprite('treasure.png', win_width - 120, win_height - 80, 0)
+start_x, start_y = 5, win_height - 80
+speed = 4
+player = GameSprite('hero.png', start_x, start_y, speed, hero_size)
+start_x, start_y = win_width - 80, 280
+speed = 2
+monster = GameSprite('cyborg.png', start_x, start_y, speed , hero_size)
+start_x, start_y = win_width - 120, win_height - 80
+speed = 0
+final = GameSprite('treasure.png', start_x, start_y, speed, hero_size)
+
+# Стены
+walls = sprite.Group()
+walls.add(Wall(x=30, y=50, width=600, height=10))
+walls.add(Wall(x=330, y=50, width=10, height=400))
 
 game = True
 clock = time.Clock()
 FPS = 60
 
-#музыка
+#музыка "mp3", "ogg", "mid", "mod", "it", "xm", "wav"
 mixer.init()
 mixer.music.load('jungles.ogg')
 mixer.music.play()
@@ -46,8 +68,11 @@ while game:
             game = False
     
     window.blit(background,(0, 0))
+    walls.draw(window)
     player.reset()
     monster.reset()
+    final.reset()
+    
 
     display.update()
     clock.tick(FPS)

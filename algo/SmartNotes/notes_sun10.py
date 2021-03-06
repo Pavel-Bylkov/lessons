@@ -149,7 +149,7 @@ def main():
         if list_notes.selectedItems():
             key = list_notes.selectedItems()[0].text()
             tag = field_tag.text()
-            if tag not in notes[key]["теги"]:
+            if tag and tag not in notes[key]["теги"]:
                 notes[key]["теги"].append(tag)
                 list_tags.addItem(tag)
                 field_tag.clear()
@@ -159,15 +159,17 @@ def main():
 
     def del_tag():
         """Удаляет выделенный тег из список тегов выделенной заметки"""
-        if list_notes.selectedItems():
+        if list_notes.selectedItems() and list_tags.selectedItems():
             key = list_notes.selectedItems()[0].text()
             tag = list_tags.selectedItems()[0].text()
             notes[key]["теги"].remove(tag)
             list_tags.clear()
             list_tags.addItems(notes[key]["теги"])
             write_json(notes)
-        else:
+        elif not list_notes.selectedItems():
             QMessageBox.warning(notes_win, "Уведомление", "Заметка для удаления тега не выбрана!")
+        else:
+            QMessageBox.warning(notes_win, "Уведомление", "Тег для удаления не выбран!")
 
     def search_tag():
         """Составляет список заметок, содержащих введённый тег"""
@@ -175,6 +177,7 @@ def main():
         if button_tag_search.text() == "Искать заметки по тегу" and tag:
             notes_filtred = {}  # временый словарь для сохранения найденных заметок
             for note in notes:
+                print(tag, notes[note]["теги"])
                 if tag in notes[note]["теги"]:
                     notes_filtred[note] = notes[note]
             button_tag_search.setText("Сбросить поиск")
