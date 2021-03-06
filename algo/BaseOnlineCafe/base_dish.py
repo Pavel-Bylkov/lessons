@@ -47,8 +47,7 @@ class Menu:
     
     def get_dish(self, number: int) -> None:
         if 1 <= number <= len(self.list_dishes):
-            return self.list_dishes.pop(number - 1)
-            print(dish.get_dish_info(), "удалено из меню")
+            return self.list_dishes[number - 1]
 
 class Receipt:
     def __init__(self, name_client: str) -> None:
@@ -83,4 +82,5 @@ class Receipt:
                 if n == del_n:
                     self.order[menu_name].remove(dish)
                     print(dish.get_dish_info(), "удалено из заказа")
+                    return None
                 n += 1 

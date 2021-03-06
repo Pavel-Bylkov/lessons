@@ -1,5 +1,4 @@
 from time import sleep
-from base_dish import Dish, Menu, Receipt
 from admin_interface import admin
 from user_interface import user
 

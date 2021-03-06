@@ -1,4 +1,18 @@
-from base_dish import Dish, Menu, Receipt
+from base_dish import Dish, Menu
+
+content = {
+    "add_menu_dish": '''Режим добавление блюд
+        Вам доступны следующие действия:
+        1 - Добавить блюдо
+        2 - Вывести список блюд
+        0 - Выйти из режима добавление
+        Чтобы сделать какое либо действие, введите соответствующие цифры.
+        ''',
+    "print_menu": '''Введите номер меню, для просмотра
+            0 - Вернуться назад в Режим Админа
+            Чтобы сделать какое либо действие, введите соответствующие цифры.
+            '''
+}
 
 def add_dish(menu, all_dishes):
     number_dish = input("Введите номер блюда ")
@@ -14,13 +28,7 @@ def add_menu(all_menu, all_dishes):
     all_menu[number_menu] = Menu(menu_name) 
     run = True
     while run:
-        print('''Режим добавление блюд
-        Вам доступны следующие действия:
-        1 - Добавить блюдо
-        2 - Вывести список блюд
-        0 - Выйти из режима добавление
-        Чтобы сделать какое либо действие, введите соответствующие цифры.
-        ''')
+        print(content["add_menu_dish"])
         question = input("Что вы желаете сделать?")
         if question == "1":
             add_dish(all_menu[number_menu], all_dishes)
@@ -39,10 +47,7 @@ def print_all_menu(all_menu):
             print(n, "-", all_menu[n].menu_name)
         run = True
         while run:
-            print('''Введите номер меню, для просмотра
-            0 - Вернуться назад в Режим Админа
-            Чтобы сделать какое либо действие, введите соответствующие цифры.
-            ''')
+            print(content["print_menu"])
             question = input("Что вы желаете сделать?")
             if question == "0":
                 run = False
@@ -64,9 +69,7 @@ def edit_menu(all_menu, all_dishes):
         Чтобы сделать какое либо действие, введите соответствующие цифры.
         ''')
         question = input("Что вы желаете сделать?")
-        if question == "0":
-            run = False
-        elif question in all_menu:
+        if question in all_menu:
             run = True
             while run:
                 print('''Режим редактирования меню {}:
@@ -77,7 +80,7 @@ def edit_menu(all_menu, all_dishes):
                 4 - Добавить блюдо
                 0 - Выйти из режима редактирования
                 Чтобы сделать какое либо действие, введите соответствующие цифры.
-                '''.format(self.menu_name))
+                '''.format(all_menu[question].menu_name))
                 question2 = input("Что вы желаете сделать?")
                 if question2 == "1":
                     all_menu[question].edit_name()
@@ -96,40 +99,42 @@ def edit_menu(all_menu, all_dishes):
     else:
         print("Список меню пуст.")
 
+def del_dict_element(dict_list: dict, name: str) -> None:
+    run = True
+    while run:
+        print('''Введите номер {}, для удаления
+        0 - Вернуться назад в Режим Админа
+        Чтобы сделать какое либо действие, введите соответствующие цифры.
+        '''.format(name))
+        question = input("Что вы желаете сделать?")
+        if question == "0":
+            run = False
+        elif question in dict_list:
+            del dict_list[question]
+            if int(question) <= len(dict_list):
+                for n in range(int(question), len(dict_list) + 1):
+                    dict_list[str(n)] = dict_list[str(n + 1)]
+                del dict_list[str(n + 1)]
+        else:
+            print("Выбор не распознан.Попробуйте ещё раз ...")
+
 def del_menu(all_menu):
     """Удалить меню"""
     if all_menu:
         print("""Список доступных меню:""")
         for n in all_menu:
             print(n, "-", all_menu[n].menu_name)
-        run = True
-        while run:
-            print('''Введите номер меню, для удаления
-            0 - Вернуться назад в Режим Админа
-            Чтобы сделать какое либо действие, введите соответствующие цифры.
-            ''')
-            question = input("Что вы желаете сделать?")
-            if question == "0":
-                run = False
-            elif question in all_menu:
-                del all_menu[question]
-                if int(question) <= len(all_menu):
-                    for n in range(int(question), len(all_menu) + 1):
-                        all_menu[str(n)] = all_menu[str(n + 1)]
-                    del all_menu[str(n + 1)]
-            else:
-                print("Выбор не распознан.Попробуйте ещё раз ...")
+        del_dict_element(all_menu, 'меню')
     else:
         print("Список меню пуст.")
 
-def add_dish(all_dishes):
+def add_dish_to_dishes(all_dishes):
     """Добавить блюдо в список блюд"""
     number_dish = str(len(all_dishes) + 1)
-    all_dishes[number_dish] = Dish()
     name_dish = input("Введите название блюда: ")
     weight = input("Введите вес порции в граммах (только цифру): ")
     price = input("Введите цену за 1 порцию в рублях (только цифру): ")
-    all_dishes[number_dish].set_dish_info(name_dish, weight, price) 
+    all_dishes[number_dish] = Dish(name_dish, weight, price)
 
 def print_all_dishes(all_dishes):
     """Добавить блюдо в список блюд"""
@@ -183,23 +188,7 @@ def del_dish(all_dishes):
         print("""Список доступных блюд:""")
         for n in all_dishes:
             print(n, "-", all_dishes[n].get_dish_info())
-        run = True
-        while run:
-            print('''Введите номер блюда, для удаления
-            0 - Вернуться назад в Режим Админа
-            Чтобы сделать какое либо действие, введите соответствующие цифры.
-            ''')
-            question = input("Что вы желаете сделать?")
-            if question == "0":
-                run = False
-            elif question in all_dishes:
-                del all_dishes[question]
-                if int(question) <= len(all_dishes):
-                    for n in range(int(question), len(all_dishes) + 1):
-                        all_dishes[str(n)] = all_dishes[str(n + 1)]
-                    del all_dishes[str(n + 1)]
-            else:
-                print("Выбор не распознан.Попробуйте ещё раз ...")
+        del_dict_element(all_dishes, 'блюда')
     else:
         print("Список блюд пуст.")
 
@@ -231,7 +220,7 @@ def admin(all_dishes, all_menu):
         elif question == "4":
             del_menu(all_menu)
         elif question == "5":
-            add_dish(all_dishes)
+            add_dish_to_dishes(all_dishes)
         elif question == "6":
             print_all_dishes(all_dishes)
         elif question == "7":

@@ -1,4 +1,4 @@
-from BaseOnlineCafe.admin_interface import del_dish
+from admin_interface import del_dish
 from base_dish import Dish, Menu, Receipt
 
 def print_all_menu(all_menu):
@@ -9,20 +9,6 @@ def print_all_menu(all_menu):
             print(n, "-", all_menu[n].menu_name)
     else:
         print("Список меню пуст.")
-
-run = True
-        while run:
-            print('''Введите номер меню, для просмотра
-            0 - Вернуться назад в Режим Админа
-            Чтобы сделать какое либо действие, введите соответствующие цифры.
-            ''')
-            question = input("Что вы желаете сделать?")
-            if question == "0":
-                run = False
-            elif question in all_menu:
-                all_menu[question].print_menu()
-            else:
-                print("Выбор не распознан.Попробуйте ещё раз ...")
 
 def order_entry(receipt, all_menu):
     run = True
@@ -35,6 +21,7 @@ def order_entry(receipt, all_menu):
         question = input("Что вы желаете сделать?")
         if question in all_menu:
             all_menu[question].print_menu()
+            # ToDo Реализовать заполнение заказа блюдами из меню
         elif question == "0":
             run = False
         else:
