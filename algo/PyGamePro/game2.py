@@ -1,5 +1,4 @@
 from pygame import*
-from pygame.sprite import Group
 #класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
     #конструктор класса
