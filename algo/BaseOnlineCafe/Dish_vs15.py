@@ -16,7 +16,7 @@ class Menu:
         print(self.name)
         n = 1
         for dish in self.products:
-            print(dish.get_dish_info())
+            print(n, '-', dish.get_dish_info())
             n += 1
 class Receipt:
     result = 0
