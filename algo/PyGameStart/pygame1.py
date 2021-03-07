@@ -21,7 +21,7 @@ sprite1 = transform.scale(
 sp2_widht, sp2_height = 50, 50
 x2, y2 = 300, 400
 new_x2, new_y2 = x2, y2
-speed2 = 1
+speed2 = 3
 sprite2 = transform.scale(
     image.load('/home/whector/Documents/GitHub/lessons/algo/PyGameStart/sprite2.png'), 
     (sp2_widht, sp2_height))
@@ -36,12 +36,12 @@ def is_touching():
 
 def get_new_pos_sp2():
     global new_x2, new_y2
-    if new_x2 == x2 and new_y2 == y2:
+    while abs(new_x2 - x2) < 3 * sp2_widht and abs(new_y2 - y2) < 3 * sp2_height:
        new_x2, new_y2 = randint(1, 65) * 10, randint(1, 45) * 10
 
-def enemy_move():
-    global x2, y2
-    get_new_pos_sp2()
+def enemy_move(x2, y2, new_x2, new_y2):
+    if new_x2 == x2 and new_y2 == y2:
+        get_new_pos_sp2()
     if x2 > new_x2:
        x2 -= speed2
     elif x2 < new_x2:
@@ -50,9 +50,9 @@ def enemy_move():
        y2 -= speed2
     elif y2 < new_y2:
        y2 += speed2
+    return x2, y2
 
-def control():
-    global x1, y1
+def control(x1, y1):
     keys_pressed = key.get_pressed()
     if keys_pressed[K_LEFT] and x1 > 5:
         x1 -= speed
@@ -62,6 +62,7 @@ def control():
         y1 -= speed
     if keys_pressed[K_DOWN] and y1 < 450:
         y1 += speed
+    return x1, y1
 
 run = True
 while run:
@@ -69,8 +70,8 @@ while run:
         if e.type == QUIT:
           run = False
     if not is_touching():
-        control()
-        enemy_move()
+        x1, y1 = control(x1, y1)
+        x2, y2 = enemy_move(x2, y2, new_x2, new_y2)
     window.blit(background, (0, 0))
     window.blit(sprite1, (x1, y1))
     window.blit(sprite2, (x2, y2))
