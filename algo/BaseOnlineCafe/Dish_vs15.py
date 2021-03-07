@@ -32,11 +32,6 @@ class Receipt:
             print(dish)
         print("Итого: ", self.result)
 
-br = Menu("Завтраки")
-din = Menu("Ужины")
-bs = Menu("Бизнес-ланчи")
-check = Receipt("Сделать заказ")
-
 def interface():
     print('''
     Это программа для "Онлайн-заказа еды".
@@ -105,6 +100,10 @@ def order_entry():
     else:
         print("Меню не распознано.") 
 
+br = Menu("Завтраки")
+din = Menu("Ужины")
+bs = Menu("Бизнес-ланчи")
+check = Receipt("Сделать заказ")
 interface()
 question = input("Что вы желаете сделать?")
 while question != "0":

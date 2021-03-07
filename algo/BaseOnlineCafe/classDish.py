@@ -11,15 +11,11 @@ class Menu:
     def __init__(self, name):
         self.name = name
         self.products = []
-    def menu_entry(self):
-        n_dishes = int(input("Сколько блюд вы желаете добавить (введите цифру)?  "))
-        for i in range(n_dishes):
-            name = input(f"Введите название {i + 1}-го блюда: ")
-            quantity = input("Введите размер порции (только цифру): ")
-            price = input("Введите цену за 1 порцию в рублях (только цифру): ")
-            d = Dish()
-            d.set_dish_information(name, quantity, price)
-            self.products.append(d)
+
+    def add_dish(self, dish):
+        if dish not in self.products:
+            self.products.append(dish)
+    
     def menu_output(self):
         print(self.name)
         n = 1
@@ -44,6 +40,15 @@ class Receipt():
         print("Итого: ")
         return self.result
 
+def menu_entry(menu):
+    n_dishes = int(input("Сколько блюд вы желаете добавить (введите цифру)?  "))
+    for i in range(n_dishes):
+        name = input(f"Введите название {i + 1}-го блюда: ")
+        quantity = input("Введите размер порции (только цифру): ")
+        price = input("Введите цену за 1 порцию в рублях (только цифру): ")
+        d = Dish()
+        d.set_dish_information(name, quantity, price)
+        menu.add_dish(d)
 
 def order_entry():
     question5 = input("Из какого меню? ")
@@ -93,11 +98,11 @@ while question != "0":
     if question == "1":
         question2 = input("Какое меню хотите заполнить?")
         if question2 == "11":
-            br.menu_entry()
+            menu_entry(br)
         if question2 == "22":
-            din.menu_entry()
+            menu_entry(din)
         if question2 == "33":
-            bs.menu_entry()
+            menu_entry(bs)
     if question == "2":
         question3 = input("Какое меню хотите вывести? ")
         if question3 == "11":
