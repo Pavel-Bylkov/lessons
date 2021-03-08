@@ -1,15 +1,23 @@
 from pygame import*
 init() # настройка на ваше железо и драйвера
-window = display.set_mode((700, 500))
+win_width = 700
+win_height = 500
+window = display.set_mode((win_width, win_height))
 display.set_caption("Первое приложение")
 
 #координаты героя
-x = 100
-y = 395
+x, y = 100, 345
 step = 10
 #изображение героя и фона
-img1 = transform.scale(image.load('Герои/kitty/shutterstock_1220361823-[Converted]-2.png'), (100, 100))
-background = transform.scale(image.load("Фоны/city_1.png"), (700,500))
+img1 = transform.scale(image.load('Герои/kitty/shutterstock_1220361823-[Converted]-2.png'), (100, 150))
+background = transform.scale(image.load("Фоны/city_1.png"), (win_width, win_height))
+def move():
+    global x
+    keys = key.get_pressed()
+    if keys[K_LEFT] and x > 5:
+        x -= step
+    if keys[K_RIGHT] and x < 620:
+        x += step
 run = True
 while run:
     #цикл срабатывает каждую 0.1 секунду time.delay(50)
@@ -18,20 +26,13 @@ while run:
         #размещаем картинки на окне приложения
         if e.type == QUIT:
             run = False
-    keys = key.get_pressed()
-    if keys[K_LEFT]:
-        x -= step
-        if x < 5:
-            x += step 
-    if keys[K_RIGHT]:
-        x += step
-        if x > 620:
-            x -= step 
+    move()
     window.blit(background,(0,0))
     window.blit(img1, (x,y))
     #обновление окна
-    display.update()
     time.delay(50)
+    display.update()
+    
 quit()
 
 """     if e.type == KEYDOWN:
