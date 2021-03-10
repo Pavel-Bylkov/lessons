@@ -1,12 +1,12 @@
 from turtle import *
-
+screensize(canvwidth=700, canvheight=500)
 def move_to(x, y):
-    pu()
+    penup()
     goto(x, y)
-    pd()
+    pendown()
 
 def house(x, y, size):
-    def win(size):
+    def window(size):
         color('yellow', 'light blue')
         begin_fill()
         for i in range(4):
@@ -36,9 +36,9 @@ def house(x, y, size):
     walls(size)
     for i in range(1, 4):
         move_to(x + size // 5, y + size * 3 // 4 * i)
-        win(size // 4)
+        window(size // 4)
         move_to(x + size // 5 * 3, y + size * 3 // 4 * i)
-        win(size // 4)
+        window(size // 4)
 
 def land():
     pensize(300)
@@ -56,16 +56,16 @@ def sky():
     move_to(-600, 250)
     fd(1200)
 
-def sun():
+def sun(x, y):
     pensize(3)
     color('orange')
-    move_to(300, 270)
+    move_to(x, y)
     begin_fill()
     for i in range(19):
         left(100)
         forward(120)
     end_fill()
-    move_to(300, 330)
+    move_to(x, y + 60)
     pensize(10)
     color('orange', 'gold')
     begin_fill()
@@ -74,12 +74,3 @@ def sun():
     right(100)
 
 
-
-speed(0)
-sky()
-land()
-sun()
-house(x=-50, y=-150, size=100)
-house(x=-250, y=-150, size=120)
-hideturtle()
-exitonclick()
