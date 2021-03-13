@@ -1,9 +1,9 @@
 import os
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QLineEdit, QListWidget,
-                                QGroupBox, QRadioButton, QPushButton, QLabel, 
-                                QHBoxLayout, QPushButton, QInputDialog, QFileDialog)
+from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QListWidget,
+                                QPushButton, QLabel, 
+                                QHBoxLayout, QPushButton, QFileDialog)
 from PyQt5.QtGui import QPixmap # оптимизированная для показа на экране картинка
 from PIL import Image
 from PIL import ImageFilter     #  BLUR, CONTOUR, DETAIL, EDGE_ENHANCE, EDGE_ENHANCE_MORE,
@@ -25,6 +25,9 @@ class MainWin(QWidget):
         self.layout_widgets()
 
         self.connects()
+    
+    def creat_widgets(self):
+        pass
 
     def create_widgets(self):
         """Создаем виджеты для приложения"""
