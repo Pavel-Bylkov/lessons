@@ -4,17 +4,17 @@ from pygame import *
 #класс-родитель для спрайтов 
 class GameSprite(sprite.Sprite):
     #конструктор класса
-    def __init__(self, player_image, player_x, player_y, player_speed, hero_size):
+    def __init__(self, player_image, x, y, speed, hero_size):
         super().__init__()
  
         # каждый спрайт должен хранить свойство image - изображение
         self.image = transform.scale(image.load(player_image), hero_size)
-        self.speed = player_speed
+        self.speed = speed
  
         # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
         self.rect = self.image.get_rect()
-        self.rect.x = player_x
-        self.rect.y = player_y
+        self.rect.x = x
+        self.rect.y = y
 
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
@@ -38,15 +38,9 @@ display.set_caption("Maze")
 background = transform.scale(image.load("background.jpg"), (win_width, win_height))
 
 #Персонажи игры:
-start_x, start_y = 5, win_height - 80
-speed = 4
-player = GameSprite('hero.png', start_x, start_y, speed, hero_size)
-start_x, start_y = win_width - 80, 280
-speed = 2
-monster = GameSprite('cyborg.png', start_x, start_y, speed , hero_size)
-start_x, start_y = win_width - 120, win_height - 80
-speed = 0
-final = GameSprite('treasure.png', start_x, start_y, speed, hero_size)
+player = GameSprite('hero.png', x=5, y=win_height - 80, speed=4, hero_size=hero_size)
+monster = GameSprite('cyborg.png', x=win_width - 80, y=280, speed=2, hero_size=hero_size)
+final = GameSprite('treasure.png', x=win_width - 120, y=win_height - 80, speed=0, hero_size=hero_size)
 
 # Стены
 walls = sprite.Group()
@@ -73,6 +67,5 @@ while game:
     monster.reset()
     final.reset()
     
-
     display.update()
     clock.tick(FPS)
