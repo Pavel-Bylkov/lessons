@@ -47,22 +47,22 @@ walls = sprite.Group()
 walls.add(Wall(x=30, y=50, width=600, height=10))
 walls.add(Wall(x=330, y=50, width=10, height=400))
 
-game = True
 clock = time.Clock()
 FPS = 60
 
 #музыка "mp3", "ogg", "mid", "mod", "it", "xm", "wav"
 mixer.init()
 mixer.music.load('jungles.ogg')
+mixer.music.set_volume(0.25)
 mixer.music.play()
-
+game = True
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
     
     window.blit(background,(0, 0))
-    walls.draw(window)
+    #walls.draw(window)
     player.reset()
     monster.reset()
     final.reset()

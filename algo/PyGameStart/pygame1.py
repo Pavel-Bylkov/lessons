@@ -28,15 +28,21 @@ def is_touching():
 
 def get_new_pos_sp2():
     global new_x2, new_y2
-    new_x2, new_y2 = randint(0, 65) * 10, randint(1, 45) * 10
-    while (abs(x1 - x2) > abs(x1 - new_x2) and abs(y1 - y2) > abs(y1 - new_y2)):
-        new_x2, new_y2 = randint(0, 65) * 10, randint(1, 45) * 10
+    if x2 < x1 and x2 > 50 and y2 < y1 and y2 > 50:
+        new_x2, new_y2 = randint(0, x2 // 10) * 10, randint(0, y2 // 10) * 10
+    elif x2 < x1 and x2 > 50 and y2 > y1 and y2 < win_height - 50:
+        new_x2, new_y2 = randint(0, x2 // 10) * 10, randint(y2 // 10, (win_height - 50) // 10) * 10
+    elif x2 > x1 and x2 < win_widht - 50 and y2 > y1 and y2 < win_height - 50:
+        new_x2, new_y2 = randint(x2 // 10, (win_widht - 50) // 10) * 10, randint(y2 // 10, (win_height - 50) // 10) * 10
+    elif x2 > x1 and x2 < win_widht - 50 and y2 < y1 and y2 > 50:
+        new_x2, new_y2 = randint(x2 // 10, (win_widht - 50) // 10) * 10, randint(0, y2 // 10) * 10
+    else:
+        new_x2, new_y2 = randint(0, 65) * 10, randint(0, 45) * 10
 
 def enemy_move():
     global x2, y2, new_x2, new_y2
     if x2 in tuple(range(new_x2 - 10, new_x2 + 10)) and y2 in tuple(range(new_y2 - 10, new_y2 + 10)):
         get_new_pos_sp2()
-    x, y = x2, y2
     dist_x = abs(x1 - x2)
     dist_y = abs(y1 - y2)
     if x2 > new_x2:
@@ -47,8 +53,8 @@ def enemy_move():
        y2 -= speed2
     if y2 < new_y2:
        y2 += speed2
-    if dist_x >= abs(x1 - x2) and dist_y >= abs(y1 - y2):
-        x2, y2 = x, y
+    if (x2 > 60 and x2 < win_widht - 60 and y2 > 60 and y2 < win_height - 60 
+            and dist_x >= abs(x1 - x2) and dist_y >= abs(y1 - y2)):
         get_new_pos_sp2()
 
 def control():
