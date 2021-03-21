@@ -23,7 +23,7 @@ wall_height = 10
 wall_x = win_width / 2 - win_width / 3
 wall_y = win_height / 2
  
-image_final = transform.scale(image.load('gameover.jpeg'), (80, 80))
+image_final = transform.scale(image.load('treasure.png'), (80, 80))
 rect_final = image_final.get_rect()
 rect.x_final = win_width - 85
 rect.y_final = win_height - 100

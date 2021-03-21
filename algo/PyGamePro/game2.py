@@ -57,23 +57,17 @@ class Enemy(GameSprite):
 
 #класс элемента стены
 class Wall(sprite.Sprite):
-    def __init__(self, color,  x, y, width, height):
+    def __init__(self, x, y, width, height):
         super().__init__()
-        self.color = color
-        self.width = width
-        self.height = height
 
         # картинка стены - прямоугольник нужных размеров и цвета
-        self.image = Surface([self.width, self.height]) #создаем поверхность нужной ширины и длины
-        self.image.fill(self.color) #заполняем ее цветом
+        self.image = Surface([width, height]) #создаем поверхность нужной ширины и длины
+        self.image.fill(color) #заполняем ее цветом
  
        # каждый спрайт должен хранить свойство rect - прямоугольник
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
-    def draw_wall(self):
-        draw.rect(window, self.color, (self.rect.x, self.rect.y, self.width, self.height))
 
 def main():
     def create_walls():
@@ -94,7 +88,7 @@ def main():
         ]
         # добавляем в группу стен
         for shema_wall in shema_walls:
-            walls.add(Wall(color=(0, 0, 250), **shema_wall))
+            walls.add(Wall(**shema_wall))
 
     def create_sprites():
         #создаем спрайты
@@ -123,8 +117,7 @@ def main():
                 #обновляем фон каждую итерацию
                 window.fill((0, 0, 0))
                 #рисуем стены
-                for wall in walls.sprites():
-                    wall.draw_wall()
+                walls.draw(window)
                 #запускаем движения спрайтов
                 packman.update()
                 monster.update()
@@ -176,6 +169,7 @@ init()
 win_width = 700
 win_height = 500
 hero_size = 40, 40
+color = (0, 0, 250)  # цвет стен
 display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 main()

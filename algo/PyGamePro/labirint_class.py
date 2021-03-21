@@ -1,22 +1,22 @@
 from pygame import *
 #класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
-  #конструктор класса
-  def __init__(self, player_image, player_x, player_y, player_speed):
-      # Вызываем конструктор класса (Sprite):
-      super().__init__()
- 
-      # каждый спрайт должен хранить свойство image - изображение
-      self.image = transform.scale(image.load(player_image), (80, 80))
-      self.speed = player_speed
- 
-      # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
-      self.rect = self.image.get_rect()
-      self.rect.x = player_x
-      self.rect.y = player_y
-   #метод, отрисовывающий героя на окне
-  def reset(self):
-      window.blit(self.image, (self.rect.x, self.rect.y))
+    #конструктор класса
+    def __init__(self, player_image, player_x, player_y, player_speed):
+        # Вызываем конструктор класса (Sprite):
+        super().__init__()
+    
+        # каждый спрайт должен хранить свойство image - изображение
+        self.image = transform.scale(image.load(player_image), (80, 80))
+        self.speed = player_speed
+    
+        # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
+        self.rect = self.image.get_rect()
+        self.rect.x = player_x
+        self.rect.y = player_y
+    #метод, отрисовывающий героя на окне
+    def reset(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
 #класс главного игрока
 class Player(GameSprite):
   #метод, в котором реализовано управление спрайтом по кнопкам стрелочкам клавиатуры
@@ -47,12 +47,9 @@ class Enemy(GameSprite):
 class Wall(sprite.Sprite):
   def __init__(self, wall_x, wall_y, wall_width, wall_height):
        super().__init__()
-
-       self.width = wall_width
-       self.height = wall_height
  
        # картинка стены - прямоугольник нужных размеров и цвета
-       self.image = Surface([self.width, self.height])
+       self.image = Surface([wall_width, wall_height])
        self.image.fill(COLOR_WALL)
  
        # каждый спрайт должен хранить свойство rect - прямоугольник
@@ -61,16 +58,16 @@ class Wall(sprite.Sprite):
        self.rect.y = wall_y
  
   def draw_wall(self):
-      draw.rect(window, COLOR_WALL, (self.rect.x, self.rect.y, self.width, self.height))
+      window.blit(self.image, (self.rect.x, self.rect.y))
 #Создаем окошко
 win_width = 800
 win_height = 600
 display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 #создаем стены
-#COLOR_WALL = (0, 0, 255)
-#w1 = Wall(win_width / 2 - win_width / 3, win_height / 2, 300, 10)
-#w2 = Wall(410, win_height / 2 - win_height / 4, 10, 350)
+COLOR_WALL = (0, 0, 255)
+w1 = Wall(win_width / 2 - win_width / 3, win_height / 2, 300, 10)
+w2 = Wall(410, win_height / 2 - win_height / 4, 10, 350)
 #создаем спрайты
 packman = GameSprite('hero.png', 5, win_height - 80, 5)
 monster = GameSprite('cyborg.png', win_width - 80, 200, 5)
@@ -93,8 +90,8 @@ while run:
         #обновляем фон каждую итерацию
         window.fill((255, 255, 255))
         #рисуем стены
-        #w1.draw_wall()
-        #w2.draw_wall()
+        w1.draw_wall()
+        w2.draw_wall()
         #запускаем движения спрайтов
         #packman.update()
         #monster.update()
