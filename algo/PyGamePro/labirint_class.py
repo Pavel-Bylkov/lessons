@@ -69,9 +69,12 @@ COLOR_WALL = (0, 0, 255)
 w1 = Wall(win_width / 2 - win_width / 3, win_height / 2, 300, 10)
 w2 = Wall(410, win_height / 2 - win_height / 4, 10, 350)
 #создаем спрайты
-packman = GameSprite('hero.png', 5, win_height - 80, 5)
-monster = GameSprite('cyborg.png', win_width - 80, 200, 5)
-final_sprite = GameSprite('treasure.png', win_width - 85, win_height - 100, 0)
+packman = Player('/home/whector/Documents/GitHub/lessons/algo/PyGamePro/hero.png',
+                5, win_height - 80, 5)
+monster = Enemy('/home/whector/Documents/GitHub/lessons/algo/PyGamePro/cyborg.png',
+                win_width - 80, 200, 5)
+final_sprite = GameSprite('/home/whector/Documents/GitHub/lessons/algo/PyGamePro/treasure.png',
+                win_width - 85, win_height - 100, 0)
  
 #переменная, отвечающая за то, как кончилась игра
 finish = False
@@ -93,8 +96,8 @@ while run:
         w1.draw_wall()
         w2.draw_wall()
         #запускаем движения спрайтов
-        #packman.update()
-        #monster.update()
+        packman.update()
+        monster.update()
         #обновляем их в новом местоположении при каждой итерации цикла
         packman.reset()
         monster.reset()
