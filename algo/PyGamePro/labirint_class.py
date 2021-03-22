@@ -45,19 +45,19 @@ class Enemy(GameSprite):
           self.rect.x += self.speed
 #класс элемента стены
 class Wall(sprite.Sprite):
-  def __init__(self, wall_x, wall_y, wall_width, wall_height):
+  def __init__(self, x, y, width, height):
        super().__init__()
  
        # картинка стены - прямоугольник нужных размеров и цвета
-       self.image = Surface([wall_width, wall_height])
+       self.image = Surface([width, height])
        self.image.fill(COLOR_WALL)
  
        # каждый спрайт должен хранить свойство rect - прямоугольник
        self.rect = self.image.get_rect()
-       self.rect.x = wall_x
-       self.rect.y = wall_y
+       self.rect.x = x
+       self.rect.y = y
  
-  def draw_wall(self):
+  def reset(self):
       window.blit(self.image, (self.rect.x, self.rect.y))
 #Создаем окошко
 win_width = 800
@@ -66,8 +66,8 @@ display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 #создаем стены
 COLOR_WALL = (0, 0, 255)
-w1 = Wall(win_width / 2 - win_width / 3, win_height / 2, 300, 10)
-w2 = Wall(410, win_height / 2 - win_height / 4, 10, 350)
+w1 = Wall(x=win_width / 2 - win_width / 3, y=win_height / 2, width=300, height=10)
+w2 = Wall(x=410, y=win_height / 2 - win_height / 4, width=10, height=350)
 #создаем спрайты
 packman = Player('hero.png', 5, win_height - 80, 5)
 monster = Enemy('cyborg.png', win_width - 80, 200, 5)
@@ -90,8 +90,8 @@ while run:
         #обновляем фон каждую итерацию
         window.fill((255, 255, 255))
         #рисуем стены
-        w1.draw_wall()
-        w2.draw_wall()
+        w1.reset()
+        w2.reset()
         #запускаем движения спрайтов
         packman.update()
         monster.update()
