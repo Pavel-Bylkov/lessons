@@ -49,9 +49,8 @@ class Enemy(GameSprite):
 
 #класс элемента стены
 class Wall(sprite.Sprite):
-    def __init__(self, color, x, y, width, height):
+    def __init__(self, x, y, width, height):
         super().__init__()
-        self.color = color
         self.width = width
         self.height = height
 
@@ -64,7 +63,7 @@ class Wall(sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
     def draw_wall(self):
-        draw.rect(window, self.color, (self.rect.x, self.rect.y, self.width, self.height))
+        draw.rect(window, color, (self.rect.x, self.rect.y, self.width, self.height))
 
 init()
 #Создаем окошко
@@ -74,9 +73,10 @@ display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 
 #создаем стены
-w1 = Wall(color=(0, 0, 250), x=(win_width / 2 - win_width / 3), 
+color = (0, 0, 250)
+w1 = Wall(x=(win_width / 2 - win_width / 3), 
             y=(win_height / 2), width=300, height=10)
-w2 = Wall(color=(0, 0, 250), x=410, y=(win_height / 2 - win_height / 4), width=10, height=350)
+w2 = Wall(x=410, y=(win_height / 2 - win_height / 4), width=10, height=350)
 
 #создаем спрайты
 packman = Player(player_image='Герои/pacman/pac-1.png', 
