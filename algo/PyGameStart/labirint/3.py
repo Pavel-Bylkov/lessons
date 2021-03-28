@@ -1,4 +1,5 @@
 from pygame import *
+from time import sleep
 '''Необходимые классы'''
 
 class GameSprite(sprite.Sprite):
@@ -74,14 +75,15 @@ class Wall(sprite.Sprite):
 init()
 GREEN = (0, 255, 0)
 #Игровая сцена:
-win_width, win_height = 1920, 1080
+win_width, win_height = 1600, 880
 hero_size = 60, 60
-window = display.set_mode((win_width, win_height), FULLSCREEN)
+window = display.set_mode((win_width, win_height)) #FULLSCREEN
 display.set_caption("Maze")
 background = transform.scale(image.load("background.jpg"), (win_width, win_height))
 
 #Персонажи игры:
-player = Player('hero.png', x=5, y=win_height - 80, speed=5, hero_size=hero_size)
+start_x, start_y = 5, win_height - 80
+player = Player('hero.png', x=start_x, y=start_y, speed=5, hero_size=hero_size)
 monster = Enemy('cyborg.png', x=1400, y=280, speed=4 , hero_size=hero_size,
                     left_up=460, right_down=1400, direction='left')
 monster2 = Enemy('cyborg.png', x=win_width//2, y=280, speed=4 , hero_size=hero_size,
@@ -99,10 +101,10 @@ walls.add(Wall(x=win_width//2+100, y=win_height-400, width=10, height=400))
 
 # Картинки Победы и Поражения (получаем из текста)
 font.init()
-#font = font.Font(None, 170)
-font = font.SysFont('arial', 170)
-win = font.render('YOU WIN!', True, (255, 215, 0))
-lose = font.render('YOU LOSE!', True, (180, 0, 0))
+font2 = font.Font(None, 170)
+#font2 = font.SysFont('arial', 170)
+win = font2.render('YOU WIN!', True, (255, 215, 0))
+lose = font2.render('YOU LOSE!', True, (180, 0, 0))
 
 #музыка
 mixer.init()
@@ -135,16 +137,21 @@ while game:
         final.reset() 
 
         #Ситуация "Проигрыш"
+        #if sprite.spritecollide(player, monsters, dokill=False): для грцппы
         if sprite.collide_rect(player, monster) or sprite.collide_rect(player, monster2):
-            finish = True
             window.blit(lose, (win_width // 2 - 350, win_height // 2 - 100))
             kick.play()
+            display.update()
+            sleep(1) 
+            player.rect.x, player.rect.y = start_x, start_y
 
         #Ситуация "Выигрыш"
         if sprite.collide_rect(player, final):
             finish = True
             window.blit(win, (win_width // 2 - 350, win_height // 2 - 100))
             money.play()
-
+    else:
+        sleep(5)
+        game = False
     display.update()
     clock.tick(FPS)
