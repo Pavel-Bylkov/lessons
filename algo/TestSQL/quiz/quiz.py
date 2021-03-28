@@ -16,7 +16,7 @@ def quiz_form():
     html_end = '''</select>''' + frm_submit + '''</form></body></html>'''
     options = ''' '''
     q_list = get_quises()
-    for id, name in q_list:
+    for id, name, vozrast, test in q_list:
         option_line = ('''<option value="''' +
                         str(id) + '''">''' +
                         str(name) + '''</option>

@@ -129,6 +129,7 @@ def get_quises():
     open()
     cursor.execute(query)
     result = cursor.fetchall()
+    print(result)
     close()
     return result
  
@@ -167,4 +168,4 @@ def main():
     pass
     
 if __name__ == "__main__":
-    main()
+    get_quises()

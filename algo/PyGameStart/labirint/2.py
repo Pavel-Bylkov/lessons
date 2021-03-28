@@ -1,6 +1,5 @@
 from pygame import *
 '''Необходимые классы'''
-
 #класс-родитель для спрайтов 
 class GameSprite(sprite.Sprite):
     #конструктор класса
@@ -10,7 +9,6 @@ class GameSprite(sprite.Sprite):
         # каждый спрайт должен хранить свойство image - изображение
         self.image = transform.scale(image.load(player_image), hero_size)
         self.speed = speed
- 
         # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -24,7 +22,6 @@ class GameSprite(sprite.Sprite):
 
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
-
 #класс-наследник для спрайта-игрока (управляется стрелками)
 class Player(GameSprite):
     def update(self):
@@ -43,7 +40,6 @@ class Player(GameSprite):
         if keys[K_p]:
             print("x = ", self.rect.x + 30, 'y = ', self.rect.y + 30)
             time.delay(500)
-
 #класс-наследник для спрайта-врага (перемещается сам)
 class Enemy(GameSprite):
     def __init__(self, player_image, x, y, speed, hero_size, direction, left, right):
@@ -61,7 +57,6 @@ class Enemy(GameSprite):
             self.rect.x -= self.speed
         else:
             self.rect.x += self.speed
-
 class Wall(sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -99,17 +94,16 @@ walls.add(Wall(x=1460, y=100, width=10, height=400))
 walls.add(Wall(x=580, y=400, width=520, height=10))
 walls.add(Wall(x=960, y=400, width=10, height=400))
 
-game = True
-finish = False
-clock = time.Clock()
-FPS = 60
-
 #музыка
 mixer.init()
 mixer.music.load('jungles.ogg')
 mixer.music.set_volume(0.3)
 mixer.music.play()
 
+game = True
+finish = False
+clock = time.Clock()
+FPS = 60
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -120,9 +114,9 @@ while game:
         walls.draw(window)
         player.update()
         monsters.update()
-        player.reset()
-        monsters.draw(window)
         final.reset() 
-
+        monsters.draw(window)
+        player.reset()
+        
     display.update()
     clock.tick(FPS)
