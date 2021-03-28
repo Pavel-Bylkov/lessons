@@ -2,63 +2,60 @@ from pygame import *
 #класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
     #конструктор класса
-    def __init__(self, player_image, player_x, player_y, player_speed):
+    def __init__(self, player_image, x, y, speed):
         # Вызываем конструктор класса (Sprite):
         super().__init__()
-    
         # каждый спрайт должен хранить свойство image - изображение
         self.image = transform.scale(image.load(player_image), (80, 80))
-        self.speed = player_speed
-    
+        self.speed = speed
         # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
         self.rect = self.image.get_rect()
-        self.rect.x = player_x
-        self.rect.y = player_y
+        self.rect.x = x
+        self.rect.y = y
     #метод, отрисовывающий героя на окне
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 #класс главного игрока
 class Player(GameSprite):
-  #метод, в котором реализовано управление спрайтом по кнопкам стрелочкам клавиатуры
-  def update(self):
-      keys = key.get_pressed()
-      if keys[K_LEFT] and self.rect.x > 5:
-          self.rect.x -= self.speed
-      if keys[K_RIGHT] and self.rect.x < win_width - 80:
-          self.rect.x += self.speed
-      if keys[K_UP] and self.rect.y > 5:
-          self.rect.y -= self.speed
-      if keys[K_DOWN] and self.rect.y < win_height - 80:
-          self.rect.y += self.speed
+    #метод, в котором реализовано управление спрайтом по кнопкам стрелочкам клавиатуры
+    def update(self):
+        keys = key.get_pressed()
+        if keys[K_LEFT] and self.rect.x > 5:
+            self.rect.x -= self.speed
+        if keys[K_RIGHT] and self.rect.x < win_width - 80:
+            self.rect.x += self.speed
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < win_height - 80:
+            self.rect.y += self.speed
 #класс спрайта-врага    
 class Enemy(GameSprite):
-  side = "left"
-   #движение врага
-  def update(self):
-      if self.rect.x <= 410:
-          self.side = "right"
-      if self.rect.x >= win_width - 85:
-          self.side = "left"
-      if self.side == "left":
-          self.rect.x -= self.speed
-      else:
-          self.rect.x += self.speed
+    def __init__(self, player_image, x, y, speed, side, left, right):
+        super().__init__(player_image, x, y, speed)
+        self.side = side
+        self.left = left
+        self.right = right
+    #движение врага
+    def update(self):
+        if self.rect.x <= self.left:
+            self.side = "right"
+        if self.rect.x >= self.right:
+            self.side = "left"
+        if self.side == "left":
+            self.rect.x -= self.speed
+        else:
+            self.rect.x += self.speed
 #класс элемента стены
 class Wall(sprite.Sprite):
-  def __init__(self, x, y, width, height):
-       super().__init__()
- 
-       # картинка стены - прямоугольник нужных размеров и цвета
-       self.image = Surface([width, height])
-       self.image.fill(COLOR_WALL)
- 
-       # каждый спрайт должен хранить свойство rect - прямоугольник
-       self.rect = self.image.get_rect()
-       self.rect.x = x
-       self.rect.y = y
- 
-  def reset(self):
-      window.blit(self.image, (self.rect.x, self.rect.y))
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        # картинка стены - прямоугольник нужных размеров и цвета
+        self.image = Surface([width, height])
+        self.image.fill(COLOR_WALL)
+        # каждый спрайт должен хранить свойство rect - прямоугольник
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 #Создаем окошко
 win_width = 800
 win_height = 600
@@ -66,12 +63,15 @@ display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 #создаем стены
 COLOR_WALL = (0, 0, 255)
-w1 = Wall(x=win_width / 2 - win_width / 3, y=win_height / 2, width=300, height=10)
-w2 = Wall(x=410, y=win_height / 2 - win_height / 4, width=10, height=350)
+walls = sprite.Group()
+walls.add(Wall(x=100, y=win_height / 2, width=320, height=10),
+        Wall(x=410, y=win_height / 4, width=10, height=350))
+
 #создаем спрайты
-packman = Player('hero.png', 5, win_height - 80, 5)
-monster = Enemy('cyborg.png', win_width - 80, 200, 5)
-final_sprite = GameSprite('treasure.png', win_width - 85, win_height - 100, 0)
+packman = Player('hero.png', x=5, y=win_height - 80, speed=5)
+monster = Enemy('cyborg.png', x=win_width - 80, y=200, speed=5,
+                            side="left", left=450, right=win_width - 85)
+final_sprite = GameSprite('treasure.png', x=win_width - 85, y=win_height - 100, speed=0)
  
 #переменная, отвечающая за то, как кончилась игра
 finish = False
@@ -90,8 +90,7 @@ while run:
         #обновляем фон каждую итерацию
         window.fill((255, 255, 255))
         #рисуем стены
-        w1.reset()
-        w2.reset()
+        walls.draw(window)
         #запускаем движения спрайтов
         packman.update()
         monster.update()
