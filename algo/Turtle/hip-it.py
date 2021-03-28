@@ -15,7 +15,8 @@ class Sprite(Turtle):
        self.shape(shape)
        self.step = step
        self.points = 0
- 
+
+class Player(Sprite):
    def move_up(self):
        self.goto(self.xcor(), self.ycor() + self.step)
    def move_down(self):
@@ -23,15 +24,13 @@ class Sprite(Turtle):
    def move_left(self):
        self.goto(self.xcor() - self.step, self.ycor())
    def move_right(self):
-       self.goto(self.xcor() + self.step, self.ycor())
- 
+       self.goto(self.xcor() + self.step, self.ycor()) 
    def is_collide(self, sprite):
-       dist = self.distance(sprite.xcor(), sprite.ycor())
-       if dist < 30:
+       if self.distance(sprite.xcor(), sprite.ycor()) < tsize:
            return True
-       else:
-           return False
- 
+       return False
+
+class Enemy(Sprite):
    def set_move(self, x_start, y_start, x_end, y_end):
        self.x_start = x_start
        self.y_start = y_start       
@@ -42,16 +41,18 @@ class Sprite(Turtle):
   
    def make_step(self):
        self.forward(self.step) #направление уже есть
- 
        if self.distance(self.x_end, self.y_end) < self.step: #если расстояние меньше полушага
            self.set_move(self.x_end, self.y_end, self.x_start, self.y_start) #меняем направление
  
-player = Sprite(0, -100, 10, 'circle', 'orange')
-enemy1 = Sprite(-s_width, 0, 15, 'square', 'red')
-enemy1.set_move(-s_width, 0, s_width, 0)
-enemy2 = Sprite(s_width, 70, 15, 'square', 'red')
-enemy2.set_move(s_width, 70, -s_width, 70)
-goal = Sprite(0, 120, 20, 'triangle', 'green')
+player = Player(x=0, y=-100, step=10, shape='circle', color='orange')
+
+enemy1 = Enemy(x=-s_width, y=0, step=20, shape='square', color='red')
+enemy1.set_move(x_start=-s_width, y_start=0, x_end=s_width, y_end=0)
+
+enemy2 = Enemy(x=s_width, y=70, step=20, shape='square', color='red')
+enemy2.set_move(x_start=s_width, y_start=70, x_end=-s_width, y_end=70)
+
+goal = Sprite(x=0, y=120, step=20, shape='triangle', color='green')
 #goal.set_move(-s_width, 120, s_width, 0)  
  
 total_score = 0
@@ -79,3 +80,4 @@ while total_score < 3:
 if total_score == 3:
    enemy1.hideturtle()
    enemy2.hideturtle()
+scr.mainloop()
