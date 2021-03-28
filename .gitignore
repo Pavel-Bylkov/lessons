@@ -1,5 +1,11 @@
 # Byte-compiled / optimized / DLL files
 # IDE
+*.DS_Store
+.vscode/
+algo/.DS_Store
+algo/PyGamePro/.DS_Store
+algo/PyGamePro/Shuter/.vscode/
+algo/PyGameStart/.DS_Store
 algo/PILEditor/.vscode/
 algo/PyGamePro/.venv/
 algo/Examples/.vscode
@@ -9,7 +15,8 @@ algo/PyGamePro/.vscode/
 __pycache__/
 *.py[cod]
 *$py.class
-
+algo/PyGameStart/shuter/vemv/
+*/vemv/
 # C extensions
 *.so
 
