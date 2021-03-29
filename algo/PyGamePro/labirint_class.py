@@ -20,6 +20,7 @@ class Player(GameSprite):
     #метод, в котором реализовано управление спрайтом по кнопкам стрелочкам клавиатуры
     def update(self):
         keys = key.get_pressed()
+        x, y = self.rect.x, self.rect.y
         if keys[K_LEFT] and self.rect.x > 5:
             self.rect.x -= self.speed
         if keys[K_RIGHT] and self.rect.x < win_width - 80:
@@ -28,6 +29,8 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         if keys[K_DOWN] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
+        if sprite.spritecollide(self, walls, dokill=False):
+            self.rect.x, self.rect.y = x, y
 #класс спрайта-врага    
 class Enemy(GameSprite):
     def __init__(self, player_image, x, y, speed, side, left, right):
@@ -57,15 +60,18 @@ class Wall(sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 #Создаем окошко
-win_width = 800
-win_height = 600
+win_width = 1600
+win_height = 900
 display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 #создаем стены
 COLOR_WALL = (0, 0, 255)
 walls = sprite.Group()
-walls.add(Wall(x=100, y=win_height / 2, width=320, height=10),
-        Wall(x=410, y=win_height / 4, width=10, height=350))
+walls.add(
+    Wall(x=100, y=win_height / 2, width=320, height=10),
+    Wall(x=100, y=2 * win_height / 4, width=620, height=10),
+    Wall(x=410, y=win_height / 4, width=10, height=350)
+    )
 
 #создаем спрайты
 packman = Player('hero.png', x=5, y=win_height - 80, speed=5)
@@ -98,21 +104,13 @@ while run:
         packman.reset()
         monster.reset()
         final_sprite.reset()
- 
         #Проверка столкновения героя с врагом и стенами
+        if sprite.collide_rect(packman, monster):
+            finish = True
+            img = transform.scale(image.load('gameover.jpeg'), (win_width, win_height))
+            window.blit(img, (0, 0))
+        if sprite.collide_rect(packman, final_sprite):
+            finish = True
+            img = transform.scale(image.load('winner_1.jpg'), (win_width, win_height))
+            window.blit(img, (0, 0))
     display.update()
-
-""" if sprite.collide_rect(packman, monster) or sprite.collide_rect(packman, w1) or sprite.collide_rect(packman, w2):
-          finish = True
-          #вычисляем отношение
-          img = image.load('gameover.jpeg')
-          d = img.get_width() // img.get_height()
-          window.fill((255, 255, 255))
-          window.blit(transform.scale(img, (win_height * d, win_height)), (90, 0))
- 
-      if sprite.collide_rect(packman, final_sprite):
-          finish = True
-          img = image.load('thumb.jpg')
-          window.fill((255, 255, 255))
-          window.blit(transform.scale(img, (win_width, win_height)), (0, 0))
-    """
