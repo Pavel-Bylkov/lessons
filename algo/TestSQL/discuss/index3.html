@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title> My First Page</title>
+</head>
+<body>
+{% if header %}
+    <h2>{{hello}}</h2>
+{% else %}
+    <h2>Нет заголовка</h2>
+{% endif %}
+<p>{{text}}</p>
+</body>
+</html>
