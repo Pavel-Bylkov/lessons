@@ -1,23 +1,7 @@
-from turtle import *
-from time import time
+from random import randint
+from operator import itemgetter
 from pprint import pprint
+n = {i: randint(-200, 200) for i in range(100)}
+q = sorted(n, key=itemgetter())
+pprint(q)
 
-pprint(dir())
-
-start = time()
-color('red', 'yellow')
-begin_fill()
-pensize(5)
-while True:
-    forward(200)
-    left(170)
-    if abs(pos()) < 1:
-        break
-end_fill()
-end = time()
-
-
-
-print(end - start, "sek")
-
-mainloop()

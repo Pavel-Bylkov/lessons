@@ -21,7 +21,29 @@
 длинной последовательности единиц во входном массиве.
 
 Пример
+5
+1
+0
+1
+0
+1
+Вывод
+1
 
-
-
+Решеине верное
 """
+
+n = int(input())
+A = [int(input()) for i in range(n)]
+k = 0
+max_k = 0
+for i in A:
+	if i:
+		k += 1
+	else:
+		if k > max_k:
+			max_k = k
+		k = 0
+if k > max_k:
+	max_k = k
+print(max_k)
