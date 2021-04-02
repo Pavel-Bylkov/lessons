@@ -46,8 +46,8 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_q:
-                num = randint(1,3)
+            num = randint(1,3)
+            if event.key == pygame.K_q:               
                 if num == 1:
                     quest_card.set_text('Что изучаешь в Алгоритмике?', fsize=25)
                 if num == 2:
@@ -55,7 +55,6 @@ while run:
                 if num == 3:
                     quest_card.set_text('Что растёт на яблоне?', fsize=35)   
             if event.key == pygame.K_a:
-                num = randint(1,3)
                 if num == 1:
                     ans_card.set_text('Python', fsize=35)
                 if num == 2:
