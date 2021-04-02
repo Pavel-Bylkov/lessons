@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 pygame.init()
 mw = pygame.display.set_mode((500, 500))
@@ -36,14 +37,34 @@ quest_card.set_text("Вопрос", fsize=75)
 ans_card = TextArea(x=120, y=240, width=290, height=70, color=LIGHT_BLUE)
 ans_card.set_text("Ответ", fsize=75)
 
+quest_card.draw(shift_x=10, shift_y=10)
+ans_card.draw(shift_x=10, shift_y=10)
+
 run = True
 while run:
     for event in pygame.event.get():
-       if event.type == pygame.QUIT:
-           run = False
-    
-    quest_card.draw(shift_x=10,shift_y=10)
-    ans_card.draw(shift_x=10,shift_y=10)
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                num = randint(1,3)
+                if num == 1:
+                    quest_card.set_text('Что изучаешь в Алгоритмике?', fsize=25)
+                if num == 2:
+                    quest_card.set_text('На каком языке говорят во Франции?', fsize=25)
+                if num == 3:
+                    quest_card.set_text('Что растёт на яблоне?', fsize=35)   
+            if event.key == pygame.K_a:
+                num = randint(1,3)
+                if num == 1:
+                    ans_card.set_text('Python', fsize=35)
+                if num == 2:
+                    ans_card.set_text('Французский', fsize=35)
+                if num == 3:
+                    ans_card.set_text('Яблоки', fsize=35)   
+    mw.fill(back)  
+    quest_card.draw(shift_x=10, shift_y=25)
+    ans_card.draw(shift_x=10, shift_y=25)
 
     pygame.display.update()
     clock.tick(fps)
