@@ -1,5 +1,6 @@
 from pygame import *
 from time import sleep, time as time_t
+from map import maps
 '''Необходимые классы'''
 #класс-родитель для спрайтов 
 class GameSprite(sprite.Sprite):
@@ -83,7 +84,7 @@ class Wall(sprite.Sprite):
 init()
 
 #Игровая сцена:
-win_width, win_height = 1600, 880
+win_width, win_height = 1465, 885
 window = display.set_mode((win_width, win_height)) #FULLSCREEN
 display.set_caption("Maze")
 # Создаем фоновое изображение по размеру окна
@@ -103,13 +104,22 @@ monsters.add(
 final = GameSprite('treasure.png', x=(win_width - 120), y=(win_height - 80),
                             speed=0 , hero_size=hero_size)
 
+traps = sprite.Group()
+traps.add(GameSprite("trap.png", x=220, y=(win_height - 280), speed=0 , hero_size=hero_size),
+    GameSprite("trap.png", x=820, y=580, speed=0 , hero_size=hero_size))
+
 # Стены
 GREEN = (0, 255, 0)
 walls = sprite.Group()
+for i in range(len(maps)):
+    for j in range(len(maps[i])):
+        if maps[i][j] == 1:
+            walls.add(Wall(x=j * 25, y=i * 25, width=10, height=10))
+
 walls.add(Wall(x=80, y=100, width=520, height=10))
 walls.add(Wall(x=460, y=100, width=10, height=400))
 walls.add(Wall(x=1080, y=100, width=520, height=10))
-walls.add(Wall(x=1460, y=100, width=10, height=400))
+walls.add(Wall(x=1260, y=100, width=10, height=200))
 walls.add(Wall(x=580, y=400, width=520, height=10))
 walls.add(Wall(x=960, y=400, width=10, height=400))
 walls.add(Wall(x=250, y=300, width=200, height=10))
@@ -135,16 +145,17 @@ kick.set_volume(0.5)
 game = True
 finish = False
 clock = time.Clock()
-FPS = 60
+FPS = 50
 
 def draw_all():
     window.blit(background,(0, 0))
     walls.draw(window)          
     monsters.draw(window)
+    traps.draw(window)
     final.reset() 
+    player.reset()
 
 def draw_final(final_img):
-    player.reset()
     window.blit(final_img, (win_width // 2 - 350, win_height // 2 - 100))
     display.update()
 
@@ -157,18 +168,21 @@ while game:
         player.update()
         monsters.update()
         draw_all()     
-        player.reset()
 
         #Ситуация "Проигрыш"
-        if sprite.spritecollide(player, monsters, dokill=False):  # для грцппы
-        #if sprite.collide_rect(player, monster):
+        if (sprite.spritecollide(player, monsters, dokill=False)):  # для грцппы
             kick.play()
-            draw_all()
             player.change_image(new_image="sprite2.png", new_size=hero_size)
+            draw_all()
             draw_final(lose)
             sleep(1) 
             player.change_image(new_image="hero.png", new_size=hero_size)
             player.rect.x, player.rect.y = start_x, start_y
+
+        if (sprite.spritecollide(player, traps, dokill=False)):  # для грцппы
+            player.speed = 1
+        else:
+            player.speed = 5
 
         #Ситуация "Выигрыш"
         if sprite.collide_rect(player, final):
@@ -176,8 +190,7 @@ while game:
             draw_final(win)
             money.play()
             last_time = time_t()
-    else:
-        if time_t() - last_time > 5:
-            game = False
+    elif time_t() - last_time > 5:
+        game = False
     display.update()
     clock.tick(FPS)
