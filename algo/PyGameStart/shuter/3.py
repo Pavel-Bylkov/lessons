@@ -4,8 +4,10 @@ from random import randint
 #фоновая музыка
 mixer.init()
 mixer.music.load('space.ogg')
+mixer.music.set_volume(0.1)
 mixer.music.play()
 fire_sound = mixer.Sound('fire.ogg')
+fire_sound.set_volume(0.3)
 
 #шрифты и надписи
 font.init()
@@ -80,8 +82,8 @@ class Bullet(GameSprite):
             self.kill()
 
 # Создаем окошко
-win_width = 700
-win_height = 500
+win_width = 1200
+win_height = 800
 display.set_caption("Shooter")
 window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
