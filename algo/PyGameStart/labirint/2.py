@@ -38,7 +38,7 @@ class Player(GameSprite):
         if sprite.spritecollide(self, walls, dokill=False):
             self.rect.x, self.rect.y = x, y
         if keys[K_p]:
-            print("x = ", self.rect.x + 30, 'y = ', self.rect.y + 30)
+            print("x = ", self.rect.centerx, 'y = ', self.rect.centery)
             time.delay(500)
 #класс-наследник для спрайта-врага (перемещается сам)
 class Enemy(GameSprite):
@@ -57,6 +57,7 @@ class Enemy(GameSprite):
             self.rect.x -= self.speed
         else:
             self.rect.x += self.speed
+# класс для стен, особенность - изображение прямоугольник
 class Wall(sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -67,15 +68,17 @@ class Wall(sprite.Sprite):
         self.rect.y = y
 
 init()
-GREEN = (20, 230, 20)
+
 #Игровая сцена:
 win_width, win_height = 1600, 800
-hero_size = 60, 60
 window = display.set_mode((win_width, win_height))
 display.set_caption("Maze")
+
+# Создаем фоновое изображение по размеру окна
 background = transform.scale(image.load("background.jpg"), (win_width, win_height))
 
 #Персонажи игры:
+hero_size = 60, 60
 player = Player('hero.png', x=5, y=win_height - 80, speed=4, hero_size=hero_size)
 monsters = sprite.Group()
 monsters.add(Enemy('cyborg.png', x=1460 - 80, y=280, speed=2 , hero_size=hero_size,
@@ -86,6 +89,7 @@ final = GameSprite('treasure.png', x=win_width - 120, y=win_height - 80,
                             speed=0 , hero_size=hero_size)
 
 # Стены
+GREEN = (20, 230, 20)
 walls = sprite.Group()
 walls.add(Wall(x=80, y=100, width=520, height=10))
 walls.add(Wall(x=460, y=100, width=10, height=400))
@@ -93,6 +97,7 @@ walls.add(Wall(x=1080, y=100, width=520, height=10))
 walls.add(Wall(x=1460, y=100, width=10, height=400))
 walls.add(Wall(x=580, y=400, width=520, height=10))
 walls.add(Wall(x=960, y=400, width=10, height=400))
+walls.add(Wall(x=250, y=300, width=200, height=10))
 
 #музыка
 mixer.init()
@@ -100,10 +105,11 @@ mixer.music.load('jungles.ogg')
 mixer.music.set_volume(0.3)
 mixer.music.play()
 
+# переменные для управления игровым циклом
 game = True
 finish = False
 clock = time.Clock()
-FPS = 60
+FPS = 60  # задаем обновление экрана в кадрах в секунду
 while game:
     for e in event.get():
         if e.type == QUIT:
