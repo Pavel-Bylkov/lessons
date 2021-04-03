@@ -1,5 +1,5 @@
 from pygame import *
-from time import sleep
+from time import sleep, time as time_t
 '''Необходимые классы'''
 
 class GameSprite(sprite.Sprite):
@@ -88,7 +88,7 @@ monster = Enemy('cyborg.png', x=1400, y=280, speed=4 , hero_size=hero_size,
                     left_up=460, right_down=1400, direction='left')
 monster2 = Enemy('cyborg.png', x=win_width//2, y=280, speed=4 , hero_size=hero_size,
                     left_up=5, right_down=win_height - 460, direction='up')
-final = GameSprite('treasure.png', x=win_width - 120, y=win_height - 80,
+final = GameSprite('treasure.png', x=(win_width - 120), y=(win_height - 80),
                             speed=0 , hero_size=hero_size)
 
 # Стены
@@ -150,8 +150,9 @@ while game:
             finish = True
             window.blit(win, (win_width // 2 - 350, win_height // 2 - 100))
             money.play()
+            last_time = time_t()
     else:
-        sleep(5)
-        game = False
+        if time_t() - last_time > 5:
+            game = False
     display.update()
     clock.tick(FPS)
