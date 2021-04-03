@@ -78,18 +78,10 @@ def startFill():
 def endFill():
     t.end_fill()
 
-t.ondrag(draw)
+def screen_clear():
+    t.clear()
 
-clr[0].onclick(setColor0)
-clr[1].onclick(setColor1)
-clr[2].onclick(setColor2)
-clr[3].onclick(setColor3)
-clr[4].onclick(setColor4)
-clr[5].onclick(setColor5)
-clr[6].onclick(setColor6)
-clr[7].onclick(setColor7)
-clr[8].onclick(setColor8)
-clr[9].onclick(setColor9)
+t.ondrag(draw)
 
 scr = t.getscreen()
 scr.onscreenclick(move)
@@ -102,7 +94,19 @@ scr.onkey(stepLeft, 'Left')
 scr.onkey(stepRight, 'Right')
 scr.onkey(startFill, 'f')
 scr.onkey(endFill, 'e')
+scr.onkey(screen_clear, 'l')
 
 scr.listen()
+
+clr[0].onclick(setColor0)
+clr[1].onclick(setColor1)
+clr[2].onclick(setColor2)
+clr[3].onclick(setColor3)
+clr[4].onclick(setColor4)
+clr[5].onclick(setColor5)
+clr[6].onclick(setColor6)
+clr[7].onclick(setColor7)
+clr[8].onclick(setColor8)
+clr[9].onclick(setColor9)
 
 scr.mainloop()
