@@ -122,7 +122,7 @@ class Wall(pg.sprite.Sprite):
 
 class Enemy(pg.sprite.Sprite): # враг
     def __init__(self, x=20, y=0, filename=img_file_enemy, width=100, height=100):
-        pg.sprite.Sprite.__init__(self)
+        super().__init__()
 
         self.image = pg.transform.scale(pg.image.load(filename), (width, height)).convert_alpha()
         self.rect = self.image.get_rect()
@@ -131,16 +131,16 @@ class Enemy(pg.sprite.Sprite): # враг
         self.side = "left"*randint(0, 1)
         self.left = x - 50
         self.right = x + 50
-        self.speed = 2
 
     def update(self):
         ''' перемещает персонажа, применяя текущую горизонтальную и вертикальную скорость'''
+        speed = randint(0, 3)
         if self.rect.x <= self.left:
             self.side = "right"
         if self.rect.x >= self.right:
             self.side = "left"
         if self.side == "left":
-            self.rect.x -= self.speed
+            self.rect.x -= speed
         else:
-            self.rect.x += self.speed
+            self.rect.x += speed
 
