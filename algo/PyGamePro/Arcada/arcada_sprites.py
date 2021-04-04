@@ -1,13 +1,6 @@
+import pygame as pg
 from constants_globalvars import *
-from arcada_classes import FinalSprite, Hero, Wall, Enemy
-# список всех персонажей игры:
-all_sprites = pygame.sprite.Group()
-# список препятствий:
-barriers = pygame.sprite.Group()
-# список врагов:
-enemies = pygame.sprite.Group()
-# список мин:
-bombs = pygame.sprite.Group()
+from arcada_classes import *
 
 # создаем персонажа, добавляем его в список всех спрайтов:
 robin = Hero(img_file_hero) 

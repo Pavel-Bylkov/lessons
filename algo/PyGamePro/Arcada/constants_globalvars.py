@@ -1,8 +1,9 @@
 # Глобальные переменные (настройки)
 win_width = 800 
 win_height = 600
-left_bound = win_width / 40             # границы, за которые персонаж не выходит (начинает ехать фон)
-right_bound = win_width - 8 * left_bound
+# границы, за которые персонаж не выходит (начинает ехать фон)
+left_bound = win_width / 40   
+right_bound = win_width - 8 *  left_bound 
 shift = 0
 
 x_start, y_start = 20, 10

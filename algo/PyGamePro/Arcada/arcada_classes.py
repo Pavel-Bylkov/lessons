@@ -1,18 +1,37 @@
 from random import randint 
-import pygame
+import pygame as pg
 
 from constants_globalvars import *
 
+pg.init() 
+# во время игры пишем надписи размера 72
+font = pg.font.Font(None, 72)
+
+# Запуск игры
+pg.display.set_caption("ARCADA") 
+window = pg.display.set_mode([win_width, win_height])
+
+back = pg.transform.scale(pg.image.load(img_file_back).convert(), (win_width, win_height)) 
+
+# список всех персонажей игры:
+all_sprites = pg.sprite.Group()
+# список препятствий:
+barriers = pg.sprite.Group()
+# список врагов:
+enemies = pg.sprite.Group()
+# список мин:
+bombs = pg.sprite.Group()
+
 # Классы
 # класс для цели (стоит и ничего не делает)
-class FinalSprite(pygame.sprite.Sprite):
+class FinalSprite(pg.sprite.Sprite):
   # конструктор класса
   def __init__(self, player_image, player_x, player_y, player_speed):
       # Вызываем конструктор класса (Sprite):
-      pygame.sprite.Sprite.__init__(self)
+      pg.sprite.Sprite.__init__(self)
 
       # каждый спрайт должен хранить свойство image - изображение
-      self.image = pygame.transform.scale(pygame.image.load(player_image), (60, 120))
+      self.image = pg.transform.scale(pg.image.load(player_image), (60, 120))
       self.speed = player_speed
 
       # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
@@ -20,11 +39,11 @@ class FinalSprite(pygame.sprite.Sprite):
       self.rect.x = player_x
       self.rect.y = player_y
       
-class Hero(pygame.sprite.Sprite):
+class Hero(pg.sprite.Sprite):
     def __init__(self, filename, x_speed=0, y_speed=0, x=x_start, y=y_start, width=120, height=120):
-        pygame.sprite.Sprite.__init__(self)
+        pg.sprite.Sprite.__init__(self)
         # картинка загружается из файла и умещается в прямоугольник нужных размеров:
-        self.image = pygame.transform.scale(pygame.image.load(filename), (width, height)).convert_alpha() 
+        self.image = pg.transform.scale(pg.image.load(filename), (width, height)).convert_alpha() 
                     # используем convert_alpha, нам надо сохранять прозрачность
 
         # каждый спрайт должен хранить свойство rect - прямоугольник. Это свойство нужно для определения касаний спрайтов. 
@@ -50,7 +69,7 @@ class Hero(pygame.sprite.Sprite):
         # сначала движение по горизонтали
         self.rect.x += self.x_speed
         # если зашли за стенку, то встанем вплотную к стене
-        platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+        platforms_touched = pg.sprite.spritecollide(self, barriers, False)
         if self.x_speed > 0: # идем направо, правый край персонажа - вплотную к левому краю стены
             for p in platforms_touched:
                 self.rect.right = min(self.rect.right, p.rect.left) # если коснулись сразу нескольких, то правый край - минимальный из возможных
@@ -62,7 +81,7 @@ class Hero(pygame.sprite.Sprite):
         self.gravitate()
         self.rect.y += self.y_speed
         # если зашли за стенку, то встанем вплотную к стене
-        platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+        platforms_touched = pg.sprite.spritecollide(self, barriers, False)
         if self.y_speed > 0: # идем вниз
             for p in platforms_touched:
                 self.y_speed = 0 
@@ -76,11 +95,11 @@ class Hero(pygame.sprite.Sprite):
                 self.y_speed = 0  # при столкновении со стеной вертикальная скорость гасится
                 self.rect.top = max(self.rect.top, p.rect.bottom) # выравниваем верхний край по нижним краям стенок, на которые наехали
 
-class Wall(pygame.sprite.Sprite):
+class Wall(pg.sprite.Sprite):
     def __init__(self, x=20, y=0, width=120, height=120, color=C_GREEN):
-        pygame.sprite.Sprite.__init__(self)
+        pg.sprite.Sprite.__init__(self)
         # картинка - новый прямоугольник нужных размеров:
-        self.image = pygame.Surface([width, height])
+        self.image = pg.Surface([width, height])
         self.image.fill(color)
 
         # создаем свойство rect 
@@ -88,11 +107,11 @@ class Wall(pygame.sprite.Sprite):
         self.rect.x = x 
         self.rect.y = y
 
-class Enemy(pygame.sprite.Sprite): # враг
+class Enemy(pg.sprite.Sprite): # враг
     def __init__(self, x=20, y=0, filename=img_file_enemy, width=100, height=100):
-        pygame.sprite.Sprite.__init__(self)
+        pg.sprite.Sprite.__init__(self)
 
-        self.image = pygame.transform.scale(pygame.image.load(filename), (width, height)).convert_alpha()
+        self.image = pg.transform.scale(pg.image.load(filename), (width, height)).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x 
         self.rect.y = y

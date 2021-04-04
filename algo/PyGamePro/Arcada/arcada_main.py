@@ -1,17 +1,7 @@
 # Подключить нужные модули
-import pygame 
+import pygame as pg
 
 from arcada_sprites import *
-
-pygame.init() 
-# во время игры пишем надписи размера 72
-font = pygame.font.Font(None, 72)
-
-# Запуск игры
-pygame.display.set_caption("ARCADA") 
-window = pygame.display.set_mode([win_width, win_height])
-
-back = pygame.transform.scale(pygame.image.load(img_file_back).convert(), (win_width, win_height)) 
 
 # Основной цикл игры:
 run = True 
@@ -19,21 +9,21 @@ finished = False
 
 while run:
     # Обработка событий
-    for event in pygame.event.get(): 
-        if event.type == pygame.QUIT: 
+    for event in pg.event.get(): 
+        if event.type == pg.QUIT: 
             run = False 
-        elif event.type == pygame.KEYDOWN: 
-            if event.key == pygame.K_LEFT:
+        elif event.type == pg.KEYDOWN: 
+            if event.key == pg.K_LEFT:
                 robin.x_speed = -5 
-            elif event.key == pygame.K_RIGHT:
+            elif event.key == pg.K_RIGHT:
                 robin.x_speed = 5 
-            elif event.key == pygame.K_UP:
+            elif event.key == pg.K_UP:
                 robin.jump(-7)
 
-        elif event.type == pygame.KEYUP: 
-            if event.key == pygame.K_LEFT:
+        elif event.type == pg.KEYUP: 
+            if event.key == pg.K_LEFT:
                 robin.x_speed = 0
-            elif event.key == pygame.K_RIGHT:
+            elif event.key == pg.K_RIGHT:
                 robin.x_speed = 0
 
     if not finished:
@@ -42,11 +32,11 @@ while run:
 
         # дальше проверки правил игры
         # проверяем касание с бомбами:
-        pygame.sprite.groupcollide(bombs, all_sprites, True, True) 
+        pg.sprite.groupcollide(bombs, all_sprites, True, True) 
                 # если бомба коснулась спрайта, то она убирается из списка бомб, а спрайт - из all_sprites!
 
         # проверяем касание героя с врагами:
-        if pygame.sprite.spritecollide(robin, enemies, False):
+        if pg.sprite.spritecollide(robin, enemies, False):
             robin.kill() # метод kill убирает спрайт из всех групп, в которых он числится
 
         # проверяем границы экрана: 
@@ -76,7 +66,7 @@ while run:
         bombs.draw(window)
 
         # проверка на выигрыш и на проигрыш:
-        if pygame.sprite.collide_rect(robin, pr):
+        if pg.sprite.collide_rect(robin, pr):
             finished = True
             window.fill(C_BLACK)
             # пишем текст на экране
@@ -91,7 +81,7 @@ while run:
             text = font.render("GAME OVER", 1, C_RED)
             window.blit(text, (250, 250))
 
-    pygame.display.update() 
+    pg.display.update() 
 
     # Пауза
-    pygame.time.delay(20)
+    pg.time.delay(20)
