@@ -15,9 +15,12 @@ img_back = "galaxy.jpg" # фон игры
 img_hero = "rocket.png" # герой
 img_enemy = "ufo.png" # враг
 
+score = 0 # сбито кораблей
+lost = 0 # пропущено кораблей
+
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
-  # конструктор класса
+    # конструктор класса
     def __init__(self, player_image, x, y, size_x, size_y, speed):
         # Вызываем конструктор класса (Sprite):
         super().__init__()
@@ -31,7 +34,7 @@ class GameSprite(sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
  
-  # метод, отрисовывающий героя на окне
+    # метод, отрисовывающий героя на окне
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -74,8 +77,9 @@ size_x, size_y = 80, 100
 ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, size_y=size_y, speed=10)
 monsters = sprite.Group()
 for i in range(1, 8):
+    scale = randint(90,200)
     monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
-                            size_x=80, size_y=50, speed=randint(1, 5))
+                    size_x=int(50 * scale / 100), size_y=int(30 * scale / 100), speed=randint(1, 5))
     monsters.add(monster)
 # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
 finish = False
