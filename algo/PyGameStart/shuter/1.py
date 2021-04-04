@@ -1,17 +1,19 @@
 import os
 from pygame import *
+from random import randint
 
 #фоновая музыка
 mixer.init()
 mixer.music.load('space.ogg')
 mixer.music.set_volume(0.1)
 mixer.music.play()
-fire_sound = mixer.Sound('fire.ogg')
+fire_sound = mixer.Sound('laser-blast.ogg')
 fire_sound.set_volume(0.3)
 
 # нам нужны такие картинки:
 img_back = "galaxy.jpg" # фон игры
 img_hero = "rocket.png" # герой
+img_enemy = "ufo.png" # враг
 
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
@@ -42,10 +44,23 @@ class Player(GameSprite):
             self.rect.x -= self.speed
         if keys[K_RIGHT] and self.rect.x < win_width - 80:
             self.rect.x += self.speed
-  # метод "выстрел" (используем место игрока, чтобы создать там пулю)
+    # метод "выстрел" (используем место игрока, чтобы создать там пулю)
     def fire(self):
-        pass
-os.environ['SDL_VIDEO_CENTERED'] = '1'
+        fire_sound.play()
+
+# класс спрайта-врага   
+class Enemy(GameSprite):
+    # движение врага
+    def update(self):
+        self.rect.y += self.speed
+        global lost
+        # исчезает, если дойдет до края экрана
+        if self.rect.y > win_height:
+            self.rect.x = randint(80, win_width - 80)
+            self.rect.y = 0
+            lost = lost + 1
+
+os.environ['SDL_VIDEO_CENTERED'] = '1' # вывод окна на центр экрана
 init()
 # Создаем окошко
 win_width = 1200
@@ -55,8 +70,13 @@ window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
 
 # создаем спрайты
-ship = Player(img_hero, x=5, y=win_height - 100, size_x=80, size_y=100, speed=10)
-
+size_x, size_y = 80, 100
+ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, size_y=size_y, speed=10)
+monsters = sprite.Group()
+for i in range(1, 8):
+    monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
+                            size_x=80, size_y=50, speed=randint(1, 5))
+    monsters.add(monster)
 # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
 finish = False
 # Основной цикл игры:
@@ -66,17 +86,18 @@ while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
+        if e.type == KEYDOWN and e.key == K_SPACE:
+            ship.fire()
 
     if not finish:
         # обновляем фон
         window.blit(background,(0,0))
-
         # производим движения спрайтов
         ship.update()
-
+        monsters.update()
         # обновляем их в новом местоположении при каждой итерации цикла
         ship.reset()
-
+        monsters.draw(window)
         display.update()
     # цикл срабатывает каждую 0.05 секунд
     time.delay(50)

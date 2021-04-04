@@ -96,7 +96,8 @@ window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
 
 # создаем спрайты
-ship = Player(img_hero, x=5, y=win_height - 100, size_x=80, size_y=100, speed=10)
+size_x, size_y = 80, 100
+ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, size_y=size_y, speed=10)
 bullets = sprite.Group()
 monsters = sprite.Group()
 for i in range(1, 8):
