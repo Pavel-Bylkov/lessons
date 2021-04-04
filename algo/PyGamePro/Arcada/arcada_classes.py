@@ -26,24 +26,33 @@ bombs = pg.sprite.Group()
 # класс для цели (стоит и ничего не делает)
 class FinalSprite(pg.sprite.Sprite):
   # конструктор класса
-  def __init__(self, player_image, player_x, player_y, player_speed):
+  def __init__(self, player_image, x, y, speed):
       # Вызываем конструктор класса (Sprite):
-      pg.sprite.Sprite.__init__(self)
+      super().__init__()
 
       # каждый спрайт должен хранить свойство image - изображение
       self.image = pg.transform.scale(pg.image.load(player_image), (60, 120))
-      self.speed = player_speed
+      self.speed = speed
 
       # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
       self.rect = self.image.get_rect()
-      self.rect.x = player_x
-      self.rect.y = player_y
+      self.rect.x = x
+      self.rect.y = y
       
 class Hero(pg.sprite.Sprite):
     def __init__(self, filename, x_speed=0, y_speed=0, x=x_start, y=y_start, width=120, height=120):
         pg.sprite.Sprite.__init__(self)
+        # создаем свойства, запоминаем переданные значения:
+        self.x_speed = x_speed
+        self.y_speed = y_speed
+        self.direction = 1
+        if self.x_speed < 0:
+            self.direction = -1
         # картинка загружается из файла и умещается в прямоугольник нужных размеров:
-        self.image = pg.transform.scale(pg.image.load(filename), (width, height)).convert_alpha() 
+        self.costumes = [pg.transform.scale(pg.image.load(filename), (width, height)).convert_alpha()]
+        # добавляем копию отраженную по оси X, картинка смотрит влево
+        self.costumes.append(pg.transform.flip(self.costumes[0], True, False))
+        self.image =  self.costumes[0] if self.direction > 0 else self.costumes[1]
                     # используем convert_alpha, нам надо сохранять прозрачность
 
         # каждый спрайт должен хранить свойство rect - прямоугольник. Это свойство нужно для определения касаний спрайтов. 
@@ -51,9 +60,7 @@ class Hero(pg.sprite.Sprite):
         # ставим персонажа в переданную точку (x, y):
         self.rect.x = x 
         self.rect.y = y
-        # создаем свойства, запоминаем переданные значения:
-        self.x_speed = x_speed
-        self.y_speed = y_speed
+        
         # добавим свойство stands_on - это та платформа, на которой стоит персонаж
         self.stands_on = False # если ни на какой не стоит, то значение - False
 
@@ -66,6 +73,12 @@ class Hero(pg.sprite.Sprite):
 
     def update(self):
         ''' перемещает персонажа, применяя текущую горизонтальную и вертикальную скорость'''
+        # поворот картинки
+        if self.x_speed < 0:
+            self.direction = -1
+        if self.x_speed > 0:
+            self.direction = 1
+        self.image =  self.costumes[0] if self.direction > 0 else self.costumes[1]
         # сначала движение по горизонтали
         self.rect.x += self.x_speed
         # если зашли за стенку, то встанем вплотную к стене
@@ -115,8 +128,19 @@ class Enemy(pg.sprite.Sprite): # враг
         self.rect = self.image.get_rect()
         self.rect.x = x 
         self.rect.y = y
+        self.side = "left"*randint(0, 1)
+        self.left = x - 50
+        self.right = x + 50
+        self.speed = 2
 
     def update(self):
         ''' перемещает персонажа, применяя текущую горизонтальную и вертикальную скорость'''
-        self.rect.x += randint(-5, 5)
-        self.rect.y += randint(-5, 5)
+        if self.rect.x <= self.left:
+            self.side = "right"
+        if self.rect.x >= self.right:
+            self.side = "left"
+        if self.side == "left":
+            self.rect.x -= self.speed
+        else:
+            self.rect.x += self.speed
+
