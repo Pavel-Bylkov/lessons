@@ -5,6 +5,7 @@ from time import time as time_t
 def config(): 
     global img_win, img_los, img_back, img_bullet, img_hero, img_enemy, size_x_enemy, size_y_enemy
     global img_bum, win_width, win_height, score, goal, lost, max_lost, last_time, pause_fire
+    global sound_fire, sound_bum, sound_fon
     # нам нужны такие картинки:
     img_win = "thumb.jpg" # фон победы
     img_los = "gameover.png" # фон проигрыша
@@ -15,6 +16,10 @@ def config():
     img_enemy = "ufo.png" # враг
     img_bum = "Взрыв4.png" # взрыв
     size_x_enemy, size_y_enemy = 80, 50
+
+    sound_fire = "laser-blast.ogg"
+    sound_bum = "bum.ogg"
+    sound_fon = "space.ogg"
 
     win_width = 900
     win_height = 600 
@@ -77,6 +82,7 @@ class Player(GameSprite):
         self.bullets.update()
     # метод "выстрел" (используем место игрока, чтобы создать там пулю)
     def fire(self):
+        fire_sound.play()
         bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.top, size_x=15, size_y=20, speed=15, direction=self.direction)
         self.bullets.add(bullet)
     def reset(self):
@@ -116,9 +122,10 @@ class Enemy(GameSprite):
             self.armor = 3
 
     def fire(self):
-      bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.bottom,
+        fire_sound.play()
+        bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.bottom,
                     size_x=20, size_y=15, speed=self.speed + 7, direction=self.direction)
-      enemy_bullets.add(bullet)
+        enemy_bullets.add(bullet)
  
 # класс спрайта-пули   
 class Bullet(GameSprite):
@@ -168,7 +175,7 @@ background = transform.scale(image.load(img_back), (win_width, win_height))
  
 # создаем спрайты
 size_x_sh, size_y_sh = 60, 80
-ship = Player(img_hero, x=5, y=win_height - 100,
+ship = Player(img_hero, x=win_width//2, y=win_height - 100,
                 size_x=size_x_sh, size_y=size_y_sh, speed=10, direction=-1)
  
 # создание группы спрайтов-врагов
@@ -180,6 +187,15 @@ for _ in range(6):
   monsters.add(monster)
 bums = sprite.Group()
 
+# насторойка звуков
+mixer.init()
+mixer.music.load(sound_fon)
+mixer.music.set_volume(0.1)
+mixer.music.play()
+fire_sound = mixer.Sound(sound_fire)
+bum_sound = mixer.Sound(sound_bum)
+fire_sound.set_volume(0.3)
+bum_sound.set_volume(0.3)
 # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
 finish = False
 clock = time.Clock()
@@ -219,6 +235,7 @@ while run:
         for c in collides:
             bum = Bum(c.rect.centerx, c.rect.centery)
             bums.add(bum)
+            bum_sound.play()
             # этот цикл повторится столько раз, сколько монстров подбито
             score = score + 1
             monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
@@ -248,5 +265,5 @@ while run:
             window.blit(img, (0, 0))
     
         display.update()
-    # цикл срабатывает каждую 0.05 секунд
+    # цикл срабатывает c частотой FPS - кадров в секнуду
     clock.tick(FPS)

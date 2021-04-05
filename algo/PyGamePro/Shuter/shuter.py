@@ -22,18 +22,18 @@ max_lost = 3 # проиграли, если пропустили столько
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
    # конструктор класса
-   def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
+   def __init__(self, player_image, x, y, size_x, size_y, speed):
        # Вызываем конструктор класса (Sprite):
-       sprite.Sprite.__init__(self)
+       super().__init__()
 
        # каждый спрайт должен хранить свойство image - изображение
        self.image = transform.scale(image.load(player_image), (size_x, size_y))
-       self.speed = player_speed
+       self.speed = speed
 
        # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
        self.rect = self.image.get_rect()
-       self.rect.x = player_x
-       self.rect.y = player_y
+       self.rect.x = x
+       self.rect.y = y
 
    # метод, отрисовывающий героя на окне
    def reset(self):
