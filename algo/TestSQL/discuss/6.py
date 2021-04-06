@@ -8,7 +8,7 @@ def index():
     # return render_template('index3.html', header="ЭТО ЗАГОЛОВОК", text="Это текст")
     return render_template('index3.html', text="Это текст")
 
-folder = os.getcwd() # запомнили текущую рабочую папку
+folder = os.getcwd() + os.sep + "discuss"   # запомнили текущую рабочую папку
 # Создаём объект веб-приложения:
 app = Flask(__name__, template_folder=folder, static_folder=folder) # первый параметр - имя модуля
                             # параметр с именем static_folder определяет имя папки, содержащей статичные файлы

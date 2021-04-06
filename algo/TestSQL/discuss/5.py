@@ -6,7 +6,7 @@ def index():
     """ функция обрабатывает шаблон и возвращает получившийся документ"""
     return render_template('index2.html', header="ЭТО ЗАГОЛОВОК", text="Это текст")
 
-folder = os.getcwd() # запомнили текущую рабочую папку
+folder = os.getcwd() + os.sep + "discuss"   # запомнили текущую рабочую папку
 # Создаём объект веб-приложения:
 app = Flask(__name__, template_folder=folder, static_folder=folder) # первый параметр - имя модуля
                             # параметр с именем static_folder определяет имя папки, содержащей статичные файлы

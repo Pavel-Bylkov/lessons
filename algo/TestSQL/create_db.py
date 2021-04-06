@@ -55,7 +55,7 @@ def add_questions():
 
 def add_quiz():
     open()
-    cursor.executemany('''INSERT INTO quiz (name,  age_from,  age_to) VALUES (?, ?, ?)''', quizes)
+    cursor.executemany('''INSERT INTO quiz (name, ) VALUES (?, )''', quizes)
     close()
  
 def add_links():

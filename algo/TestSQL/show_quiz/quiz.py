@@ -47,7 +47,7 @@ def result():
     end_quiz()
     return "that's all folks!"
 
-folder = os.getcwd() # запомнили текущую рабочую папку
+folder = os.getcwd() + os.sep + "show_quiz" # запомнили текущую рабочую папку
 # Создаём объект веб-приложения:
 app = Flask(__name__, template_folder=folder, static_folder=folder) # первый параметр - имя модуля
                             # параметр с именем static_folder определяет имя папки, содержащей статичные файлы
