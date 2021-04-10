@@ -134,6 +134,14 @@ while run:
         monsters.draw(window)
         bullets.draw(window)
 
+        collides = sprite.groupcollide(monsters, bullets, False, True)
+        for c in collides:
+            # этот цикл повторится столько раз, сколько монстров подбито
+            score = score + 1
+            c.rect.x = randint(80, win_width - 80)
+            c.rect.y = -40
+            c.speed = randint(1, 5)
+
         display.update()
     # цикл срабатывает каждую 0.05 секунд
     time.delay(50)

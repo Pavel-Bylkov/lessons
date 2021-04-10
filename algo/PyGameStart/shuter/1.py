@@ -1,4 +1,5 @@
-import os
+# import os
+from time import time as time_t
 from pygame import *
 from random import randint
 
@@ -63,18 +64,18 @@ class Enemy(GameSprite):
             self.rect.y = 0
             lost = lost + 1
 
-os.environ['SDL_VIDEO_CENTERED'] = '1' # вывод окна на центр экрана
+# os.environ['SDL_VIDEO_CENTERED'] = '1' # вывод окна на центр экрана
 init()
 # Создаем окошко
-win_width = 1200
-win_height = 800
+win_width, win_height = 1200, 800
 display.set_caption("Shooter")
 window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
 
 # создаем спрайты
 size_x, size_y = 80, 100
-ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, size_y=size_y, speed=10)
+ship = Player(img_hero, x=win_width//2, y=win_height - size_y,
+                        size_x=size_x, size_y=size_y, speed=10)
 monsters = sprite.Group()
 for i in range(1, 8):
     scale = randint(90,200)
@@ -85,6 +86,8 @@ for i in range(1, 8):
 finish = False
 # Основной цикл игры:
 run = True # флаг сбрасывается кнопкой закрытия окна
+clock = time.Clock()
+last_time = time_t()
 while run:
     # событие нажатия на кнопку Закрыть
     for e in event.get():
@@ -104,4 +107,5 @@ while run:
         monsters.draw(window)
         display.update()
     # цикл срабатывает каждую 0.05 секунд
-    time.delay(50)
+    #time.delay(50)
+    clock.tick(30)
