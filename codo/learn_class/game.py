@@ -3,9 +3,15 @@
 Первый - рыцарь, умеет наносить удары, есть броня, уровень здоровья
 Второй - лучник, умеет стрелять, нет брони
 Третий - дракон, умеет наносить удары, нет брони, но много Здоровья
+
+Игра начинается - появляется рыцарь, потом он отправляется в путешествие
+по дороге встречает разбойников в лесу - лучников,
+после сражений с лучниками - увеличивается сила удара и броня,
+в финале встречает дракона и побеждает его.
 """
 from random import randint
 from time import sleep
+
 
 class Character:
     # конструктор класса
@@ -43,6 +49,7 @@ class Character:
         print()
 
     def fight(self, enemy):
+        print("Да начнется битва!")
         while self.health > 0 and enemy.health > 0:
             if randint(1, 2) == 1:
                 self.strike(enemy)
@@ -57,9 +64,38 @@ class Character:
 
 
 
+print("Игра квест начинается...")
+print("В далеком государстве жил был рыцарь по имени ")
+
 knight = Character(name="Richard", health=60, armor=20, power=20, weapon="Меч")
 knight.print_info()
+sleep(3)
+print("Однажды он узнал что где то далеко сверепствует дракон ")
+
 dragon = Character(name="Drago", health=100, armor=5, power=30, weapon="Пламя")
 dragon.print_info()
+print("и отправился на его поиски....")
+sleep(3)
 
-knight.fight(dragon)
+print("Ему предстоит пройти сквозь лес полный разбойиков")
+n = randint(1, 3)
+names = ["РобинГуд", 'Соловей-разбойник', "Петя"]
+while n > 0:
+    print("на рыцаря напал разбойник!!!")
+    robion = Character(name=names[n], health=randint(15, 80), armor=0, power=randint(10, 30), weapon="лук")
+    robion.print_info()
+    robion.fight(knight)
+    if knight.health <= 0:
+        break
+    print("Рыцарь хорошо провел этот бой, и после востановления здоровья и сил, его навыки выросли")
+    knight.armor += randint(5, 15)
+    knight.health += randint(15, 30)
+    knight.power += randint(1, 5)
+    knight.print_info()
+    sleep(3)
+    n -= 1
+
+
+if knight.health > 0:
+    print("И вот среди лесной чащи логово дракона...")
+    knight.fight(dragon)
