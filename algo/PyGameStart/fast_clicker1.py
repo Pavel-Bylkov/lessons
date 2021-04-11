@@ -51,8 +51,21 @@ for i in range(num_cards):
    x = x + 100
  
 while True:
-   for card in cards:
-       card.draw(10, 30)
+    if wait == 0:
+            #переносим надпись:
+            wait = 30 #столько тиков надпись будет на одном месте
+            click = randint(0, num_cards - 1)
+            while last_click == click:
+                click = randint(0, num_cards - 1)
+            last_click = click
+            for i in range(num_cards):
+                cards[i].color(YELLOW)
+                if i == click:
+                    cards[i].draw(10, 40)
+                else:
+                    cards[i].fill()
+    else:
+        wait -= 1
  
-   pygame.display.update()
-   clock.tick(40)  
+    pygame.display.update()
+    clock.tick(40)  
