@@ -8,11 +8,12 @@ mixer.init()
 mixer.music.load('space.ogg')
 mixer.music.set_volume(0.1)
 mixer.music.play()
-fire_sound = mixer.Sound('fire.ogg')
+fire_sound = mixer.Sound('laser-blast.ogg')
 fire_sound.set_volume(0.3)
 
 #шрифты и надписи
 font.init()
+font1 = font.Font(None, 150)
 font2 = font.Font(None, 36)
 
 # цвета
@@ -22,13 +23,18 @@ WHITE_COLOR = (255, 255, 255)
 img_back = "galaxy.jpg" # фон игры
 img_hero = "rocket.png" # герой
 img_enemy = "ufo.png" # враг
-img_bull = "bullet.png"  # пуля
+img_bull = "blaster.png"  # пуля
 
 score = 0 # сбито кораблей
 lost = 0 # пропущено кораблей
+goal = 10 # цель
+max_lost = 3 # проиграли, если пропустили столько
 
 limit_bull = 100  # общее количество пуль
 limit_time = 0.5  # время на перезарядку
+
+def text_update(text, num):
+    return font2.render(text + str(num), 1, WHITE_COLOR)
 
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
@@ -62,8 +68,8 @@ class Player(GameSprite):
     # метод "выстрел" (используем место игрока, чтобы создать там пулю)
     def fire(self):
         fire_sound.play()
-        bullet = Bullet(img_bull, x=self.rect.centerx, y=self.rect.top,
-                                size_x=15, size_y=20, speed=15)
+        bullet = Bullet(img_bull, x=self.rect.centerx-15, y=self.rect.top,
+                                size_x=30, size_y=40, speed=15)
         bullets.add(bullet)
 
 # класс спрайта-врага   
@@ -75,7 +81,7 @@ class Enemy(GameSprite):
         # исчезает, если дойдет до края экрана
         if self.rect.y > win_height:
             self.rect.x = randint(80, win_width - 80)
-            self.rect.y = 0
+            self.rect.y = randint(-80, - 8) * 10
             lost = lost + 1
 
 # класс спрайта-пули   
@@ -100,8 +106,8 @@ size_x, size_y = 80, 100
 ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, size_y=size_y, speed=10)
 bullets = sprite.Group()
 monsters = sprite.Group()
-for i in range(1, 8):
-    monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
+for i in range(1, 15):
+    monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=randint(-80, - 8) * 10,
                             size_x=80, size_y=50, speed=randint(1, 5))
     monsters.add(monster)
 
@@ -125,10 +131,8 @@ while run:
         # обновляем фон
         window.blit(background,(0,0))
         # пишем текст на экране
-        text = font2.render("Счет: " + str(score), 1, WHITE_COLOR)
-        window.blit(text, (10, 20))
-        text_lose = font2.render("Пропущено: " + str(lost), 1, WHITE_COLOR)
-        window.blit(text_lose, (10, 50))
+        window.blit(text_update("Счет: ", score), (10, 20))
+        window.blit(text_update("Пропущено: ", lost), (10, 50))
         # производим движения спрайтов
         ship.update()
         bullets.update()
@@ -137,15 +141,21 @@ while run:
         ship.reset()
         bullets.draw(window)
         monsters.draw(window)
-
         # проверка столкновения пули и монстров (и монстр, и пуля при касании исчезают)
         collides = sprite.groupcollide(monsters, bullets, False, True)
         for c in collides:
             # этот цикл повторится столько раз, сколько монстров подбито
             score = score + 1
             c.rect.x = randint(80, win_width - 80)
-            c.rect.y = -40
+            c.rect.y = randint(-80, - 8) * 10
             c.speed = randint(1, 5)
+        
+        if score >= goal:
+            finish = True
+            pass
+        if lost >= max_lost or sprite.spritecollide(ship, monsters, False):
+            finish = True
+            pass
 
         display.update()
     # цикл срабатывает каждую 0.05 секунд

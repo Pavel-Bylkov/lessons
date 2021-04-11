@@ -1,6 +1,7 @@
 from pygame import *
 from random import randint
 from time import time as time_t
+
 # подгружаем отдельно функции для работы со шрифтом
 font.init()
 font1 = font.Font(None, 100)
@@ -19,12 +20,14 @@ fire_sound.set_volume(0.3)
 
 # нам нужны такие картинки:
 img_back = "galaxy.jpg" # фон игры
- 
 img_bullet = "bullet.png" # пуля
 img_hero = "rocket.png" # герой
 img_enemy = "ufo.png" # враг
 img_bum = "Взрыв4.png"  # взрыв
- 
+
+# цвета
+WHITE_COLOR = (255, 255, 255)
+
 score = 0 # сбито кораблей
 goal = 10 # столько кораблей нужно сбить для победы
 lost = 0 # пропущено кораблей
@@ -32,7 +35,11 @@ max_lost = 3 # проиграли, если пропустили столько
 
 limit_bull = 100  # общее количество пуль
 limit_time = 0.5  # время на перезарядку
- 
+
+
+def text_update(text, num):
+    return font2.render(text + str(num), 1, WHITE_COLOR)
+
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
   # конструктор класса
@@ -157,14 +164,9 @@ while run:
         window.blit(background,(0,0))
 
         # пишем текст на экране
-        text = font2.render("Счет: " + str(score), 1, (255, 255, 255))
-        window.blit(text, (10, 20))
-
-        text_lose = font2.render("Пропущено: " + str(lost), 1, (255, 255, 255))
-        window.blit(text_lose, (10, 50))
-
-        text_bull = font2.render("Пули: " + str(limit_bull), 1, (255, 255, 255))
-        window.blit(text_bull, (10, 80))
+        window.blit(text_update("Счет: ", score), (10, 20))
+        window.blit(text_update("Пропущено: ", lost), (10, 50))
+        window.blit(text_update("Пули: ", limit_bull), (10, 80))
 
         # производим движения спрайтов
         ship.update()
