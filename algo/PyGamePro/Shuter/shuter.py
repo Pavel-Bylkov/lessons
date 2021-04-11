@@ -25,11 +25,9 @@ class GameSprite(sprite.Sprite):
    def __init__(self, player_image, x, y, size_x, size_y, speed):
        # Вызываем конструктор класса (Sprite):
        super().__init__()
-
        # каждый спрайт должен хранить свойство image - изображение
        self.image = transform.scale(image.load(player_image), (size_x, size_y))
        self.speed = speed
-
        # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
        self.rect = self.image.get_rect()
        self.rect.x = x
@@ -76,7 +74,7 @@ class Bullet(GameSprite):
 # Создаем окошко
 win_width = 700
 win_height = 500
-display.set_caption("Лабиринт")
+display.set_caption("Shuter")
 window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
 

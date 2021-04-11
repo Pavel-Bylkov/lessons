@@ -11,7 +11,7 @@ def config():
     img_los = "gameover.png" # фон проигрыша
     img_back = "galaxy.jpg" # фон игры
     
-    img_bullet = "bullet.png" # пуля
+    img_bullet = "камета.png" # пуля
     img_hero = "rocket.png" # герой
     img_enemy = "ufo.png" # враг
     img_bum = "Взрыв4.png" # взрыв
@@ -128,7 +128,7 @@ class Enemy(GameSprite):
         enemy_bullets.add(bullet)
  
 # класс спрайта-пули   
-class Bullet(GameSprite):
+class Bullet(GameSprite): 
   # движение врага
   def update(self):
       self.rect.y += self.speed * self.direction
