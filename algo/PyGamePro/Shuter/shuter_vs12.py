@@ -182,9 +182,11 @@ ship = Player(img_hero, x=win_width//2, y=win_height - 100,
 monsters = sprite.Group()
 enemy_bullets = sprite.Group()
 for _ in range(6):
-  monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
-                    size_x=size_x_enemy, size_y=size_y_enemy, speed=randint(1, 5), direction=1)
-  monsters.add(monster)
+    size_scale = randint(6, 11)*10
+    monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
+            size_x=size_x_enemy*size_scale//100, size_y=size_y_enemy*size_scale//100,
+            speed=randint(1, 5), direction=1)
+    monsters.add(monster)
 bums = sprite.Group()
 
 # насторойка звуков
