@@ -5,7 +5,8 @@ pygame.init()
  
 '''создаём окно программы'''
 back = (200, 255, 255) #цвет фона (background)
-mw = pygame.display.set_mode((800, 500)) #окно программы (main window)
+win_width, win_height = 800, 500
+mw = pygame.display.set_mode((win_width, win_height)) #окно программы (main window)
 mw.fill(back)
 clock = pygame.time.Clock()
  
@@ -47,25 +48,31 @@ num_cards = 4
 x = 170
  
 for i in range(num_cards):
-   new_card = Label(x=x, y=170, width=100, heigh=100, color=YELLOW)
+   new_card = Label(x=x, y=170, width=100, height=100, color=YELLOW)
    new_card.outline(frame_color=BLUE, thickness=10)
    new_card.set_text(text='CLICK', fsize=26)
    cards.append(new_card)
    x = x + 120
  
 # счётчики времени и очков
-time_text = Label(x=0, y=0, width=50, heigh=50, color=back)
+time_text = Label(x=0, y=0, width=50, height=50, color=back)
 time_text.set_text(text='Время:',fsize=40, text_color=DARK_BLUE)
 time_text.draw(shift_x=20, shift_y=20)
  
-score_text = Label(x=600, y=0, width=50, heigh=50, color=back)
+score_text = Label(x=600, y=0, width=50, height=50, color=back)
 score_text.set_text(text='Счёт:',fsize=45, text_color=DARK_BLUE)
 score_text.draw(shift_x=20, shift_y=20)
  
-timer = Label(x=50, y=60, width=50, heigh=40, color=back)
+timer = Label(x=50, y=60, width=50, height=40, color=back)
 timer.start_time = time.time() 
 score = Label(x=650, y=60, width=50, height=40, color=back)
 score.num = 0
+
+win = Label(x=0, y=0, width=win_width, height=win_height, color=GREEN)
+win.set_text(text='Победа!!!',fsize=90, text_color=DARK_BLUE)
+
+lose = Label(x=0, y=0, width=win_width, height=win_height, color=RED)
+lose.set_text(text='Время вышло!!!',fsize=90, text_color=DARK_BLUE)
 
 wait = 0
 last_click = 0
@@ -73,7 +80,7 @@ run = True
 while run:
     if wait == 0:
         #переносим надпись:
-        wait = 25 #столько тиков надпись будет на одном месте
+        wait = 26 #столько тиков надпись будет на одном месте
         click = randint(0, num_cards - 1)
         while last_click == click:
             click = randint(0, num_cards - 1)
@@ -101,12 +108,19 @@ while run:
                         score.num += 1
                     else: #иначе перекрашиваем в красный, минус очко
                         cards[i].color(new_color=RED)
+                        if score.num > 0:
+                            score.num -= 1
                         cards[i].fill()
     
     score.set_text(text=str(score.num), fsize=40, text_color=DARK_BLUE)
     score.draw(shift_x=0, shift_y=0)
-    timer.set_text(text=str(int(time.time() - timer.start_time)), fsize=40, text_color=DARK_BLUE)
+    timer.curent_time = time.time() - timer.start_time
+    timer.set_text(text=str(int(timer.curent_time)), fsize=40, text_color=DARK_BLUE)
     timer.draw(shift_x=0, shift_y=0)
     
+    if timer.curent_time > 10 and score.num < 5:    # Условие Поражения
+        lose.draw(shift_x=100, shift_y=170)
+    elif score.num >= 5:                            # Условие Победы
+        win.draw(shift_x=200, shift_y=170)
     pygame.display.update()
     clock.tick(40)           
