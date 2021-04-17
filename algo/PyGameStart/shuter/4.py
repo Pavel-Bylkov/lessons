@@ -17,6 +17,8 @@ mixer.music.set_volume(0.1)
 mixer.music.play()
 fire_sound = mixer.Sound('laser-blast.ogg')
 fire_sound.set_volume(0.3)
+bum_sound = mixer.Sound('boom.ogg')
+bum_sound.set_volume(0.2)
 
 # нам нужны такие картинки:
 img_back = "galaxy.jpg" # фон игры
@@ -28,17 +30,20 @@ img_bum = "Взрыв4.png"  # взрыв
 # цвета
 WHITE_COLOR = (255, 255, 255)
 
+win_width = 1200
+win_height = 800
 score = 0 # сбито кораблей
 goal = 10 # столько кораблей нужно сбить для победы
 lost = 0 # пропущено кораблей
 max_lost = 3 # проиграли, если пропустили столько
 
 limit_bull = 100  # общее количество пуль
-limit_time = 0.5  # время на перезарядку
+limit_time = 0.4  # время на перезарядку
 
 
-def text_update(text, num):
-    return font2.render(text + str(num), 1, WHITE_COLOR)
+def text_update(text, num, pos):
+    text_img = font2.render(text + str(num), 1, WHITE_COLOR)
+    window.blit(text_img, pos)
 
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
@@ -72,7 +77,7 @@ class Player(GameSprite):
   # метод "выстрел" (используем место игрока, чтобы создать там пулю)
     def fire(self):
         fire_sound.play()
-        bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
+        bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.top, size_x=15, size_y=20, speed=-15)
         bullets.add(bullet)
 
 # класс спрайта-врага   
@@ -112,6 +117,7 @@ class Bum(sprite.Sprite):
         self.rect.centery = y
         self.i = 1
         self.last_time = time_t()
+        bum_sound.play()
     def update(self):
         if self.i < len(self.bum_img) and time_t() - self.last_time > 0.15:
             x, y = self.rect.centerx, self.rect.centery
@@ -122,28 +128,68 @@ class Bum(sprite.Sprite):
         elif self.i == len(self.bum_img):
             self.kill()
 
+class Scaner(sprite.Sprite):
+    def __init__(self, x) -> None:
+        super().__init__()
+        self.image = Surface((10,win_height))
+        self.image.fill((0, 0, 0))
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.y = 0
+
+class Boss(GameSprite):
+    def __init__(self, boss_image, x, y, size_x, size_y, speed):
+        super().__init__(boss_image, x, y, size_x, size_y, speed)
+        self.scaner = Scaner(x + size_x//2)
+        self.right = win_width - 100
+        self.left = 100
+        self.direction = "right"*randint(0,1) or "left"
+        self.health = 10
+        self.last_shot = time_t()
+        self.bulletes = sprite.Group()
+    def update(self):
+        if sprite.collide_rect(self.scaner, ship) and time_t() - self.last_shot > 0.3:
+            self.fire()
+            self.last_shot = time_t()
+        if self.direction == 'left' and self.rect.x <= self.left:
+            self.direction = "right"
+        elif self.direction == 'right' and self.rect.x >= self.right:
+            self.direction = "left"
+
+        if self.direction == "left":
+            self.rect.x -= self.speed
+        elif self.direction == "right":
+            self.rect.x += self.speed
+        self.scaner.rect.centerx = self.rect.centerx
+    # метод "выстрел" (используем место игрока, чтобы создать там пулю)
+    def fire(self):
+        fire_sound.play()
+        bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.bottom, size_x=15, size_y=20, speed=17)
+        self.bulletes.add(bullet)
+
 # Создаем окошко
-win_width = 1400
-win_height = 800
 display.set_caption("Shooter")
 window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
  
 # создаем спрайты
-ship = Player(img_hero, 5, win_height - 100, 80, 100, 10)
+ship = Player(img_hero, x=5, y=win_height - 100, size_x=80, size_y=100, speed=10)
  
 # создание группы спрайтов-врагов
 monsters = sprite.Group()
 for i in range(1, 6):
-    monster = Enemy(img_enemy, randint(80, win_width - 80), -40, 80, 50, randint(1, 5))
+    monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
+                            size_x=80, size_y=50, speed=randint(1, 5))
     monsters.add(monster)
- 
+
+boss = Boss(img_enemy, x=win_width//2, y=70, size_x=120, size_y=80, speed=12)
 bullets = sprite.Group()
 bums = sprite.Group()
 
 last_time = time_t() 
 # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
 finish = False
+final = False
 # Основной цикл игры:
 run = True # флаг сбрасывается кнопкой закрытия окна
 while run:
@@ -164,45 +210,60 @@ while run:
         window.blit(background,(0,0))
 
         # пишем текст на экране
-        window.blit(text_update("Счет: ", score), (10, 20))
-        window.blit(text_update("Пропущено: ", lost), (10, 50))
-        window.blit(text_update("Пули: ", limit_bull), (10, 80))
+        text_update("Счет: ", score, (10, 20))
+        text_update("Пропущено: ", lost, (10, 50))
+        text_update("Пули: ", limit_bull, (10, 80))
 
         # производим движения спрайтов
         ship.update()
-        monsters.update()
         bullets.update()
         bums.update()
+        if final:
+            boss.update()
+            boss.reset()
+            boss.bulletes.update()
+            boss.bulletes.draw(window)
+            text_update("Boss: ", boss.health, (win_width - 150, 20))
 
-        # обновляем их в новом местоположении при каждой итерации цикла
-        ship.reset()
+        monsters.update()
         monsters.draw(window)
-        bullets.draw(window)
-        bums.draw(window)
- 
         # проверка столкновения пули и монстров (и монстр, и пуля при касании исчезают)
         collides = sprite.groupcollide(monsters, bullets, False, True)
         for c in collides:
             # этот цикл повторится столько раз, сколько монстров подбито
             score = score + 1
             bums.add(Bum(x=c.rect.centerx, y=c.rect.centery))
-            c.rect.x = randint(80, win_width - 80)
-            c.rect.y = -40
-            c.speed = randint(1, 5)
+            if not final:
+                c.rect.x = randint(80, win_width - 80)
+                c.rect.y = -40
+                c.speed = randint(1, 5)
+            else:
+                c.kill()
+
+        # обновляем их в новом местоположении при каждой итерации цикла
+        ship.reset()
+        bullets.draw(window)
+        bums.draw(window)
+
+        if final and boss.health > 0 and sprite.spritecollide(boss, bullets, True):
+            boss.health -= 1
+            bums.add(Bum(x=boss.rect.centerx, y=boss.rect.bottom))
 
         # возможный проигрыш: пропустили слишком много или герой столкнулся с врагом
-        if sprite.spritecollide(ship, monsters, False) or lost >= max_lost:
+        if (sprite.spritecollide(ship, monsters, False) or lost >= max_lost or
+                sprite.spritecollide(ship, boss.bulletes, True)):
             finish = True # проиграли, ставим фон и больше не управляем спрайтами.
             window.blit(lose, (win_width//2 - 150, win_height//2 - 50))
 
         # проверка выигрыша: сколько очков набрали?
         if score >= goal:
+            final = True
+
+        if boss.health <= 0:
             finish = True
             # пишем текст на экране
-            display.update()
             window.blit(background,(0,0))
-            text = font2.render("Счет: " + str(score), 1, (255, 255, 255))
-            window.blit(text, (10, 20))
+            text_update("Счет: ", score, (10, 20))
             window.blit(win, (win_width//2 - 150,  win_height//2 - 50))
 
         display.update()
