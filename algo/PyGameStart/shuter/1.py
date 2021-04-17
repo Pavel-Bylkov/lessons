@@ -99,10 +99,10 @@ while run:
         window.blit(background,(0,0))
         # производим движения спрайтов
         ship.update()
-        # monsters.update()
+        monsters.update()
         # обновляем их в новом местоположении при каждой итерации цикла
         ship.reset()
-        #monsters.draw(window)
+        monsters.draw(window)
         display.update()
     # цикл срабатывает каждую 0.05 секунд
     #time.delay(50)

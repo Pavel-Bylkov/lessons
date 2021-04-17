@@ -30,8 +30,7 @@ img_bum = "Взрыв4.png"  # взрыв
 # цвета
 WHITE_COLOR = (255, 255, 255)
 
-win_width = 1200
-win_height = 800
+win_width, win_height = 1200, 800
 score = 0 # сбито кораблей
 goal = 10 # столько кораблей нужно сбить для победы
 lost = 0 # пропущено кораблей
@@ -89,7 +88,7 @@ class Enemy(GameSprite):
         # исчезает, если дойдет до края экрана
         if self.rect.y > win_height:
             self.rect.x = randint(80, win_width - 80)
-            self.rect.y = 0
+            self.rect.y = randint(-80, - 8) * 10
             lost = lost + 1
  
 # класс спрайта-пули   
@@ -178,8 +177,9 @@ ship = Player(img_hero, x=5, y=win_height - 100, size_x=80, size_y=100, speed=10
 # создание группы спрайтов-врагов
 monsters = sprite.Group()
 for i in range(1, 6):
-    monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
-                            size_x=80, size_y=50, speed=randint(1, 5))
+    scale = randint(90,200)
+    monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=randint(-80, - 8) * 10,
+                    size_x=int(50 * scale / 100), size_y=int(30 * scale / 100), speed=randint(1, 5))
     monsters.add(monster)
 
 boss = Boss(img_enemy, x=win_width//2, y=70, size_x=120, size_y=80, speed=12)
@@ -235,7 +235,7 @@ while run:
             bums.add(Bum(x=c.rect.centerx, y=c.rect.centery))
             if not final:
                 c.rect.x = randint(80, win_width - 80)
-                c.rect.y = -40
+                c.rect.y = randint(-80, - 8) * 10
                 c.speed = randint(1, 5)
             else:
                 c.kill()

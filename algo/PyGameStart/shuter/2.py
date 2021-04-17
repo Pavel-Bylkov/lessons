@@ -33,8 +33,8 @@ max_lost = 3 # проиграли, если пропустили столько
 limit_bull = 100  # общее количество пуль
 limit_time = 0.5  # время на перезарядку
 
-def text_update(text, num):
-    return font2.render(text + str(num), 1, WHITE_COLOR)
+def text_update(text, num, pos):
+    window.blit(font2.render(text + str(num), 1, WHITE_COLOR), pos)
 
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
@@ -92,7 +92,7 @@ class Bullet(GameSprite):
         if self.rect.y < 0:
             self.kill()
 
-os.environ['SDL_VIDEO_CENTERED'] = '1'
+#os.environ['SDL_VIDEO_CENTERED'] = '1'
 init()
 # Создаем окошко
 win_width = 1200
@@ -107,8 +107,9 @@ ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, si
 bullets = sprite.Group()
 monsters = sprite.Group()
 for i in range(1, 15):
+    scale = randint(90,200)
     monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=randint(-80, - 8) * 10,
-                            size_x=80, size_y=50, speed=randint(1, 5))
+                    size_x=int(50 * scale / 100), size_y=int(30 * scale / 100), speed=randint(1, 5))
     monsters.add(monster)
 
 last_time = time_t()
@@ -131,8 +132,8 @@ while run:
         # обновляем фон
         window.blit(background,(0,0))
         # пишем текст на экране
-        window.blit(text_update("Счет: ", score), (10, 20))
-        window.blit(text_update("Пропущено: ", lost), (10, 50))
+        text_update("Счет: ", score, (10, 20))
+        text_update("Пропущено: ", lost, (10, 50))
         # производим движения спрайтов
         ship.update()
         bullets.update()
@@ -152,10 +153,12 @@ while run:
         
         if score >= goal:
             finish = True
-            pass
+            mixer.music.stop()
+            
         if lost >= max_lost or sprite.spritecollide(ship, monsters, False):
             finish = True
-            pass
+            mixer.music.stop()
+            
 
         display.update()
     # цикл срабатывает каждую 0.05 секунд
