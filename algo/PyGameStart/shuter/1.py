@@ -73,9 +73,8 @@ window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
 
 # создаем спрайты
-size_x, size_y = 80, 100
-ship = Player(img_hero, x=win_width//2, y=win_height - size_y,
-                        size_x=size_x, size_y=size_y, speed=10)
+ship = Player(img_hero, x=win_width//2, y=win_height - 100,
+                        size_x=80, size_y=100, speed=10)
 monsters = sprite.Group()
 for i in range(1, 8):
     scale = randint(90,200)
@@ -87,7 +86,6 @@ finish = False
 # Основной цикл игры:
 run = True # флаг сбрасывается кнопкой закрытия окна
 clock = time.Clock()
-last_time = time_t()
 while run:
     # событие нажатия на кнопку Закрыть
     for e in event.get():
@@ -101,10 +99,10 @@ while run:
         window.blit(background,(0,0))
         # производим движения спрайтов
         ship.update()
-        monsters.update()
+        # monsters.update()
         # обновляем их в новом местоположении при каждой итерации цикла
         ship.reset()
-        monsters.draw(window)
+        #monsters.draw(window)
         display.update()
     # цикл срабатывает каждую 0.05 секунд
     #time.delay(50)
