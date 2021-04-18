@@ -25,8 +25,6 @@ mixer.init()
 mixer.music.load(sound_fon)
 mixer.music.set_volume(0.1)
 mixer.music.play()
-fire_sound = mixer.Sound(sound_fire)
-fire_sound.set_volume(0.3)
 
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
@@ -59,7 +57,6 @@ class Player(GameSprite):
         if keys[K_RIGHT] and self.rect.x < win_width - 80:
             self.rect.x += self.speed
     def fire(self):
-        fire_sound.play()
         bullet = Bullets(img_bullet, x=self.rect.centerx, y=self.rect.top, size_x=10, size_y=15, speed=-15)
         self.bullets.add(bullet)
 
@@ -88,6 +85,8 @@ class Game():
         self.background = transform.scale(image.load(img_back), (win_width, win_height))
         self.create_sprites()
         self.font = font.Font(None, 36)
+        self.fire_sound = mixer.Sound(sound_fire)
+        self.fire_sound.set_volume(0.3)
     def create_window(self):
         display.set_caption(title)
         self.window = display.set_mode((win_width, win_height))
@@ -146,6 +145,7 @@ class Game():
                 if e.type == QUIT:
                     self.run = False
                 if e.type == KEYDOWN and e.key == K_SPACE:
+                    self.fire_sound.play()
                     self.ship.fire()
             if not self.finish:
                 # производим движения спрайтов
