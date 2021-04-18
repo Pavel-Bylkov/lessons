@@ -70,7 +70,7 @@ class Player(GameSprite):
         fire_sound.play()
         bullet = Bullet(img_bull, x=self.rect.centerx-15, y=self.rect.top,
                                 size_x=30, size_y=40, speed=15)
-        bullets.add(bullet)
+        self.bullets.add(bullet)
 
 # класс спрайта-врага   
 class Enemy(GameSprite):
@@ -104,7 +104,7 @@ background = transform.scale(image.load(img_back), (win_width, win_height))
 # создаем спрайты
 size_x, size_y = 80, 100
 ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, size_y=size_y, speed=10)
-bullets = sprite.Group()
+ship.bullets = sprite.Group()
 monsters = sprite.Group()
 for i in range(1, 15):
     scale = randint(90,200)
@@ -136,14 +136,14 @@ while run:
         text_update("Пропущено: ", lost, (10, 50))
         # производим движения спрайтов
         ship.update()
-        bullets.update()
+        ship.bullets.update()
         monsters.update()
         # обновляем их в новом местоположении при каждой итерации цикла
         ship.reset()
-        bullets.draw(window)
+        ship.bullets.draw(window)
         monsters.draw(window)
         # проверка столкновения пули и монстров (и монстр, и пуля при касании исчезают)
-        collides = sprite.groupcollide(monsters, bullets, False, True)
+        collides = sprite.groupcollide(monsters, ship.bullets, False, True)
         for c in collides:
             # этот цикл повторится столько раз, сколько монстров подбито
             score = score + 1
