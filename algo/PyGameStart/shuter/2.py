@@ -13,7 +13,7 @@ fire_sound.set_volume(0.3)
 
 #шрифты и надписи
 font.init()
-font1 = font.Font(None, 150)
+font1 = font.Font(None, 120)
 font2 = font.Font(None, 36)
 
 # цвета

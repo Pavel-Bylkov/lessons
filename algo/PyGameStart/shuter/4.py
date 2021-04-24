@@ -97,7 +97,7 @@ class Bullet(GameSprite):
     def update(self):
         self.rect.y += self.speed
         # исчезает, если дойдет до края экрана
-        if self.rect.y < 0:
+        if self.rect.y < 0 or self.rect.y > win_height:
             self.kill()
 
 class Bum(sprite.Sprite):

@@ -205,7 +205,7 @@ while run:
             finish = True
             final_text = win
               
-        colides = sprite.spritecollide(ship, monsters, False)
+        collides = sprite.spritecollide(ship, monsters, False)
         if lost >= max_lost or colides:
             boom = Boom(x=ship.rect.centerx, y=ship.rect.centery, size_x=ship.rect.width, size_y=ship.rect.height)
             booms.add(boom)
