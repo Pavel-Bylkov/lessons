@@ -107,7 +107,7 @@ class Boom(sprite.Sprite):
         self.last_time = time_t()
         boom_sound.play()
     def update(self):
-        if self.i < len(self.boom_imgs) and time_t() - self.last_time > 0.2:
+        if self.i < len(self.boom_imgs) and time_t() - self.last_time > 0.25:
             x, y = self.rect.centerx, self.rect.centery
             self.image = self.boom_imgs[self.i]
             self.rect = self.image.get_rect()
@@ -172,11 +172,11 @@ ship = Player(img_hero, x=win_width//2, y=win_height - size_y, size_x=size_x, si
 ship.bullets = sprite.Group()
 monsters = sprite.Group()
 booms = sprite.Group()
-last_time = time_t()
-clock = time.Clock()
 
 start_game()
 
+last_time = time_t()
+clock = time.Clock()
 # Основной цикл игры:
 run = True # флаг сбрасывается кнопкой закрытия окна
 while run:
@@ -206,8 +206,9 @@ while run:
             final_text = win
               
         collides = sprite.spritecollide(ship, monsters, False)
-        if lost >= max_lost or colides:
-            boom = Boom(x=ship.rect.centerx, y=ship.rect.centery, size_x=ship.rect.width, size_y=ship.rect.height)
+        if lost >= max_lost or collides:
+            boom = Boom(x=ship.rect.centerx, y=ship.rect.centery,
+                            size_x=ship.rect.width, size_y=ship.rect.height)
             booms.add(boom)
             monsters_collide_actions(collides, 0)
             finish = True
@@ -217,6 +218,10 @@ while run:
     else:
         while len(booms):
             main_update()
+            window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
+            display.update()
+            clock.tick(30)  
+        for  _ in range(30):
             window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
             display.update()
             clock.tick(30)     

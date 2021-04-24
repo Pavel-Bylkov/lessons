@@ -212,6 +212,9 @@ def ship_collides_actions(enemies, boom):
         life = life -1
     elif collides:
         life = life -1
+    if life == 0:
+        boom = Boom(x=ship.rect.centerx, y=ship.rect.centery, size_x=ship.rect.width, size_y=ship.rect.height)
+        booms.add(boom)
 
 def boom_monster(monster, x, y, size_x, size_y):
     boom = Boom(x, y, size_x, size_y)
@@ -241,10 +244,11 @@ def main_update():
         boss.bulletes.draw(window)
         text_update("Boss: ", boss.health, (win_width - 150, 20))
             #производим движения спрайтов
-    ship.update()
+    if life > 0:
+        ship.update()
 
-    #обновляем их в новом местоположении при каждой итерации цикла
-    ship.reset()
+        #обновляем их в новом местоположении при каждой итерации цикла
+        ship.reset()
 
 def start_game():
     vars()  # присваиваем стартовые значения переменным
