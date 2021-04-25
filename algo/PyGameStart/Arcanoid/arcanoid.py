@@ -1,4 +1,7 @@
 import pygame as pg
+from time import time
+
+from pygame.constants import FINGERMOTION
 pg.init()  # рекомендация от разработчиков Pygame запускать настройку конфигурации библиотеки
 WIN_X, WIN_Y = 1420, 900
 FPS = 50
@@ -17,20 +20,19 @@ class Ball(pg.sprite.Sprite):
         self.rect.y = y
         self.dx = speed
         self.dy = speed
-        self.change_direction()
+        self.change_direction("up-down")
     def reset(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
-    def change_direction(self):
+    def change_direction(self, direction):
         #если мяч достигает границ экрана, меняем направление его движения
-        if  self.rect.y < 0:
+        if  direction == "up-down":
             self.dy *= -1
-        if self.rect.x > WIN_X - self.rect.width or self.rect.x < 0:
+        if direction == "left-right":
             self.dx *= -1
     def update(self):
         #придаём постоянное ускорение мячу по x и y
         self.rect.x += self.dx
         self.rect.y += self.dy
-        self.change_direction()
 
 class BallCircle(pg.sprite.Sprite):
     def __init__(self, x, y, radius, speed, color) -> None:
@@ -85,48 +87,87 @@ class Game():
     def __init__(self) -> None:
         self.window = self.create_window()
         self.clock = pg.time.Clock()  # создаем таймер
+        self.font150 = pg.font.SysFont('verdana', 150)
+        self.font40 = pg.font.SysFont('verdana', 40)
+        self.last_time = time()
         self.create_sprites()
     def create_window(self):
         return pg.display.set_mode((WIN_X, WIN_Y))
     def create_sprites(self):
         self.bricks = pg.sprite.Group()
+        self.platform = Platform(x=WIN_X//2, y=WIN_Y - 50, size_x=150, size_y=30, color=GREEN, speed=10)
+        self.ball = Ball(img_ball ,x=WIN_X//2+60, y=WIN_Y - 100, size_x=40, size_y=40, speed=5)
+        self.walls = pg.sprite.Group()
+        self.top = Brick(x=0, y=0, size_x=WIN_X, size_y=5, color=DARK_BLUE)
+        self.left = Brick(x=0, y=0, size_x=5, size_y=WIN_Y, color=DARK_BLUE)
+        self.right = Brick(x=WIN_X - 5, y=0, size_x=5, size_y=WIN_Y, color=DARK_BLUE)
+        self.bottom = Brick(x=0, y=WIN_Y - 5, size_x=WIN_X, size_y=5, color=DARK_BLUE)
+        self.walls.add(
+            self.top,
+            self.left,
+            self.right,
+            self.bottom
+        )
+        self.win = self.font150.render("YOU WIN", True, GREEN)
+        self.lose = self.font150.render("YOU LOSE", True, RED)
+
+    def start_init(self):
+        self.score = 0
+        self.finish = False
+        self.run = True
         for i in range(6):  # количество рядов кирпичей
             for j in range(14):  # количество кирпичей в ряду
                 brick = Brick(x=10 + j * 100, y=10 + i * 50, size_x=96, size_y=46, color=RED)
                 self.bricks.add(brick)
-        self.platform = Platform(x=WIN_X//2, y=WIN_Y - 50, size_x=150, size_y=30, color=GREEN, speed=10)
-        self.ball = Ball(img_ball ,x=WIN_X//2+60, y=WIN_Y - 100, size_x=40, size_y=40, speed=5)
-        self.ball2 = BallCircle(x=WIN_X//2+60, y=WIN_Y - 100, radius=20, speed=5, color=DARK_BLUE)
-        self.ball2.draw(self.window)
-    def start_init(self):
-        self.finish = False
-        self.run = True
+        self.ball.rect.x, self.ball.rect.y = WIN_X//2+60, WIN_Y - 100
+        self.platform.rect.x, self.platform.rect.y = WIN_X//2, WIN_Y - 50
+
     def draw(self):
         self.window.fill(BLUE)
         # вызываем метод window.blit(self.image, (self.rect.x, self.rect.y)) у всех спрайтов группы
         self.bricks.draw(self.window)
         self.platform.reset(self.window)
         self.ball.reset(self.window)
-        self.ball2.draw(self.window)
+        self.walls.draw(self.window)
+        if self.finish:
+             self.window.blit(self.final, (WIN_X//2 - 300, WIN_Y//2 - 90))
+
     def update(self):
-        self.platform.update()
-        #если мяч коснулся ракетки, меняем направление движения
-        self.ball.update()
+        if not self.finish:
+            self.platform.update()
+            #если мяч коснулся ракетки, меняем направление движения
+            self.ball.update()
         if self.ball.rect.colliderect(self.platform.rect):
-            self.ball.dy *= -1
-        self.ball2.update()
-        if pg.sprite.collide_rect(self.ball2, self.platform):
-            self.ball2.dy *= -1
+            self.ball.change_direction("up-down")
+        collides = pg.sprite.spritecollide(self.ball, self.bricks, dokill=True)
+        if collides:
+            self.ball.change_direction("up-down")
+            self.score += len(collides)
+        if self.ball.rect.colliderect(self.top.rect):
+            self.ball.change_direction("up-down")
+        if self.ball.rect.colliderect(self.left.rect) or self.ball.rect.colliderect(self.right.rect):
+            self.ball.change_direction("left-right")
+        if not self.finish and self.ball.rect.colliderect(self.bottom.rect):
+            self.finish = True
+            self.final = self.lose
+            self.last_time = time()
+        if not self.finish and len(self.bricks) == 0:
+            self.finish = True
+            self.final = self.win
+            self.last_time = time()
+
     def game_loop(self):
         self.start_init()
         while self.run:
             for e in pg.event.get():
                 if e.type == pg.QUIT:
                     self.run = False
-            if not self.finish:
-                self.update()
-                self.draw()
-                pg.display.update()
+            self.update()
+            self.draw()
+            if self.finish and time() - self.last_time > 3:
+                self.bricks.empty()
+                self.start_init()
+            pg.display.update()
             self.clock.tick(FPS)
 game = Game()
 game.game_loop()
