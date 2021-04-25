@@ -1,14 +1,17 @@
+# ToDo  исправить проверку результата - перемешивание списков ответов.
 #подключаем модуль с направляющими линиями
+import json
+from random import shuffle
 from typing import Optional, Union
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QColor
 #подключаем необходимые виджеты
 from PyQt5.QtWidgets import (QApplication, QInputDialog, QHBoxLayout, QRadioButton, QWidget, 
-                                QPushButton, QLabel, QVBoxLayout, QGroupBox, QMessageBox)
+                                QPushButton, QLabel, QVBoxLayout, QGroupBox, QMessageBox, QButtonGroup)
 
 win_width, win_height = 900, 500
 start_x, start_y = 900, 70
-data_quiz_filename = ""
+data_quiz_filename = "data.json"
 
 class User():
     def __init__(self, name, lastname) -> None:
@@ -18,15 +21,42 @@ class User():
         return f"{self.name} {self.lastname}".title()
 
 class DataQuiz():
-    def __init__(self) -> None:
-        self.questions = {}
-        self.n_allquestions = 0
+    def start(self):
+        self.load_data()
         self.n_right = 0
         self.n_questions = 0
+
     def load_data(self):
-        pass
+        """Чтение вопросы из json"""
+        try:
+            with open(data_quiz_filename, "r", encoding="utf-8") as file:
+                 self.questions = json.load(file)
+        except:
+            self.questions = {
+                "Вопрос1": 
+                    ["Правильный ответ", "Неверный ответ1", "Неверный ответ2", "Неверный ответ3"],
+                "Вопрос2": 
+                    ["Правильный ответ", "Неверный ответ1", "Неверный ответ2", "Неверный ответ3"],
+                "Вопрос3": 
+                    ["Правильный ответ", "Неверный ответ1", "Неверный ответ2", "Неверный ответ3"]}
+        self.questions_keys = list(self.questions.keys())
+        shuffle(self.questions_keys)  # перемешиваем индексы вопросов в случайном порядке
+        print(self.questions)
+    
     def get_next_question(self):
-        pass
+        if len(self.questions_keys) > 0:
+            self.n_questions += 1
+            question = self.questions_keys.pop()
+            return question, self.questions[question]
+        return None, None
+    
+    def set_answer(self, question, answer):
+        print(self.questions[question], answer)
+        if self.questions[question][0] == answer:
+            self.n_right += 1
+    
+    def get_result(self):
+        return f"Правильный ответов {self.n_right} из {self.n_questions}"
 
 
 class Window(QWidget):
@@ -40,6 +70,9 @@ class Window(QWidget):
         self.create_widgets()
         self.layout_widgets()
         self.connects()
+        self.data = DataQuiz()
+        self.start()
+       
     
     def set_appear(self):
         # создаём название главного окна
@@ -55,6 +88,11 @@ class Window(QWidget):
         self.btn2 = QRadioButton("Ответ 2")
         self.btn3 = QRadioButton("Ответ 3")
         self.btn4 = QRadioButton("Ответ 4")
+        self.RadioGroup = QButtonGroup()  # это для группировки переключателей, чтобы управлять их поведением
+        self.RadioGroup.addButton(self.btn1)
+        self.RadioGroup.addButton(self.btn2)
+        self.RadioGroup.addButton(self.btn3)
+        self.RadioGroup.addButton(self.btn4)
         self.btn = QPushButton("Ответить")
     def layout_widgets(self):
         line = QVBoxLayout()
@@ -73,8 +111,7 @@ class Window(QWidget):
         line.addWidget(self.btn, alignment=Qt.AlignCenter)
         self.setLayout(line)
     def connects(self):
-        #self.btn.clicked.connect(self.hello)
-        pass
+        self.btn.clicked.connect(self.check_answer)
     def get_user(self, deep=0):  # рекурсивный метод, вызывает сам себя при ошибках ввода
         if deep == 5:
             QMessageBox.warning(self, "Уведомление", "Авторизация не пройдена! Программа будет закрыта.")
@@ -89,6 +126,54 @@ class Window(QWidget):
             QMessageBox.warning(self, "Уведомление", "Имя не указано!")
             return self.get_user(deep + 1)
         return User(name, lastname)
+    def show_question(self):
+        question, answers = self.data.get_next_question()
+        if not question is None:
+            # сняли ограничения, чтобы можно было сбросить выбор радиокнопки
+            self.RadioGroup.setExclusive(False)  
+            self.btn1.setChecked(False)
+            self.btn2.setChecked(False)
+            self.btn3.setChecked(False)
+            self.btn4.setChecked(False)
+            # вернули ограничения, теперь только одна радиокнопка может быть выбрана
+            self.RadioGroup.setExclusive(True)  
+            shuffle(answers)
+            self.question.setText(question)
+            self.btn1.setText(answers[0])
+            self.btn2.setText(answers[1])
+            self.btn3.setText(answers[2])
+            self.btn4.setText(answers[3])
+        else:
+            self.show_result()
+    def check_answer(self):
+        if self.btn.text() == "Ответить":
+            answer = None
+            if self.btn1.isChecked():
+                answer = self.btn1.text()
+            elif self.btn2.isChecked():
+                answer = self.btn2.text()
+            elif self.btn3.isChecked():
+                answer = self.btn3.text()
+            elif self.btn4.isChecked():
+                answer = self.btn4.text()
+            if not answer is None:
+                self.data.set_answer(self.question.text(), answer)
+                self.show_question()
+            else:
+                QMessageBox.warning(self, "Уведомление", "Выбери один из вариантов ответов!")
+        else:
+            self.start()
+    def show_result(self):
+        self.answers.hide()
+        self.btn.setText("Попробовать еще раз")
+        result = self.data.get_result()
+        self.question.setText(f"Вы прошли викторину с результатом:\n{result}")
+    def start(self):
+        self.data.start()
+        self.btn.setText("Ответить")
+        self.answers.show()
+        self.show_question()
+
 
 class QApp(QApplication):
     def __init__(self, list_str):
