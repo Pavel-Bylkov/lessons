@@ -44,6 +44,12 @@ class GameSprite(sprite.Sprite):
    def reset(self, window):
        window.blit(self.image, (self.rect.x, self.rect.y))
 
+class Bullets(GameSprite):
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.y < 0 or self.rect.y > win_height:
+            self.kill()
+
 # класс главного игрока
 class Player(GameSprite):
     def __init__(self, player_image, x, y, size_x, size_y, speed):
@@ -71,12 +77,6 @@ class Enemy(GameSprite):
             self.rect.x = randint(10, win_width - 80)
             self.rect.y = randint(-10, -2)*10
             lost = lost + 1
-
-class Bullets(GameSprite):
-    def update(self):
-        self.rect.y += self.speed
-        if self.rect.y < 0 or self.rect.y > win_height:
-            self.kill()
 
 # Главный класс игры
 class Game():
@@ -135,18 +135,20 @@ class Game():
         self.ship_collide = sprite.spritecollide(self.ship, self.monsters, False)
 
     def check_finish(self):
-        pass
+        pass 
+    def events(self):
+        for e in event.get():
+            # событие нажатия на крестик окошка
+            if e.type == QUIT:
+                self.run = False
+            if e.type == KEYDOWN and e.key == K_SPACE:
+                self.fire_sound.play()
+                self.ship.fire()
     def game_loop(self):
         self.start_init()
         while self.run:
             # перебираем полученные события
-            for e in event.get():
-                # событие нажатия на крестик окошка
-                if e.type == QUIT:
-                    self.run = False
-                if e.type == KEYDOWN and e.key == K_SPACE:
-                    self.fire_sound.play()
-                    self.ship.fire()
+            self.events()
             if not self.finish:
                 # производим движения спрайтов
                 self.update()
