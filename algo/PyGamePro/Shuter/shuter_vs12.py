@@ -1,6 +1,9 @@
-from pygame import * 
+from pygame import sprite, transform, display, time, image, mixer, event, key, Surface, font, init
+from pygame import QUIT, K_SPACE, K_LEFT, K_RIGHT, K_UP, K_DOWN
 from random import randint
 from time import time as time_t
+
+# ToDo Доделать Боса - его появление, попадание в него
 
 def config(): 
     global img_win, img_los, img_back, img_bullet, img_hero, img_enemy, size_x_enemy, size_y_enemy
@@ -35,7 +38,6 @@ def vars():
     global score, lost, last_time, finish
     score = 0 # сбито кораблей
     lost = 0 # пропущено кораблей
-    last_time = time_t()
     # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
     finish = False
 
@@ -185,6 +187,49 @@ class Bum(sprite.Sprite):
         if self.i == len(self.bum):
             self.kill()
 
+class Boss(Enemy):
+    def __init__(self, player_image, x, y, size_x, size_y, speed, direction):
+        super().__init__(player_image, x, y, size_x, size_y, speed, direction)
+        self.right = win_width - 150
+        self.left = 50
+        self.hide = True
+    def start(self):
+        self.side = "right"*randint(0,1) or "left"
+        self.life = 5
+        self.armor = 100
+        self.hide = False
+    def update(self):
+        if not self.hide:
+            if (self.armor and sprite.collide_rect(self.goal, ship) 
+                    and time_t() - self.last_time > pause_fire * 5):
+                self.fire()
+                self.armor -= 1
+                self.last_time = time_t()
+            if self.side == "left" and self.rect.x <= self.left:
+                self.side = "right"
+            if self.side == "right" and self.rect.x >= self.right:
+                self.side = "left"
+            
+            if self.side == "left":
+                self.rect.x -= self.speed
+            else:
+                self.rect.x += self.speed
+            self.goal.rect.x = self.rect.centerx
+    def reset(self):
+        if not self.hide:
+            super().reset()
+    def collide(self):
+        if not self.hide:
+            if self.life > 0 and sprite.spritecollide(self, ship.bullets, True):
+                self.life -= 1
+                bum = Bum(self.rect.centerx, self.rect.bottom)
+                bums.add(bum)
+            if self.life == 0:
+                self.hide = True
+                bum = Bum(self.rect.centerx, self.rect.centery)
+                bums.add(bum)
+
+
 def add_monster():
     size_scale = randint(6, 11)*10
     monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=-40,
@@ -248,7 +293,6 @@ ship = Player(img_hero, x=win_width//2, y=win_height - 100,
 # создание группы спрайтов-врагов
 monsters = sprite.Group()
 enemy_bullets = sprite.Group()
-
 bums = sprite.Group()
 
 # насторойка звуков
@@ -308,7 +352,6 @@ while run:
             display.update()
             clock.tick(FPS)
             i -= 1
-        time.delay(3000)
         restart()
     # цикл срабатывает c частотой FPS - кадров в секнуду
     display.update()
