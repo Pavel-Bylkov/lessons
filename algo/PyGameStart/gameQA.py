@@ -2,16 +2,12 @@ import pygame
 from random import randint
 
 pygame.init()
-#создание окна игры
-clock = pygame.time.Clock()
-back = (255, 255, 255) #цвет фона (background)
-mw = pygame.display.set_mode((500, 500)) #окно программы (main window)
-mw.fill(back)
+
 #цвета
 BLACK = (0, 0, 0)
 LIGHT_BLUE = (200, 200, 255)
 class TextArea():
-  def __init__(self, x=0, y=0, width=10, height=10, color=None):
+  def __init__(self, x, y, width, height, color):
       self.rect = pygame.Rect(x, y, width, height)
       self.fill_color = color
       #возможные надписи
@@ -28,8 +24,15 @@ class TextArea():
     
   #отрисовка прямоугольника с текстом
   def draw(self, shift_x=0, shift_y=0):
-      pygame.draw.rect(mw, self.fill_color, self.rect)
-      mw.blit(self.image, (self.rect.x + shift_x, self.rect.y + shift_y))  
+      pygame.draw.rect(window, self.fill_color, self.rect)
+      window.blit(self.image, (self.rect.x + shift_x, self.rect.y + shift_y))  
+
+#создание окна игры
+clock = pygame.time.Clock()
+back = (255, 255, 255) #цвет фона (background)
+window = pygame.display.set_mode((500, 500)) #окно программы (main window)
+window.fill(back)
+
 #создание карточек
 quest_card = TextArea(120, 100, 290, 70, LIGHT_BLUE)
 quest_card.add_text('Вопрос')
@@ -47,17 +50,10 @@ ans_card.add_text('Яблоки')
 ans_card.add_text('Капли дождя')
 ans_card.add_text('Жаркое с грибами')
 ans_card.set_text(0, 75)
-ans_card2= TextArea(120, 340, 290, 70, LIGHT_BLUE)
-ans_card2.add_text('Ответ')
-ans_card2.add_text('C++')
-ans_card2.add_text('Английский')
-ans_card2.add_text('Апельсины')
-ans_card2.add_text('Снег')
-ans_card2.add_text('Картофель')
-ans_card2.set_text(0, 75)
+
 quest_card.draw(10,10)
 ans_card.draw(10,10)
-ans_card2.draw(10,10)
+
 right = 0 
 run = True
 while run:
@@ -70,10 +66,10 @@ while run:
                 num = randint(1, len(quest_card.titles)-1)   
                 quest_card.set_text(num, 25)
                 ans_card.set_text(num, 25)
-                ans_card2.set_text(num, 25)
+
                 quest_card.draw(10,25)
                 ans_card.draw(10, 25)
-                ans_card2.draw(10, 25)
+
     if pygame.mouse.get_pressed()[0] and ans_card.rect.collidepoint(pygame.mouse.get_pos()):
         right += 1
         print(right)

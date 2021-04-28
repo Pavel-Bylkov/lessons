@@ -144,7 +144,7 @@ class Boss(GameSprite):
         self.direction = "right"*randint(0,1) or "left"
         self.health = 10
         self.last_shot = time_t()
-        self.bulletes = sprite.Group()
+        self.bullets = sprite.Group()
     def update(self):
         if sprite.collide_rect(self.scaner, ship) and time_t() - self.last_shot > 0.3:
             self.fire()
@@ -163,7 +163,7 @@ class Boss(GameSprite):
     def fire(self):
         fire_sound.play()
         bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.bottom, size_x=15, size_y=20, speed=17)
-        self.bulletes.add(bullet)
+        self.bullets.add(bullet)
 
 def text_update(text, num, pos):
     text_img = font2.render(text + str(num), 1, WHITE_COLOR)
@@ -194,8 +194,8 @@ def main_update():
     if final:
         boss.update()
         boss.reset()
-        boss.bulletes.update()
-        boss.bulletes.draw(window)
+        boss.bullets.update()
+        boss.bullets.draw(window)
         text_update("Boss: ", boss.health, (win_width - 150, 20))
 
 def start_game():
@@ -271,7 +271,7 @@ while run:
                                 size_x=boss.rect.width, size_y=boss.rect.height))
         
         collides = (sprite.spritecollide(ship, monsters, False) or 
-                    sprite.spritecollide(ship, boss.bulletes, True))
+                    sprite.spritecollide(ship, boss.bullets, True))
         if collides:
             booms.add(Boom(x=ship.rect.centerx, y=ship.rect.centery,
                             size_x=ship.rect.width, size_y=ship.rect.height))
