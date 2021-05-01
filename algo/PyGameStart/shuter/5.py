@@ -17,11 +17,11 @@ def consts():
     RED_COLOR = (150, 0, 0)
     #подгружаем отдельно функции для работы со шрифтом
     font.init()
-    font1 = font.Font(None, 150)
+    font1 = font.SysFont('Arial', 120)
     win = font1.render('YOU WIN!', True,  WHITE_COLOR)
     lose = font1.render('YOU LOSE!', True, RED_COLOR)
     
-    font2 = font.Font(None, 36)
+    font2 = font.SysFont('Arial', 30)
     
     #фоновая музыка
     mixer.init()
@@ -225,10 +225,6 @@ def boom_monster(monster, x, y, size_x, size_y):
 
 def main_update():
     window.blit(background,(0,0))
-    text_update("Счет: ", score, (10, 20))
-    text_update("Пропущено: ", lost, (10, 50))
-    text_update("Патроны: ", limit_bull, (10, 80))
-    text_update("Жизни: ", life, (10, 110))
     monsters.update()
     asteroids.update()
     ship.bullets.update()
@@ -246,9 +242,12 @@ def main_update():
             #производим движения спрайтов
     if life > 0:
         ship.update()
-
         #обновляем их в новом местоположении при каждой итерации цикла
         ship.reset()
+    text_update("Счет: ", score, (10, 20))
+    text_update("Пропущено: ", lost, (10, 50))
+    text_update("Патроны: ", limit_bull, (10, 80))
+    text_update("Жизни: ", life, (10, 110))
 
 def start_game():
     vars()  # присваиваем стартовые значения переменным

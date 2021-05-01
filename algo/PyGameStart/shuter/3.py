@@ -132,16 +132,16 @@ def monsters_collide_actions(collides, score):
 
 def main_update():
     window.blit(background,(0,0))
-    text_update("Счет: ", score, (10, 20))
-    text_update("Пропущено: ", lost, (10, 50))
-    text_update("Патроны: ", limit_bull, (10, 80))
     monsters.update()
     ship.bullets.update()
     booms.update()
     monsters.draw(window)
     ship.bullets.draw(window)
     booms.draw(window)
-
+    text_update("Счет: ", score, (10, 20))
+    text_update("Пропущено: ", lost, (10, 50))
+    text_update("Патроны: ", limit_bull, (10, 80))
+    
 def start_game():
     global score, lost, goal, max_lost, limit_bull, limit_time, finish
     score = 0 # сбито кораблей
