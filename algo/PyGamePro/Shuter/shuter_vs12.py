@@ -1,28 +1,33 @@
 from pygame import sprite, transform, display, time, image, mixer, event, key, Surface, font, init
-from pygame import QUIT, K_SPACE, K_LEFT, K_RIGHT, K_UP, K_DOWN
+from pygame import QUIT, K_SPACE, K_LEFT, K_RIGHT, K_UP, K_DOWN, KEYDOWN, K_p
 from random import randint
 from time import time as time_t
 
-# ToDo Доделать Боса - его появление, попадание в него
 
 def config(): 
     global img_win, img_los, img_back, img_bullet, img_hero, img_enemy, size_x_enemy, size_y_enemy
     global img_bum, win_width, win_height, bull_limit, goal, max_lost, pause_fire
-    global sound_fire, sound_bum, sound_fon, FPS
+    global sound_fire, sound_bum, sound_fon, FPS, GREEN, ORANGE, RED, WHITE
+
+    GREEN = (50, 200, 60)
+    ORANGE = (255, 149, 22)
+    RED = (200, 30, 30)
+    WHITE = (255, 255, 255)
+
     # нам нужны такие картинки:
-    img_win = "thumb.jpg" # фон победы
-    img_los = "gameover.png" # фон проигрыша
-    img_back = "galaxy.jpg" # фон игры
+    img_win = "res/thumb.jpg" # фон победы
+    img_los = "res/gameover.png" # фон проигрыша
+    img_back = "res/galaxy.jpg" # фон игры
     
-    img_bullet = "камета.png" # пуля
-    img_hero = "rocket.png" # герой
-    img_enemy = "ufo.png" # враг
-    img_bum = "Взрыв4.png" # взрыв
+    img_bullet = "res/камета.png" # пуля
+    img_hero = "res/rocket.png" # герой
+    img_enemy = "res/ufo.png" # враг
+    img_bum = "res/Взрыв4.png" # взрыв
     size_x_enemy, size_y_enemy = 80, 50
 
-    sound_fire = "laser-blast.ogg"
-    sound_bum = "bum.ogg"
-    sound_fon = "space.ogg"
+    sound_fire = "res/laser-blast.ogg"
+    sound_bum = "res/bum.ogg"
+    sound_fon = "res/space.ogg"
 
     win_width = 900
     win_height = 600 
@@ -30,16 +35,18 @@ def config():
     goal = 15 # столько кораблей нужно сбить для победы
     max_lost = 5 # проиграли, если пропустили столько
     pause_fire = 0.2  # Пауза между выстрелами
-    bull_limit = 100
+    bull_limit = 150
 
     FPS = 15
 
 def vars():
-    global score, lost, last_time, finish
+    global score, lost, last_time, finish, final, pause
     score = 0 # сбито кораблей
     lost = 0 # пропущено кораблей
     # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
     finish = False
+    final = False
+    pause = False
 
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
@@ -195,7 +202,7 @@ class Boss(Enemy):
         self.hide = True
     def start(self):
         self.side = "right"*randint(0,1) or "left"
-        self.life = 5
+        self.life = 10
         self.armor = 100
         self.hide = False
     def update(self):
@@ -246,50 +253,64 @@ def start():
 def restart():
     monsters.empty()
     enemy_bullets.empty()
+    boss.hide = True
     start()
 
 def text_update(text, num, pos):
-    window.blit(font1.render(text + str(num), 1, (255, 255, 255)), pos)
+    color = WHITE
+    if text == "Жизни: " or text == "Boss: ":
+        if num > 3:
+            color = GREEN
+        elif num > 2:
+            color = ORANGE
+        else:
+            color = RED
+    window.blit(font1.render(text + str(num), 1, color), pos)
 
 def update():
     # обновляем фон
-    window.blit(background,(0,0))
-
-    # пишем текст на экране
-    text_update(text="Счет: ", num=score, pos=(10, 20))
-    text_update(text="Пропущено: ", num=lost, pos=(10, 50))
-    text_update(text="Патроны: ", num=ship.limit_bull, pos=(10, 80))
-    text_update(text="Жизни: ", num=ship.life, pos=(10, 110))
-
+    window.blit(background,(0,0))    
     # производим движения спрайтов
     ship.update()
     monsters.update()
     enemy_bullets.update()
     bums.update()
-    
+    boss.update()
     # обновляем их в новом местоположении при каждой итерации цикла
     ship.reset()
     monsters.draw(window)
     enemy_bullets.draw(window)
     bums.draw(window)
+    boss.reset()
+    # пишем текст на экране
+    text_update(text="Счет: ", num=score, pos=(10, 20))
+    text_update(text="Пропущено: ", num=lost, pos=(10, 50))
+    text_update(text="Патроны: ", num=ship.limit_bull, pos=(10, 80))
+    text_update(text="Жизни: ", num=ship.life, pos=(10, 110))
+    if final:
+       text_update(text="Boss: ", num=boss.life, pos=(win_width - 130, 30)) 
+
 # подгружаем отдельно функции для работы со шрифтом
 init()
 font.init()
-# во время игры пишем надписи размера 36
-font1 = font.Font(None, 36) 
-font2 = font.Font(None, 150)
+# во время игры пишем надписи размера 25
+font1 = font.SysFont('Arial', 25) 
+font2 = font.SysFont('Arial', 120)
 # Создаем окошко
 config() # создаем глобальные переменные
 display.set_caption("Шутер")
 window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
-win = font2.render("YOU WIN!!", 1, (5, 150, 50))
-lose = font2.render("YOU LOSE!!!", 1, (255, 50, 50))
+win = font2.render("YOU WIN!!", 1, GREEN)
+lose = font2.render("YOU LOSE!!!", 1, RED)
+pause_img = font2.render("PAUSE", 1, WHITE) 
 # создаем спрайты
 size_x_sh, size_y_sh = 60, 80
 ship = Player(img_hero, x=win_width//2, y=win_height - 100,
                 size_x=size_x_sh, size_y=size_y_sh, speed=10, direction=-1)
- 
+boss = Boss(img_enemy, x=randint(80, win_width - 80), y=30,
+            size_x=size_x_enemy*150//100, size_y=size_y_enemy*150//100,
+            speed=12, direction=1) 
 # создание группы спрайтов-врагов
 monsters = sprite.Group()
 enemy_bullets = sprite.Group()
@@ -315,8 +336,13 @@ while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
+        if e.type == KEYDOWN and e.key == K_p:
+            if pause:
+                pause = False
+            else:
+                pause = True
     # сама игра: действия спрайтов, проверка правил игры, перерисовка
-    if not finish:
+    if not finish and not pause:
         update()
         # проверка столкновения пули и монстров (и монстр, и пуля при касании исчезают)
         collides = sprite.groupcollide(monsters, ship.bullets, True, True)
@@ -340,11 +366,16 @@ while run:
                 bums.add(bum)
                 add_monster()
             ship.collide()
+        boss.collide()
         # проверка выигрыша: сколько очков набрали?
-        if score >= goal:
+        if not final and score >= goal:
+            final = True
+            boss.start()
+
+        if final and boss.life == 0:
             finish = True
             final_img = win
-    else:
+    elif not pause:
         i = 30
         while len(bums) + i > 0:
             update()
@@ -353,6 +384,8 @@ while run:
             clock.tick(FPS)
             i -= 1
         restart()
+    else:
+        window.blit(pause_img, (win_width//2 - 250, win_height//2 - 80)) 
     # цикл срабатывает c частотой FPS - кадров в секнуду
     display.update()
     clock.tick(FPS)
