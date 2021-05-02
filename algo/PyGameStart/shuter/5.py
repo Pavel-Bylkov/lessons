@@ -1,14 +1,15 @@
 from pygame import init, display, sprite, font, time, image, transform, mixer, event, key, Surface
-from pygame import K_LEFT, K_RIGHT, QUIT, KEYDOWN, K_SPACE
+from pygame import K_LEFT, K_RIGHT, QUIT, KEYDOWN, K_SPACE, K_p
 from random import randint
 from time import time as time_t #импортируем функцию для засекания времени, 
                                 # чтобы интерпретатор не искал эту функцию в pygame модуле time, 
                                 # даём ей другое название сами
-
+# ToDo Добавить стрельбу врагов - сканер окружность, выстрел в рандом диапазоне по Герою
+# добавить паузу
 init() # инициализация pygame
 def consts():
     global font2, win, lose, fire_sound, boom_sound, win_width, win_height, title
-    global img_back, img_bullet, img_hero, img_enemy, img_ast, img_boom
+    global img_back, img_bullet, img_hero, img_enemy, img_ast, img_boom, pause_text
     global WHITE_COLOR, GREEN_COLOR, ORANGE_COLOR, RED_COLOR
     # цвета
     WHITE_COLOR = (255, 255, 255)
@@ -20,6 +21,7 @@ def consts():
     font1 = font.SysFont('Arial', 120)
     win = font1.render('YOU WIN!', True,  WHITE_COLOR)
     lose = font1.render('YOU LOSE!', True, RED_COLOR)
+    pause_text = font1.render('PAUSE', True,  WHITE_COLOR) 
     
     font2 = font.SysFont('Arial', 30)
     
@@ -156,7 +158,7 @@ class Scaner(sprite.Sprite):
         self.rect.y = 0
 class Boss(GameSprite):
     def __init__(self, boss_image, x, y, size_x, size_y, speed):
-        super().__init__(boss_image, x, y, size_x, size_y, speed)
+        GameSprite.__init__(self, boss_image, x, y, size_x, size_y, speed)
         self.scaner = Scaner(x + size_x//2)
         self.right = win_width - 100
         self.left = 100
@@ -225,10 +227,12 @@ def boom_monster(monster, x, y, size_x, size_y):
 
 def main_update():
     window.blit(background,(0,0))
+    #производим движения спрайтов
     monsters.update()
     asteroids.update()
     ship.bullets.update()
     booms.update()
+    #обновляем их в новом местоположении при каждой итерации цикла
     monsters.draw(window)
     asteroids.draw(window)
     ship.bullets.draw(window)
@@ -239,10 +243,9 @@ def main_update():
         boss.bulletes.update()
         boss.bulletes.draw(window)
         text_update("Boss: ", boss.health, (win_width - 150, 20))
-            #производим движения спрайтов
+            
     if life > 0:
         ship.update()
-        #обновляем их в новом местоположении при каждой итерации цикла
         ship.reset()
     text_update("Счет: ", score, (10, 20))
     text_update("Пропущено: ", lost, (10, 50))
@@ -252,6 +255,7 @@ def main_update():
 def start_game():
     vars()  # присваиваем стартовые значения переменным
     ship.rect.centerx = win_width//2
+    boss.health = 10
     for i in range(1, 6):
         scale = randint(90,200)
         monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=randint(-80, - 8) * 10,
@@ -261,6 +265,10 @@ def start_game():
         asteroid = Asteroid(img_ast, randint(30, win_width - 30), -40, 80, 50, randint(1, 7))
         asteroids.add(asteroid)
     mixer.music.play()
+
+def next_frame():
+    display.update()
+    clock.tick(30)
 
 consts()
 #создаём окошко
@@ -282,21 +290,27 @@ last_time = time_t()
 clock = time.Clock() 
 #основной цикл игры:
 run = True #флаг сбрасывается кнопкой закрытия окна     
+pause = False
 while run:
-   #событие нажатия на кнопку “Закрыть”
-   for e in event.get():
-       if e.type == QUIT:
-           run = False
-       #событие нажатия на пробел - спрайт стреляет
-       if e.type == KEYDOWN and e.key == K_SPACE and not finish:
+    #событие нажатия на кнопку “Закрыть”
+    for e in event.get():
+        if e.type == QUIT:
+            run = False
+        #событие нажатия на пробел - спрайт стреляет
+        if e.type == KEYDOWN and e.key == K_SPACE and not finish:
             if limit_bull > 0 and time_t() - last_time > limit_time:
                 fire_sound.play()
                 ship.fire()
                 limit_bull -= 1
                 last_time = time_t()
+        if e.type == KEYDOWN and e.key == K_p:
+            if pause:
+                pause = False
+            else:
+                pause = True
               
-   #сама игра: действия спрайтов, проверка правил игры, перерисовка
-   if not finish:
+    #сама игра: действия спрайтов, проверка правил игры, перерисовка
+    if not finish and not pause:
         main_update()
     
         #проверка столкновения пули и монстров (и монстр, и пуля при касании исчезают)
@@ -325,19 +339,15 @@ while run:
             finish = True
             final_text = win
         
-        display.update()
- 
-   #бонус: автоматический перезапуск игры
-   else:
+    #бонус: автоматический перезапуск игры
+    elif not pause:
         while len(booms):
             main_update()
             window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
-            display.update()
-            clock.tick(30)    
+            next_frame() 
         for  _ in range(50):
             window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
-            display.update()
-            clock.tick(30)  
+            next_frame() 
         for b in ship.bullets:
             b.kill()
         for m in monsters:
@@ -346,5 +356,6 @@ while run:
             m.kill()
         time.delay(3000)
         start_game()
- 
-   clock.tick(30)
+    else:
+        window.blit(pause_text, (win_width//2 - 200,  win_height//2 - 80))
+    next_frame()
