@@ -96,8 +96,6 @@ while run:
             wait -= 1
     #на каждом тике проверяем клик:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:  #обработай событие «клик по кнопке "Закрыть окно"»
-            run = False
         if not finish and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             x, y = event.pos
             for i in range(num_cards):
@@ -112,6 +110,9 @@ while run:
                         if score.num > 0:
                             score.num -= 1
                         cards[i].fill()
+        # условие если выполнять проект не на платформе - делаем возможность закрыть окно.
+        if event.type == pygame.QUIT:  #обработай событие «клик по кнопке "Закрыть окно"»
+            run = False
     if not finish:
         score.set_text(text=str(score.num), fsize=40, text_color=DARK_BLUE)
         score.draw(shift_x=0, shift_y=0)
