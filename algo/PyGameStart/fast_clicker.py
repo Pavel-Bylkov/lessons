@@ -8,7 +8,7 @@ goal = 5
  
 '''создаём окно программы'''
 back = (200, 255, 255) #цвет фона (background)
-win_width, win_height = 800, 500
+win_width, win_height = 800, 500 # если на платформе то задать 500 на 500
 mw = pygame.display.set_mode((win_width, win_height)) #окно программы (main window)
 mw.fill(back)
 clock = pygame.time.Clock()
