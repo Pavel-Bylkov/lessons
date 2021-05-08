@@ -1,3 +1,4 @@
+import os
 from pygame import init, display, sprite, font, time, image, transform, mixer, event, key, Surface
 from pygame import K_LEFT, K_RIGHT, QUIT, KEYDOWN, K_SPACE, K_p
 from random import randint
@@ -27,34 +28,38 @@ def consts():
     
     #фоновая музыка
     mixer.init()
-    mixer.music.load('space.ogg')
+    mixer.music.load('res' + os.sep + 'space.ogg')
     mixer.music.set_volume(0.1)
-    fire_sound = mixer.Sound('laser-blast.ogg')
+    fire_sound = mixer.Sound('res' + os.sep + 'laser-blast.ogg')
     fire_sound.set_volume(0.3)
-    boom_sound = mixer.Sound('boom.ogg')
+    boom_sound = mixer.Sound('res' + os.sep + 'boom.ogg')
     boom_sound.set_volume(0.2)
 
     #нам нужны такие картинки:
-    img_back = "galaxy.jpg" #фон игры
-    img_bullet = "bullet.png" #пуля
-    img_hero = "rocket.png" #герой
-    img_enemy = "ufo.png" #враг
-    img_ast = "asteroid.png" #астероид
-    img_boom = "Взрыв4.png"  # взрыв
+    img_back = 'res' + os.sep + "galaxy.jpg" #фон игры
+    img_bullet = 'res' + os.sep + "bullet.png" #пуля
+    img_hero = 'res' + os.sep + "rocket.png" #герой
+    img_enemy = 'res' + os.sep + "ufo.png" #враг
+    img_ast = 'res' + os.sep + "asteroid.png" #астероид
+    img_boom = 'res' + os.sep + "Взрыв4.png"  # взрыв
 
     # параметры окна
     win_width, win_height = 1200, 800
     title = "Shooter"
 
 def vars():
-    global score, goal, lost, max_lost, life, limit_bull, limit_time, finish, final
+    global score, goal, lost, max_lost, life, limit_bull, limit_time, finish
+    global final, max_life, max_bull, boss_health
     score = 0 #сбито кораблей
-    goal = 20 #столько кораблей нужно сбить для победы
+    goal = randint(2, 6) * 5 #столько кораблей нужно сбить для победы
     lost = 0 #пропущено кораблей
-    max_lost = 10 #проиграли, если пропустили столько кораблей
-    life = 3  #очки жизни
+    max_lost = randint(5, 10) #проиграли, если пропустили столько кораблей
+    max_life = randint(3, 10)  #очки жизни
+    life = max_life
+    boss_health = randint(5, 15)
 
-    limit_bull = 100  # общее количество пуль
+    max_bull = randint(10, 30) * 5  # общее количество пуль
+    limit_bull = max_bull
     limit_time = 0.4  # время на перезарядку
     
     # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
@@ -186,17 +191,17 @@ class Boss(GameSprite):
         bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.bottom, size_x=15, size_y=20, speed=17)
         self.bulletes.add(bullet)
 
-def text_update(text, num, pos):
+def text_update(text, num, num2, pos):
     #задаём разный цвет в зависимости от количества жизней
     color = WHITE_COLOR
-    if text == "Жизни: ":
-        if life == 3:
+    if text == "Жизни: " or text == "Boss: ":
+        if num >= 3:
             color = GREEN_COLOR
-        elif life == 2:
+        elif num == 2:
             color = ORANGE_COLOR
         else:
             color = RED_COLOR
-    window.blit(font2.render(text + str(num), 1, color), pos)
+    window.blit(font2.render(f"{text}{num} / {num2}", 1, color), pos)
 
 def monsters_collide_actions(collides, score):
     for c in collides:
@@ -242,20 +247,20 @@ def main_update():
         boss.reset()
         boss.bulletes.update()
         boss.bulletes.draw(window)
-        text_update("Boss: ", boss.health, (win_width - 150, 20))
+        text_update("Boss: ", boss.health, boss_health, (win_width - 170, 20))
             
     if life > 0:
         ship.update()
         ship.reset()
-    text_update("Счет: ", score, (10, 20))
-    text_update("Пропущено: ", lost, (10, 50))
-    text_update("Патроны: ", limit_bull, (10, 80))
-    text_update("Жизни: ", life, (10, 110))
+    text_update("Счет: ", score, goal, (10, 20))
+    text_update("Пропущено: ", lost, max_lost, (10, 50))
+    text_update("Патроны: ", limit_bull, max_bull, (10, 80))
+    text_update("Жизни: ", life, max_life, (10, 110))
 
 def start_game():
     vars()  # присваиваем стартовые значения переменным
     ship.rect.centerx = win_width//2
-    boss.health = 10
+    boss.health = boss_health 
     for i in range(1, 6):
         scale = randint(90,200)
         monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=randint(-80, - 8) * 10,
