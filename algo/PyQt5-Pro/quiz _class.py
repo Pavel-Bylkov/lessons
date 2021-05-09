@@ -1,8 +1,8 @@
 # ToDo  исправить проверку результата - перемешивание списков ответов.
-#подключаем модуль с направляющими линиями
 import json
 from random import shuffle
 from typing import Optional, Union
+#подключаем модуль с направляющими линиями
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QColor
 #подключаем необходимые виджеты

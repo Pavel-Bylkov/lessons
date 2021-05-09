@@ -10,7 +10,7 @@ my_win = QWidget()
 # создаём название главного окна
 my_win.setWindowTitle('Моё первое приложение')
 # задаём размер окна
-my_win.resize(400, 200)
+my_win.resize(500, 300)
 # задаём точку появления окна на экране компьютера
 my_win.move(900, 70)
 
@@ -23,7 +23,10 @@ line.addWidget(btn, alignment=Qt.AlignCenter)
 my_win.setLayout(line)
 
 def hello():
-    title.setText("Hello, world!")
+    if title.text() == "":
+        title.setText("Hello, world!")
+    else:
+        title.setText("") 
 
 btn.clicked.connect(hello)
 
