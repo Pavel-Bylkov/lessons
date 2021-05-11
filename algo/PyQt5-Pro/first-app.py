@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLay
 app = QApplication([])
 # создаём объект главного окна
 my_win = QWidget()
+
 # создаём название главного окна
 my_win.setWindowTitle('Моё первое приложение')
 # задаём размер окна
@@ -14,19 +15,19 @@ my_win.resize(500, 300)
 # задаём точку появления окна на экране компьютера
 my_win.move(900, 70)
 
-title = QLabel('')
+title = QLabel('Text')
 btn = QPushButton("Hello")
 
 line = QVBoxLayout()
-line.addWidget(title, alignment=Qt.AlignLeft)
+line.addWidget(title, alignment=Qt.AlignCenter)
 line.addWidget(btn, alignment=Qt.AlignCenter)
 my_win.setLayout(line)
 
 def hello():
-    if title.text() == "":
+    if title.text() == "Text":
         title.setText("Hello, world!")
     else:
-        title.setText("") 
+        title.setText("Text") 
 
 btn.clicked.connect(hello)
 
