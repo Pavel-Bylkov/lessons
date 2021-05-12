@@ -8,7 +8,7 @@ goal = 5
  
 '''создаём окно программы'''
 back = (200, 255, 255) #цвет фона (background)
-win_width, win_height = 800, 500
+win_width, win_height = 500, 500 # если на платформе то задать 500 на 500
 mw = pygame.display.set_mode((win_width, win_height)) #окно программы (main window)
 mw.fill(back)
 clock = pygame.time.Clock()
@@ -44,34 +44,34 @@ BLUE = (80, 80, 255)
 cards = []
 num_cards = 4
  
-x = 170
+x = win_width//4 - win_width//6
  
 for i in range(num_cards):
-   new_card = Label(x=x, y=170, width=100, height=100, color=YELLOW)
+   new_card = Label(x=x, y=170, width=win_width//6, height=100, color=YELLOW)
    new_card.outline(frame_color=BLUE, thickness=10)
-   new_card.set_text(text='CLICK', fsize=26)
+   new_card.set_text(text='CLICK', fsize=20)
    cards.append(new_card)
-   x = x + 120
+   x = x + win_width//5
  
 # счётчики времени и очков
 time_text = Label(x=0, y=0, width=50, height=50, color=back)
-time_text.set_text(text='Время:',fsize=40, text_color=DARK_BLUE)
+time_text.set_text(text='Время:',fsize=30, text_color=DARK_BLUE)
 time_text.draw(shift_x=20, shift_y=20)
  
-score_text = Label(x=600, y=0, width=50, height=50, color=back)
-score_text.set_text(text='Счёт:',fsize=45, text_color=DARK_BLUE)
+score_text = Label(x=win_width - 150, y=0, width=50, height=50, color=back)
+score_text.set_text(text='Счёт:',fsize=30, text_color=DARK_BLUE)
 score_text.draw(shift_x=20, shift_y=20)
  
 timer = Label(x=50, y=60, width=50, height=40, color=back)
 timer.start_time = time.time() 
-score = Label(x=650, y=60, width=50, height=40, color=back)
+score = Label(x=win_width - 100, y=60, width=50, height=40, color=back)
 score.num = 0
 
 win = Label(x=0, y=0, width=win_width, height=win_height, color=GREEN)
-win.set_text(text='Победа!!!',fsize=90, text_color=DARK_BLUE)
+win.set_text(text='Победа!!!',fsize=40, text_color=DARK_BLUE)
 
 lose = Label(x=0, y=0, width=win_width, height=win_height, color=RED)
-lose.set_text(text='Время вышло!!!',fsize=90, text_color=DARK_BLUE)
+lose.set_text(text='Время вышло!!!',fsize=40, text_color=DARK_BLUE)
 
 wait = 0
 last_click = 0
@@ -96,8 +96,6 @@ while run:
             wait -= 1
     #на каждом тике проверяем клик:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:  #обработай событие «клик по кнопке "Закрыть окно"»
-            run = False
         if not finish and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             x, y = event.pos
             for i in range(num_cards):
@@ -112,6 +110,9 @@ while run:
                         if score.num > 0:
                             score.num -= 1
                         cards[i].fill()
+        # условие если выполнять проект не на платформе - делаем возможность закрыть окно.
+        if event.type == pygame.QUIT:  #обработай событие «клик по кнопке "Закрыть окно"»
+            run = False
     if not finish:
         score.set_text(text=str(score.num), fsize=40, text_color=DARK_BLUE)
         score.draw(shift_x=0, shift_y=0)

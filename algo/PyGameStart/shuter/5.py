@@ -1,14 +1,16 @@
+import os
 from pygame import init, display, sprite, font, time, image, transform, mixer, event, key, Surface
-from pygame import K_LEFT, K_RIGHT, QUIT, KEYDOWN, K_SPACE
+from pygame import K_LEFT, K_RIGHT, QUIT, KEYDOWN, K_SPACE, K_p
 from random import randint
 from time import time as time_t #импортируем функцию для засекания времени, 
                                 # чтобы интерпретатор не искал эту функцию в pygame модуле time, 
                                 # даём ей другое название сами
-
+# ToDo Добавить стрельбу врагов - сканер окружность, выстрел в рандом диапазоне по Герою
+# добавить паузу
 init() # инициализация pygame
 def consts():
     global font2, win, lose, fire_sound, boom_sound, win_width, win_height, title
-    global img_back, img_bullet, img_hero, img_enemy, img_ast, img_boom
+    global img_back, img_bullet, img_hero, img_enemy, img_ast, img_boom, pause_text
     global WHITE_COLOR, GREEN_COLOR, ORANGE_COLOR, RED_COLOR
     # цвета
     WHITE_COLOR = (255, 255, 255)
@@ -17,42 +19,46 @@ def consts():
     RED_COLOR = (150, 0, 0)
     #подгружаем отдельно функции для работы со шрифтом
     font.init()
-    font1 = font.Font(None, 150)
+    font1 = font.SysFont('Arial', 120)
     win = font1.render('YOU WIN!', True,  WHITE_COLOR)
     lose = font1.render('YOU LOSE!', True, RED_COLOR)
+    pause_text = font1.render('PAUSE', True,  WHITE_COLOR) 
     
-    font2 = font.Font(None, 36)
+    font2 = font.SysFont('Arial', 30)
     
     #фоновая музыка
     mixer.init()
-    mixer.music.load('space.ogg')
+    mixer.music.load('res' + os.sep + 'space.ogg')
     mixer.music.set_volume(0.1)
-    fire_sound = mixer.Sound('laser-blast.ogg')
+    fire_sound = mixer.Sound('res' + os.sep + 'laser-blast.ogg')
     fire_sound.set_volume(0.3)
-    boom_sound = mixer.Sound('boom.ogg')
+    boom_sound = mixer.Sound('res' + os.sep + 'boom.ogg')
     boom_sound.set_volume(0.2)
 
     #нам нужны такие картинки:
-    img_back = "galaxy.jpg" #фон игры
-    img_bullet = "bullet.png" #пуля
-    img_hero = "rocket.png" #герой
-    img_enemy = "ufo.png" #враг
-    img_ast = "asteroid.png" #астероид
-    img_boom = "Взрыв4.png"  # взрыв
+    img_back = 'res' + os.sep + "galaxy.jpg" #фон игры
+    img_bullet = 'res' + os.sep + "bullet.png" #пуля
+    img_hero = 'res' + os.sep + "rocket.png" #герой
+    img_enemy = 'res' + os.sep + "ufo.png" #враг
+    img_ast = 'res' + os.sep + "asteroid.png" #астероид
+    img_boom = 'res' + os.sep + "Взрыв4.png"  # взрыв
 
     # параметры окна
     win_width, win_height = 1200, 800
     title = "Shooter"
 
 def vars():
-    global score, goal, lost, max_lost, life, limit_bull, limit_time, finish, final
+    global score, goal, lost, max_lost, limit_time, finish
+    global final, max_life, max_bull, boss_health
     score = 0 #сбито кораблей
-    goal = 20 #столько кораблей нужно сбить для победы
+    goal = randint(2, 6) * 5 #столько кораблей нужно сбить для победы
     lost = 0 #пропущено кораблей
-    max_lost = 10 #проиграли, если пропустили столько кораблей
-    life = 3  #очки жизни
+    max_lost = randint(5, 10) #проиграли, если пропустили столько кораблей
+    max_life = randint(3, 10)  #очки жизни
+    boss_health = randint(5, 15)
 
-    limit_bull = 100  # общее количество пуль
+    max_bull = randint(13, 30) * 5  # общее количество пуль
+    
     limit_time = 0.4  # время на перезарядку
     
     # переменная "игра закончилась": как только там True, в основном цикле перестают работать спрайты
@@ -79,18 +85,51 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image, (self.rect.x, self.rect.y))
 #класс главного игрока
 class Player(GameSprite):
-  #метод для управления спрайтом стрелками клавиатуры
-   def update(self):
-       keys = key.get_pressed()
-       if keys[K_LEFT] and self.rect.x > 5:
-           self.rect.x -= self.speed
-       if keys[K_RIGHT] and self.rect.x < win_width - 80:
-           self.rect.x += self.speed
+    def __init__(self, player_image, x, y, size_x, size_y, speed):
+        # Вызываем конструктор класса (Sprite):
+        super().__init__(player_image, x, y, size_x, size_y, speed)
+        self.bullets = sprite.Group()
+        self.last_time = time_t()
+        self.life = None
+        self.limit_bull = None
+    #метод для управления спрайтом стрелками клавиатуры
+    def update(self):
+        if self.life > 0:
+            keys = key.get_pressed()
+            if keys[K_LEFT] and self.rect.x > 5:
+                self.rect.x -= self.speed
+            if keys[K_RIGHT] and self.rect.x < win_width - 80:
+                self.rect.x += self.speed
+    def reset(self):
+        if self.life > 0:
+            super().reset()
  
-   #метод "выстрел" (используем место игрока, чтобы создать там пулю)
-   def fire(self):
-        bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.top, size_x=15, size_y=20, speed=-15)
-        self.bullets.add(bullet)
+    #метод "выстрел" (используем место игрока, чтобы создать там пулю)
+    def fire(self):
+        if self.limit_bull > 0 and time_t() - self.last_time > limit_time:
+            fire_sound.play()
+            bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.top, size_x=15, size_y=20, speed=-15)
+            self.bullets.add(bullet)
+            self.limit_bull -= 1
+            self.last_time = time_t()
+    def restart(self, max_life, max_bull):
+        self.last_time = time_t()
+        self.life = max_life
+        self.limit_bull = max_bull
+        self.rect.centerx = win_width//2
+    def collides_actions(self, enemies, boom):
+        collides = sprite.spritecollide(self, enemies, False)
+        if boom and collides:
+            for enemy in collides:
+                boom_monster(enemy, x=enemy.rect.centerx, y=enemy.rect.centery, size_x=enemy.rect.width, size_y=enemy.rect.height)
+            self.life -= 1
+        elif collides:
+            self.life -= 1
+        if self.life == 0:
+            boom = Boom(x=self.rect.centerx, y=self.rect.centery, size_x=self.rect.width,
+                        size_y=self.rect.height)
+            booms.add(boom)
+        
 #класс спрайта-врага 
 class Enemy(GameSprite):
   #движение врага
@@ -156,7 +195,7 @@ class Scaner(sprite.Sprite):
         self.rect.y = 0
 class Boss(GameSprite):
     def __init__(self, boss_image, x, y, size_x, size_y, speed):
-        super().__init__(boss_image, x, y, size_x, size_y, speed)
+        GameSprite.__init__(self, boss_image, x, y, size_x, size_y, speed)
         self.scaner = Scaner(x + size_x//2)
         self.right = win_width - 100
         self.left = 100
@@ -184,17 +223,17 @@ class Boss(GameSprite):
         bullet = Bullet(img_bullet, x=self.rect.centerx, y=self.rect.bottom, size_x=15, size_y=20, speed=17)
         self.bulletes.add(bullet)
 
-def text_update(text, num, pos):
+def text_update(text, num, num2, pos):
     #задаём разный цвет в зависимости от количества жизней
     color = WHITE_COLOR
-    if text == "Жизни: ":
-        if life == 3:
+    if text == "Жизни: " or text == "Boss: ":
+        if num >= 3:
             color = GREEN_COLOR
-        elif life == 2:
+        elif num == 2:
             color = ORANGE_COLOR
         else:
             color = RED_COLOR
-    window.blit(font2.render(text + str(num), 1, color), pos)
+    window.blit(font2.render(f"{text}{num} / {num2}", 1, color), pos)
 
 def monsters_collide_actions(collides, score):
     for c in collides:
@@ -202,19 +241,6 @@ def monsters_collide_actions(collides, score):
         score = score + 1
         boom_monster(c, x=c.rect.centerx, y=c.rect.centery, size_x=c.rect.width, size_y=c.rect.height)
     return score
-
-def ship_collides_actions(enemies, boom):
-    global life
-    collides = sprite.spritecollide(ship, enemies, False)
-    if boom and collides:
-        for enemy in collides:
-            boom_monster(enemy, x=enemy.rect.centerx, y=enemy.rect.centery, size_x=enemy.rect.width, size_y=enemy.rect.height)
-        life = life -1
-    elif collides:
-        life = life -1
-    if life == 0:
-        boom = Boom(x=ship.rect.centerx, y=ship.rect.centery, size_x=ship.rect.width, size_y=ship.rect.height)
-        booms.add(boom)
 
 def boom_monster(monster, x, y, size_x, size_y):
     boom = Boom(x, y, size_x, size_y)
@@ -225,14 +251,12 @@ def boom_monster(monster, x, y, size_x, size_y):
 
 def main_update():
     window.blit(background,(0,0))
-    text_update("Счет: ", score, (10, 20))
-    text_update("Пропущено: ", lost, (10, 50))
-    text_update("Патроны: ", limit_bull, (10, 80))
-    text_update("Жизни: ", life, (10, 110))
+    #производим движения спрайтов
     monsters.update()
     asteroids.update()
     ship.bullets.update()
     booms.update()
+    #обновляем их в новом местоположении при каждой итерации цикла
     monsters.draw(window)
     asteroids.draw(window)
     ship.bullets.draw(window)
@@ -242,17 +266,19 @@ def main_update():
         boss.reset()
         boss.bulletes.update()
         boss.bulletes.draw(window)
-        text_update("Boss: ", boss.health, (win_width - 150, 20))
-            #производим движения спрайтов
-    if life > 0:
-        ship.update()
-
-        #обновляем их в новом местоположении при каждой итерации цикла
-        ship.reset()
+        text_update("Boss: ", boss.health, boss_health, (win_width - 170, 20))
+            
+    ship.update()
+    ship.reset()
+    text_update("Счет: ", score, goal, (10, 20))
+    text_update("Пропущено: ", lost, max_lost, (10, 50))
+    text_update("Патроны: ", ship.limit_bull, max_bull, (10, 80))
+    text_update("Жизни: ", ship.life, max_life, (10, 110))
 
 def start_game():
     vars()  # присваиваем стартовые значения переменным
-    ship.rect.centerx = win_width//2
+    ship.restart(max_life=max_life, max_bull=max_bull)
+    boss.health = boss_health 
     for i in range(1, 6):
         scale = randint(90,200)
         monster = Enemy(img_enemy, x=randint(80, win_width - 80), y=randint(-80, - 8) * 10,
@@ -263,6 +289,10 @@ def start_game():
         asteroids.add(asteroid)
     mixer.music.play()
 
+def next_frame():
+    display.update()
+    clock.tick(30)
+
 consts()
 #создаём окошко
 display.set_caption(title)
@@ -270,7 +300,7 @@ window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
 #создаём спрайты
 ship = Player(img_hero, x=5, y=win_height - 100, size_x=80, size_y=100, speed=10)
-ship.bullets = sprite.Group()
+
 boss = Boss(img_enemy, x=win_width//2, y=70, size_x=120, size_y=80, speed=12)
 monsters = sprite.Group()
 #создание группы спрайтов-астероидов ()
@@ -279,25 +309,23 @@ booms = sprite.Group()
 
 start_game()
 
-last_time = time_t()
 clock = time.Clock() 
 #основной цикл игры:
 run = True #флаг сбрасывается кнопкой закрытия окна     
+pause = False
 while run:
-   #событие нажатия на кнопку “Закрыть”
-   for e in event.get():
-       if e.type == QUIT:
-           run = False
-       #событие нажатия на пробел - спрайт стреляет
-       if e.type == KEYDOWN and e.key == K_SPACE and not finish:
-            if limit_bull > 0 and time_t() - last_time > limit_time:
-                fire_sound.play()
-                ship.fire()
-                limit_bull -= 1
-                last_time = time_t()
-              
-   #сама игра: действия спрайтов, проверка правил игры, перерисовка
-   if not finish:
+    #событие нажатия на кнопку “Закрыть”
+    for e in event.get():
+        if e.type == QUIT:
+            run = False
+        #событие нажатия на пробел - спрайт стреляет
+        if e.type == KEYDOWN and e.key == K_SPACE and not finish:
+            ship.fire()
+        if e.type == KEYDOWN and e.key == K_p:
+            pause = False if pause else True
+
+    #сама игра: действия спрайтов, проверка правил игры, перерисовка
+    if not finish and not pause:
         main_update()
     
         #проверка столкновения пули и монстров (и монстр, и пуля при касании исчезают)
@@ -311,14 +339,14 @@ while run:
             booms.add(Boom(x=boss.rect.centerx, y=boss.rect.bottom,  size_x=60, size_y=50))
 
         #если спрайт коснулся врага, уменьшает жизнь
-        ship_collides_actions(monsters, True)
-        ship_collides_actions(asteroids, True)
-        ship_collides_actions(boss.bulletes, False)
+        ship.collides_actions(monsters, True)
+        ship.collides_actions(asteroids, True)
+        ship.collides_actions(boss.bulletes, False)
 
         if score >= goal:
             final = True
         #проигрыш
-        if life == 0 or lost >= max_lost:
+        if ship.life == 0 or lost >= max_lost:
             finish = True #проиграли, ставим фон и больше не управляем спрайтами.
             final_text = lose
         # Победа
@@ -326,19 +354,15 @@ while run:
             finish = True
             final_text = win
         
-        display.update()
- 
-   #бонус: автоматический перезапуск игры
-   else:
+    #бонус: автоматический перезапуск игры
+    elif not pause:
         while len(booms):
             main_update()
             window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
-            display.update()
-            clock.tick(30)    
+            next_frame() 
         for  _ in range(50):
             window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
-            display.update()
-            clock.tick(30)  
+            next_frame() 
         for b in ship.bullets:
             b.kill()
         for m in monsters:
@@ -347,5 +371,6 @@ while run:
             m.kill()
         time.delay(3000)
         start_game()
- 
-   clock.tick(30)
+    else:
+        window.blit(pause_text, (win_width//2 - 200,  win_height//2 - 80))
+    next_frame()
