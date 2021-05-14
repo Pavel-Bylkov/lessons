@@ -1,6 +1,7 @@
 from pygame import *
 from random import randint
 from time import time as time_t
+import os
 
 # подгружаем отдельно функции для работы со шрифтом
 font.init()
@@ -12,20 +13,20 @@ font2 = font.Font(None, 36)
 
 #фоновая музыка
 mixer.init()
-mixer.music.load('space.ogg')
+mixer.music.load('res' + os.sep + 'space.ogg')
 mixer.music.set_volume(0.1)
 mixer.music.play()
-fire_sound = mixer.Sound('laser-blast.ogg')
+fire_sound = mixer.Sound('res' + os.sep + 'laser-blast.ogg')
 fire_sound.set_volume(0.3)
-boom_sound = mixer.Sound('boom.ogg')
+boom_sound = mixer.Sound('res' + os.sep + 'boom.ogg')
 boom_sound.set_volume(0.2)
 
 # нам нужны такие картинки:
-img_back = "galaxy.jpg" # фон игры
-img_bullet = "bullet.png" # пуля
-img_hero = "rocket.png" # герой
-img_enemy = "ufo.png" # враг
-img_boom = "Взрыв4.png"  # взрыв
+img_back = 'res' + os.sep + "galaxy.jpg" # фон игры
+img_bullet = 'res' + os.sep + "bullet.png" # пуля
+img_hero = 'res' + os.sep + "rocket.png" # герой
+img_enemy = 'res' + os.sep + "ufo.png" # враг
+img_boom = 'res' + os.sep + "Взрыв4.png"  # взрыв
 
 # цвета
 WHITE_COLOR = (255, 255, 255)
@@ -139,8 +140,8 @@ class Boss(GameSprite):
     def __init__(self, boss_image, x, y, size_x, size_y, speed):
         super().__init__(boss_image, x, y, size_x, size_y, speed)
         self.scaner = Scaner(x + size_x//2)
-        self.right = win_width - 100
-        self.left = 100
+        self.right = win_width - size_x - 50
+        self.left = 50
         self.direction = "right"*randint(0,1) or "left"
         self.health = 10
         self.last_shot = time_t()
@@ -188,6 +189,10 @@ def main_update():
     monsters.draw(window)
     ship.bullets.draw(window)
     booms.draw(window)
+    if not finish:
+        # производим движения спрайтов
+        ship.update()
+        ship.reset()
     if final:
         boss.update()
         boss.reset()
@@ -219,6 +224,17 @@ def start_game():
         monsters.add(monster)
 
 def next_frame():
+    global limit_bull, last_time, run
+    # событие нажатия на кнопку Закрыть
+    for e in event.get():
+        if e.type == QUIT:
+            run = False
+        # событие нажатия на пробел - спрайт стреляет
+        if e.type == KEYDOWN and e.key == K_SPACE and not finish:
+            if limit_bull > 0 and time_t() - last_time > limit_time:
+                ship.fire()
+                limit_bull -= 1
+                last_time = time_t()
     display.update()
     clock.tick(30) 
 
@@ -242,24 +258,9 @@ clock = time.Clock()
 # Основной цикл игры:
 run = True # флаг сбрасывается кнопкой закрытия окна
 while run:
-    # событие нажатия на кнопку Закрыть
-    for e in event.get():
-        if e.type == QUIT:
-            run = False
-        # событие нажатия на пробел - спрайт стреляет
-        if e.type == KEYDOWN and e.key == K_SPACE and not finish:
-            if limit_bull > 0 and time_t() - last_time > limit_time:
-                ship.fire()
-                limit_bull -= 1
-                last_time = time_t()
- 
-  # сама игра: действия спрайтов, проверка правил игры, перерисовка
+    # сама игра: действия спрайтов, проверка правил игры, перерисовка
     if not finish:
         main_update()
-
-        # производим движения спрайтов
-        ship.update()
-        ship.reset()
 
         # проверка столкновения пули и монстров (и монстр, и пуля при касании исчезают)
         collides = sprite.groupcollide(monsters, ship.bullets, False, True)
@@ -290,17 +291,20 @@ while run:
             # пишем текст на экране
             final_text = win  
     else:
-        while len(booms):
+        while len(booms) and run:
             main_update()
             window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
             next_frame()
-        for  _ in range(30):
+        for _ in range(30):
+            if not run:
+                break
             window.blit(final_text, (win_width//2 - 200,  win_height//2 - 80))
-            next_frame()    
-        for b in ship.bullets:
-            b.kill()
-        for m in monsters:
-            m.kill()
-        time.delay(3000)
-        start_game()
+            next_frame() 
+        if run:   
+            for b in ship.bullets:
+                b.kill()
+            for m in monsters:
+                m.kill()
+            time.delay(3000)
+            start_game()
     next_frame()

@@ -19,7 +19,7 @@ def consts():
     RED_COLOR = (150, 0, 0)
     #подгружаем отдельно функции для работы со шрифтом
     font.init()
-    font1 = font.SysFont('Arial', 120)
+    font1 = font.SysFont('Arial', 100)
     win = font1.render('YOU WIN!', True,  WHITE_COLOR)
     lose = font1.render('YOU LOSE!', True, RED_COLOR)
     pause_text = font1.render('PAUSE', True,  WHITE_COLOR) 
