@@ -109,7 +109,7 @@ class Hero(pg.sprite.Sprite):
                 self.rect.top = max(self.rect.top, p.rect.bottom) # выравниваем верхний край по нижним краям стенок, на которые наехали
 
 class Wall(pg.sprite.Sprite):
-    def __init__(self, x=20, y=0, width=120, height=120, color=C_GREEN):
+    def __init__(self, x, y, width, height, color=C_GREEN):
         pg.sprite.Sprite.__init__(self)
         # картинка - новый прямоугольник нужных размеров:
         self.image = pg.Surface([width, height])

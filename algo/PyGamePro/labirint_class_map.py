@@ -78,7 +78,7 @@ win_height = 860
 display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
 #создаем стены
-COLOR_WALL = (0, 0, 255)
+COLOR_WALL = (0, 250, 120)
 walls = sprite.Group()
 monsters = sprite.Group()
 packman = final_sprite = None
@@ -133,7 +133,7 @@ while run:
     #проверка, что игра еще не завершена
     if not finish:
         #обновляем фон каждую итерацию
-        window.fill((255, 255, 255))
+        window.fill((0, 58, 0))
         #рисуем стены
         walls.draw(window)
         #запускаем движения спрайтов

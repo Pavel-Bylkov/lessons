@@ -14,11 +14,11 @@ while run:
             run = False 
         elif event.type == pg.KEYDOWN: 
             if event.key == pg.K_LEFT:
-                robin.x_speed = -5 
+                robin.x_speed = hero_speed * (-1)
             elif event.key == pg.K_RIGHT:
-                robin.x_speed = 5 
+                robin.x_speed = hero_speed
             elif event.key == pg.K_UP:
-                robin.jump(-7)
+                robin.jump(hero_jump * (-1))
 
         elif event.type == pg.KEYUP: 
             if event.key == pg.K_LEFT:

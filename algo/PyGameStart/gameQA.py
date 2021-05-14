@@ -65,9 +65,10 @@ while run:
             if event.key == pygame.K_q:
                 num = randint(1, len(quest_card.titles)-1)   
                 quest_card.set_text(num, 25)
+                num = randint(1, len(quest_card.titles)-1)  
                 ans_card.set_text(num, 25)
 
-                quest_card.draw(10,25)
+                quest_card.draw(10, 25)
                 ans_card.draw(10, 25)
 
     if pygame.mouse.get_pressed()[0] and ans_card.rect.collidepoint(pygame.mouse.get_pos()):

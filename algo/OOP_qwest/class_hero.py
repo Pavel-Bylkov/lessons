@@ -39,4 +39,4 @@ class Hero():
                 if self.health <= 0:
                     print(self.name, 'пал в этом нелегком бою!\n')
                     break
-            sleep(4)
+            sleep(3)
