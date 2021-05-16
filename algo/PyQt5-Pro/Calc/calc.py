@@ -21,31 +21,21 @@ class MainWindow(QWidget):
     def init_gui(self):
         self.lb_display = QLabel("00000000000000000")
         self.lb_display.setFont(QFont("Uroob Bold", 30))
+        self.lb_sign = QLabel(" ")
+        self.lb_sign.setFont(QFont("Uroob Bold", 30))
         self.gb_buttons = QGroupBox()
         self.btn_bracket_left = QPushButton("(")
-        #self.btn_bracket_left.setFont(QFont("Uroob Bold", 15))
         self.btn_bracket_right = QPushButton(")")
-        #self.btn_bracket_right.setFont(QFont("Uroob Bold", 15))
         self.btn_ac = QPushButton("AC")
-        #self.btn_ac.setFont(QFont("Uroob Bold", 15))
         self.btn_plus_minus = QPushButton("+/-")
-        #self.btn_plus_minus.setFont(QFont("Uroob Bold", 15))
         self.btn_percent = QPushButton("%")
-        #self.btn_percent.setFont(QFont("Uroob Bold", 15))
         self.btn_devision = QPushButton(chr(247))  # получем символ деления по таблице Юникод
-        #self.btn_devision.setFont(QFont("Uroob Bold", 15))
         self.btn_multi = QPushButton("x")
-        #self.btn_multi.setFont(QFont("Uroob Bold", 15))
         self.btn_plus = QPushButton("+")
-        #self.btn_plus.setFont(QFont("Uroob Bold", 15))
         self.btn_minus = QPushButton("-")
-        #self.btn_minus.setFont(QFont("Uroob Bold", 15))
         self.btn_run = QPushButton("=")
-        #self.btn_run.setFont(QFont("Uroob Bold", 15))
         self.btn_point = QPushButton(",")
-        #self.btn_point.setFont(QFont("Uroob Bold", 15))
         self.btn_0 = QPushButton("0")
-        #self.btn_0.setFont(QFont("Uroob Bold", 15))
         self.btn_1 = QPushButton("1")
         self.btn_2 = QPushButton("2")
         self.btn_3 = QPushButton("3")
@@ -62,7 +52,12 @@ class MainWindow(QWidget):
 
     def layout_widgets(self):
         v_line = QVBoxLayout()
-        v_line.addWidget(self.lb_display, alignment=Qt.AlignCenter)
+        h_line = QHBoxLayout()
+        h_line.addStretch(0)
+        h_line.addWidget(self.lb_sign, alignment=Qt.AlignRight)
+        h_line.addWidget(self.lb_display, alignment=Qt.AlignLeft)
+        h_line.addStretch(0)
+        v_line.addLayout(h_line)
 
         main_col =QVBoxLayout()
         row1 = QHBoxLayout()
@@ -107,6 +102,7 @@ class MainWindow(QWidget):
 
     def connects(self):
         self.btn_0.clicked.connect(lambda: self.add_num("0"))
+        # обработчику событий нельзя передать параметры, поэтому используем lambda
         self.btn_1.clicked.connect(lambda: self.add_num("1"))
         self.btn_2.clicked.connect(lambda: self.add_num("2"))
         self.btn_3.clicked.connect(lambda: self.add_num("3"))
