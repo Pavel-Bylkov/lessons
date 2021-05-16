@@ -1,6 +1,7 @@
 #подключаем модуль с направляющими линиями
 from PyQt5.QtCore import Qt
 #подключаем необходимые виджеты
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout,
                             QGroupBox)
 
@@ -9,6 +10,7 @@ class MainWindow(QWidget):
         super().__init__(parent=parent, flags=flags)
         self.config()
         self.init_gui()
+        self.connects()
 
     def config(self):
         # создаём название главного окна
@@ -17,21 +19,33 @@ class MainWindow(QWidget):
         self.resize(500, 250)
     
     def init_gui(self):
-        self.lb_display = QLabel("00000000000000000000000")
-        self.lb_display.setFont()
+        self.lb_display = QLabel("00000000000000000")
+        self.lb_display.setFont(QFont("Uroob Bold", 30))
         self.gb_buttons = QGroupBox()
         self.btn_bracket_left = QPushButton("(")
+        #self.btn_bracket_left.setFont(QFont("Uroob Bold", 15))
         self.btn_bracket_right = QPushButton(")")
+        #self.btn_bracket_right.setFont(QFont("Uroob Bold", 15))
         self.btn_ac = QPushButton("AC")
+        #self.btn_ac.setFont(QFont("Uroob Bold", 15))
         self.btn_plus_minus = QPushButton("+/-")
+        #self.btn_plus_minus.setFont(QFont("Uroob Bold", 15))
         self.btn_percent = QPushButton("%")
+        #self.btn_percent.setFont(QFont("Uroob Bold", 15))
         self.btn_devision = QPushButton(chr(247))  # получем символ деления по таблице Юникод
+        #self.btn_devision.setFont(QFont("Uroob Bold", 15))
         self.btn_multi = QPushButton("x")
+        #self.btn_multi.setFont(QFont("Uroob Bold", 15))
         self.btn_plus = QPushButton("+")
+        #self.btn_plus.setFont(QFont("Uroob Bold", 15))
         self.btn_minus = QPushButton("-")
+        #self.btn_minus.setFont(QFont("Uroob Bold", 15))
         self.btn_run = QPushButton("=")
+        #self.btn_run.setFont(QFont("Uroob Bold", 15))
         self.btn_point = QPushButton(",")
+        #self.btn_point.setFont(QFont("Uroob Bold", 15))
         self.btn_0 = QPushButton("0")
+        #self.btn_0.setFont(QFont("Uroob Bold", 15))
         self.btn_1 = QPushButton("1")
         self.btn_2 = QPushButton("2")
         self.btn_3 = QPushButton("3")
@@ -91,10 +105,54 @@ class MainWindow(QWidget):
         v_line.addWidget(self.gb_buttons, alignment=Qt.AlignCenter)
         self.setLayout(v_line)
 
+    def connects(self):
+        self.btn_0.clicked.connect(lambda: self.add_num("0"))
+        self.btn_1.clicked.connect(lambda: self.add_num("1"))
+        self.btn_2.clicked.connect(lambda: self.add_num("2"))
+        self.btn_3.clicked.connect(lambda: self.add_num("3"))
+        self.btn_4.clicked.connect(lambda: self.add_num("4"))
+        self.btn_5.clicked.connect(lambda: self.add_num("5"))
+        self.btn_6.clicked.connect(lambda: self.add_num("6"))
+        self.btn_7.clicked.connect(lambda: self.add_num("7"))
+        self.btn_8.clicked.connect(lambda: self.add_num("8"))
+        self.btn_9.clicked.connect(lambda: self.add_num("9"))
+        self.btn_point.clicked.connect(lambda: self.add_num("."))
+        self.btn_ac.clicked.connect(self.do_ac)
+        self.btn_undo.clicked.connect(self.do_undo)
+
+    def do_ac(self):
+        self.lb_display.setText("00000000000000000")
+
+    def do_undo(self):
+        new_text = "0" + self.lb_display.text()[:-1]
+        self.lb_display.setText(new_text)
+
+    def add_num(self, num):
+        if self.lb_display.text()[1] != "." and self.lb_display.text()[0] == "0":
+            if num != "." or (num == "." and "." not in self.lb_display.text()):
+                new_text = self.lb_display.text()[1:] + num
+                self.lb_display.setText(new_text)
+
 
 def main():
     #создаём объект приложения
     app = QApplication([])
+    app.setStyleSheet("""
+        QLabel { background-color: grey }
+        QPushButton {
+                border: 2px solid #8f8f91;
+                border-radius: 6px;
+                background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                                  stop: 0 #f6f7fa, stop: 1 #dadbde);
+                min-width: 80px;
+                font: bold 25px;
+                    }
+
+        QPushButton:pressed {
+                background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #faafaf, stop: 1 #affaaf);
+                    }
+                    """)
     # создаём объект главного окна
     my_win = MainWindow()
 
