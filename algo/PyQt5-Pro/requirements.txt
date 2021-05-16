@@ -1,0 +1,16 @@
+altgraph==0.17
+autopep8==1.5.5
+fbs==0.9.4
+flake8==3.8.4
+future==0.18.2
+macholib==1.14
+mccabe==0.6.1
+pefile==2021.5.13
+Pillow==8.1.0
+pycodestyle==2.6.0
+pyflakes==2.2.0
+PyInstaller==3.4
+PyQt5==5.15.2
+PyQt5-sip==12.8.1
+PyQt5-stubs==5.14.2.2
+toml==0.10.2

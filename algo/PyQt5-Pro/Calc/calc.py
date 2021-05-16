@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLa
                             QGroupBox)
 
 class MainWindow(QWidget):
-    def __init__(self, parent=None, flags=Qt.WindowFlags())
+    def __init__(self, parent=None, flags=Qt.WindowFlags()):
         super().__init__(parent=parent, flags=flags)
         self.config()
         self.init_gui()
@@ -14,10 +14,11 @@ class MainWindow(QWidget):
         # создаём название главного окна
         self.setWindowTitle('Калькулятор - версия 1.0')
         # задаём размер окна
-        self.resize(600, 500)
+        self.resize(500, 250)
     
     def init_gui(self):
-        self.lb_display = QLabel("0")
+        self.lb_display = QLabel("00000000000000000000000")
+        self.lb_display.setFont()
         self.gb_buttons = QGroupBox()
         self.btn_bracket_left = QPushButton("(")
         self.btn_bracket_right = QPushButton(")")
@@ -42,6 +43,7 @@ class MainWindow(QWidget):
         self.btn_9 = QPushButton("9")
         self.btn_pov = QPushButton("x^y")
         self.btn_sqrt = QPushButton(chr(8730))
+        self.btn_undo = QPushButton(chr(9100))
         self.layout_widgets()
 
     def layout_widgets(self):
@@ -62,7 +64,27 @@ class MainWindow(QWidget):
         row2.addWidget(self.btn_8, alignment=Qt.AlignCenter)
         row2.addWidget(self.btn_9, alignment=Qt.AlignCenter)
         row2.addWidget(self.btn_multi, alignment=Qt.AlignCenter)
-        main_col.addLayout(row2) 
+        main_col.addLayout(row2)
+        row3 = QHBoxLayout()
+        row3.addWidget(self.btn_pov, alignment=Qt.AlignCenter)
+        row3.addWidget(self.btn_4, alignment=Qt.AlignCenter)
+        row3.addWidget(self.btn_5, alignment=Qt.AlignCenter)
+        row3.addWidget(self.btn_6, alignment=Qt.AlignCenter)
+        row3.addWidget(self.btn_plus, alignment=Qt.AlignCenter)
+        main_col.addLayout(row3)
+        row4 = QHBoxLayout()
+        row4.addWidget(self.btn_sqrt, alignment=Qt.AlignCenter)
+        row4.addWidget(self.btn_1, alignment=Qt.AlignCenter)
+        row4.addWidget(self.btn_2, alignment=Qt.AlignCenter)
+        row4.addWidget(self.btn_3, alignment=Qt.AlignCenter)
+        row4.addWidget(self.btn_minus, alignment=Qt.AlignCenter)
+        main_col.addLayout(row4)
+        row5 = QHBoxLayout()
+        row5.addWidget(self.btn_undo, alignment=Qt.AlignCenter)
+        row5.addWidget(self.btn_0, alignment=Qt.AlignCenter)
+        row5.addWidget(self.btn_point, alignment=Qt.AlignCenter)
+        row5.addWidget(self.btn_run, 2, alignment=Qt.AlignAbsolute)
+        main_col.addLayout(row5)
 
 
         self.gb_buttons.setLayout(main_col)
