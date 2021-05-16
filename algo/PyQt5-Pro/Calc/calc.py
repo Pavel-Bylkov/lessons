@@ -5,6 +5,9 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout,
                             QGroupBox)
 
+DISP_SIZE = "0" * 17
+
+
 class MainWindow(QWidget):
     def __init__(self, parent=None, flags=Qt.WindowFlags()):
         super().__init__(parent=parent, flags=flags)
@@ -19,7 +22,7 @@ class MainWindow(QWidget):
         self.resize(500, 250)
     
     def init_gui(self):
-        self.lb_display = QLabel("00000000000000000")
+        self.lb_display = QLabel(DISP_SIZE)
         self.lb_display.setFont(QFont("Uroob Bold", 30))
         self.lb_sign = QLabel(" ")
         self.lb_sign.setFont(QFont("Uroob Bold", 30))
@@ -47,7 +50,7 @@ class MainWindow(QWidget):
         self.btn_9 = QPushButton("9")
         self.btn_pov = QPushButton("x^y")
         self.btn_sqrt = QPushButton(chr(8730))
-        self.btn_undo = QPushButton(chr(9100))
+        self.btn_undo = QPushButton("undo")
         self.layout_widgets()
 
     def layout_widgets(self):
@@ -95,7 +98,6 @@ class MainWindow(QWidget):
         row5.addWidget(self.btn_run, 2, alignment=Qt.AlignAbsolute)
         main_col.addLayout(row5)
 
-
         self.gb_buttons.setLayout(main_col)
         v_line.addWidget(self.gb_buttons, alignment=Qt.AlignCenter)
         self.setLayout(v_line)
@@ -117,7 +119,7 @@ class MainWindow(QWidget):
         self.btn_undo.clicked.connect(self.do_undo)
 
     def do_ac(self):
-        self.lb_display.setText("00000000000000000")
+        self.lb_display.setText(DISP_SIZE)
 
     def do_undo(self):
         new_text = "0" + self.lb_display.text()[:-1]
