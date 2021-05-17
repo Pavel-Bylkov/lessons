@@ -65,6 +65,8 @@ win_width = 1400
 win_height = 800
 display.set_caption("Лабиринт")
 window = display.set_mode((win_width, win_height))
+img_lose = transform.scale(image.load('gameover.jpeg'), (win_width, win_height))
+img_win = transform.scale(image.load('winner_1.jpg'), (win_width, win_height))
 #создаем стены
 COLOR_WALL = (0, 0, 255)
 walls = sprite.Group()
@@ -108,10 +110,8 @@ while run:
         #Проверка столкновения героя с врагом и стенами
         if sprite.collide_rect(packman, monster):
             finish = True
-            img = transform.scale(image.load('gameover.jpeg'), (win_width, win_height))
-            window.blit(img, (0, 0))
+            window.blit(img_lose, (0, 0))
         if sprite.collide_rect(packman, final_sprite):
             finish = True
-            img = transform.scale(image.load('winner_1.jpg'), (win_width, win_height))
-            window.blit(img, (0, 0))
+            window.blit(img_win, (0, 0))
     display.update()

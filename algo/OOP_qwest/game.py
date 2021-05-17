@@ -11,7 +11,7 @@ sleep(5)
 print(knight.name + ' идёт по лесу. Вдруг видит на пути мелкого воришку...')
  
 sleep(5)
-rascal = Hero('Питер', randint(3, 10) * 5, randint(1, 5) * 5, randint(1, 3) * 5, 'нож')
+rascal = Hero('Питер', randint(3, 12) * 5, randint(1, 5) * 5, randint(1, 3) * 5, 'нож')
 rascal.print_info()
  
 sleep(5)

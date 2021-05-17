@@ -5,6 +5,8 @@ win_height = 600
 left_bound = win_width / 40   
 right_bound = win_width - 8 *  left_bound 
 shift = 0
+hero_speed = 5
+hero_jump = 7
 
 x_start, y_start = 20, 10
 
