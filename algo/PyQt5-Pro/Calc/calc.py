@@ -5,7 +5,8 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout,
                             QGroupBox)
 
-DISP_SIZE = "0" * 17
+DISP_SIZE = "0" * 17  # размер дисплея
+WIN_X, WIN_Y = 500, 250
 
 
 class MainWindow(QWidget):
@@ -19,7 +20,7 @@ class MainWindow(QWidget):
         # создаём название главного окна
         self.setWindowTitle('Калькулятор - версия 1.0')
         # задаём размер окна
-        self.resize(500, 250)
+        self.resize(WIN_X, WIN_Y)
     
     def init_gui(self):
         self.lb_display = QLabel(DISP_SIZE)

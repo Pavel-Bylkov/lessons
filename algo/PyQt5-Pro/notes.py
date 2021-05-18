@@ -83,13 +83,13 @@ class MainWindow(QWidget):
     def load_data(self):
         """Получаем список блокнотов и отображаем его"""
         self.lw_notebooks.addItems(self.file.data)
-        self.lw_notebooks.setCurrentRow(0)
+        self.lw_notebooks.setCurrentRow(0)  # выбираем первый блокнот в списке
         self.show_notes()
     
     def show_notes(self):
         """Получаем список заметок и отображаем его"""
         if self.lw_notebooks.selectedItems():
-            self.lw_notes.clear()
+            self.lw_notes.clear()  # очищаем предыдущий список заметок
             notebook = self.lw_notebooks.selectedItems()[0].text()
             self.lw_notes.addItems(self.file.data[notebook])
             self.lw_notes.setCurrentRow(0)
