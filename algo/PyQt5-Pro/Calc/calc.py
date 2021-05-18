@@ -71,6 +71,7 @@ class MainWindow(QWidget):
         row1.addWidget(self.btn_percent, alignment=Qt.AlignCenter)
         row1.addWidget(self.btn_devision, alignment=Qt.AlignCenter)
         main_col.addLayout(row1)
+
         row2 = QHBoxLayout()
         row2.addWidget(self.btn_bracket_right, alignment=Qt.AlignCenter)
         row2.addWidget(self.btn_7, alignment=Qt.AlignCenter)
@@ -78,6 +79,7 @@ class MainWindow(QWidget):
         row2.addWidget(self.btn_9, alignment=Qt.AlignCenter)
         row2.addWidget(self.btn_multi, alignment=Qt.AlignCenter)
         main_col.addLayout(row2)
+
         row3 = QHBoxLayout()
         row3.addWidget(self.btn_pov, alignment=Qt.AlignCenter)
         row3.addWidget(self.btn_4, alignment=Qt.AlignCenter)
@@ -85,6 +87,7 @@ class MainWindow(QWidget):
         row3.addWidget(self.btn_6, alignment=Qt.AlignCenter)
         row3.addWidget(self.btn_plus, alignment=Qt.AlignCenter)
         main_col.addLayout(row3)
+
         row4 = QHBoxLayout()
         row4.addWidget(self.btn_sqrt, alignment=Qt.AlignCenter)
         row4.addWidget(self.btn_1, alignment=Qt.AlignCenter)
@@ -92,6 +95,7 @@ class MainWindow(QWidget):
         row4.addWidget(self.btn_3, alignment=Qt.AlignCenter)
         row4.addWidget(self.btn_minus, alignment=Qt.AlignCenter)
         main_col.addLayout(row4)
+
         row5 = QHBoxLayout()
         row5.addWidget(self.btn_undo, alignment=Qt.AlignCenter)
         row5.addWidget(self.btn_0, alignment=Qt.AlignCenter)
@@ -128,7 +132,7 @@ class MainWindow(QWidget):
 
     def add_num(self, num):
         if self.lb_display.text()[1] != "." and self.lb_display.text()[0] == "0":
-            if num != "." or (num == "." and "." not in self.lb_display.text()):
+            if num != "." or "." not in self.lb_display.text():
                 new_text = self.lb_display.text()[1:] + num
                 self.lb_display.setText(new_text)
 
