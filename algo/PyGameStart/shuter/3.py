@@ -1,14 +1,15 @@
+import os
 from pygame import *
 from random import randint
 from time import time as time_t
 #фоновая музыка
 mixer.init()
-mixer.music.load('space.ogg')
+mixer.music.load('res' + os.sep + 'space.ogg')
 mixer.music.set_volume(0.1)
 mixer.music.play()
-fire_sound = mixer.Sound('laser-blast.ogg')
+fire_sound = mixer.Sound('res' + os.sep + 'laser-blast.ogg')
 fire_sound.set_volume(0.3)
-boom_sound = mixer.Sound('boom.ogg')
+boom_sound = mixer.Sound('res' + os.sep + 'boom.ogg')
 boom_sound.set_volume(0.2)
 
 # цвета
@@ -24,11 +25,11 @@ lose = font1.render('YOU LOSE!', True, RED_COLOR)
 font2 = font.Font(None, 36)
 
 # нам нужны такие картинки:
-img_back = "galaxy.jpg" # фон игры
-img_hero = "rocket.png" # герой
-img_enemy = "ufo.png" # враг
-img_bull = "blaster.png"  # пуля
-img_boom = "Взрыв4.png" # взрыв
+img_back = 'res' + os.sep + "galaxy.jpg" # фон игры
+img_hero = 'res' + os.sep + "rocket.png" # герой
+img_enemy = 'res' + os.sep + "ufo.png" # враг
+img_bull = 'res' + os.sep + "blaster.png"  # пуля
+img_boom = 'res' + os.sep + "Взрыв4.png" # взрыв
 
 # класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):

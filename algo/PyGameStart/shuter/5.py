@@ -65,7 +65,7 @@ def vars():
     finish = False
     final = False
 
-#класс-родитель для других спрайтов
+# класс-родитель для других спрайтов
 class GameSprite(sprite.Sprite):
     #конструктор класса
     def __init__(self, player_image, x, y, size_x, size_y, speed):
@@ -83,7 +83,7 @@ class GameSprite(sprite.Sprite):
     #метод, отрисовывающий героя на окне
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
-#класс главного игрока
+# класс главного игрока
 class Player(GameSprite):
     def __init__(self, player_image, x, y, size_x, size_y, speed):
         # Вызываем конструктор класса (Sprite):
@@ -130,7 +130,7 @@ class Player(GameSprite):
                         size_y=self.rect.height)
             booms.add(boom)
         
-#класс спрайта-врага 
+# класс спрайта-врага 
 class Enemy(GameSprite):
   #движение врага
   def update(self):
