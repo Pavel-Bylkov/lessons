@@ -6,7 +6,7 @@ from time import time as time_t #импортируем функцию для з
                                 # чтобы интерпретатор не искал эту функцию в pygame модуле time, 
                                 # даём ей другое название сами
 # ToDo Добавить стрельбу врагов - сканер окружность, выстрел в рандом диапазоне по Герою
-# добавить паузу
+
 init() # инициализация pygame
 def consts():
     global font2, win, lose, fire_sound, boom_sound, win_width, win_height, title
