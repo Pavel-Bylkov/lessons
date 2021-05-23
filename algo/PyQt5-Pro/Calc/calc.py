@@ -1,3 +1,5 @@
+import math
+
 #подключаем модуль с направляющими линиями
 from PyQt5.QtCore import Qt
 #подключаем необходимые виджеты
@@ -51,7 +53,7 @@ class MainWindow(QWidget):
         self.btn_7 = QPushButton("7")
         self.btn_8 = QPushButton("8")
         self.btn_9 = QPushButton("9")
-        self.btn_pov = QPushButton("x^y")
+        self.btn_pow = QPushButton("x^y")
         self.btn_sqrt = QPushButton(chr(8730))
         self.btn_undo = QPushButton("undo")
         self.layout_widgets()
@@ -83,7 +85,7 @@ class MainWindow(QWidget):
         main_col.addLayout(row2)
 
         row3 = QHBoxLayout()
-        row3.addWidget(self.btn_pov, alignment=Qt.AlignCenter)
+        row3.addWidget(self.btn_pow, alignment=Qt.AlignCenter)
         row3.addWidget(self.btn_4, alignment=Qt.AlignCenter)
         row3.addWidget(self.btn_5, alignment=Qt.AlignCenter)
         row3.addWidget(self.btn_6, alignment=Qt.AlignCenter)
@@ -128,11 +130,21 @@ class MainWindow(QWidget):
         self.btn_plus.clicked.connect(lambda: self.add_operation("+"))
         self.btn_minus.clicked.connect(lambda: self.add_operation("-"))
         self.btn_multi.clicked.connect(lambda: self.add_operation("*"))
+        self.btn_pow.clicked.connect(lambda: self.add_operation("^"))
         self.btn_run.clicked.connect(self.do_operation)
+        self.btn_percent.clicked.connect(self.percent)
+        self.btn_plus_minus.clicked.connect(self.plus_minus)
+        self.btn_sqrt.clicked.connect(self.do_op_sqrt)
 
     def do_ac(self):
         self.reset_display()
         self.buffer = 0
+
+    def plus_minus(self):
+        if self.lb_sign.text() == " " and self.lb_display.text() != DISP_SIZE:
+            self.lb_sign.setText("-")
+        else:
+            self.lb_sign.setText(" ")
     
     def reset_display(self):
         self.lb_display.setText(DISP_SIZE)
@@ -172,6 +184,8 @@ class MainWindow(QWidget):
             result = self.buffer - number2
         elif self.operation == "*":
             result = self.buffer * number2
+        elif self.operation == "^":
+            result = self.buffer ** number2
         elif self.operation == "/":
             if number2 != 0:
                 result = self.buffer / number2
@@ -186,16 +200,38 @@ class MainWindow(QWidget):
             self.lb_sign.setText("-")
             result *= -1
         result = str(result)
-        if len(result) >= len(DISP_SIZE):
+        if "." in result and int(result[result.index(".") + 1:]) == 0:
+            result = result[:result.index(".")]
+        if len(result) > len(DISP_SIZE):
             if "." not in result or result.index(".") >= len(DISP_SIZE):
                 self.reset_display()
                 QMessageBox.warning(self, "Ошибка",
                 f"Результат {self.lb_sign.text()}{result} не поместился на дисплей.")
             else:
                 self.lb_display.setText(result[:len(DISP_SIZE)])
+        elif len(result) == len(DISP_SIZE):
+            self.lb_display.setText(result)
         else:
             diff = len(DISP_SIZE) - len(result)
             self.lb_display.setText("0" * diff + result)
+        
+    def percent(self):
+        self.add_operation("/")
+        self.lb_display.setText("100")
+        self.do_operation()
+    
+    def do_op_sqrt(self):
+        if "." in self.lb_display.text():
+            number2 = float(self.lb_display.text())
+        else:
+            number2 = int(self.lb_display.text())
+        if self.lb_sign.text() == "-":
+            QMessageBox.warning(self, "Ошибка",
+                f"Число {self.lb_sign.text()}{number2} отрицательное. Корня нет")
+        else:
+            result = math.sqrt(number2)
+            self.buffer = 0
+            self.show_result(result)
 
 
 
