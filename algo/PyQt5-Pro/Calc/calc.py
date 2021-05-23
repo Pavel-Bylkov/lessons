@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 #подключаем необходимые виджеты
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout,
-                            QGroupBox)
+                            QGroupBox, QMessageBox)
 
 DISP_SIZE = "0" * 17  # размер дисплея
 WIN_X, WIN_Y = 500, 250
@@ -15,6 +15,8 @@ class MainWindow(QWidget):
         self.config()
         self.init_gui()
         self.connects()
+        self.operation = ""
+        self.buffer = 0
 
     def config(self):
         # создаём название главного окна
@@ -126,9 +128,15 @@ class MainWindow(QWidget):
         self.btn_plus.clicked.connect(lambda: self.add_operation("+"))
         self.btn_minus.clicked.connect(lambda: self.add_operation("-"))
         self.btn_multi.clicked.connect(lambda: self.add_operation("*"))
+        self.btn_run.clicked.connect(self.do_operation)
 
     def do_ac(self):
+        self.reset_display()
+        self.buffer = 0
+    
+    def reset_display(self):
         self.lb_display.setText(DISP_SIZE)
+        self.lb_sign.setText(" ")
 
     def do_undo(self):
         new_text = "0" + self.lb_display.text()[:-1]
@@ -142,6 +150,53 @@ class MainWindow(QWidget):
     
     def add_operation(self, op):
         self.operation = op
+        if self.buffer == 0:
+            if "." in self.lb_display.text():
+                self.buffer = float(self.lb_display.text())
+            else:
+                self.buffer = int(self.lb_display.text())
+            if self.lb_sign.text() == "-":
+                self.buffer *= -1
+            self.reset_display()
+    
+    def do_operation(self):
+        if "." in self.lb_display.text():
+            number2 = float(self.lb_display.text())
+        else:
+            number2 = int(self.lb_display.text())
+        if self.lb_sign.text() == "-":
+            number2 *= -1
+        if self.operation == "+":
+            result = self.buffer + number2
+        elif self.operation == "-":
+            result = self.buffer - number2
+        elif self.operation == "*":
+            result = self.buffer * number2
+        elif self.operation == "/":
+            if number2 != 0:
+                result = self.buffer / number2
+            else:
+                result = 0
+                QMessageBox.warning(self, "Ошибка", "Делить на ноль нельзя!")
+        self.buffer = 0
+        self.show_result(result)
+    
+    def show_result(self, result):
+        if result < 0:
+            self.lb_sign.setText("-")
+            result *= -1
+        result = str(result)
+        if len(result) >= len(DISP_SIZE):
+            if "." not in result or result.index(".") >= len(DISP_SIZE):
+                self.reset_display()
+                QMessageBox.warning(self, "Ошибка",
+                f"Результат {self.lb_sign.text()}{result} не поместился на дисплей.")
+            else:
+                self.lb_display.setText(result[:len(DISP_SIZE)])
+        else:
+            diff = len(DISP_SIZE) - len(result)
+            self.lb_display.setText("0" * diff + result)
+
 
 
 def main():
