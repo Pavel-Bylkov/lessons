@@ -122,6 +122,10 @@ class MainWindow(QWidget):
         self.btn_point.clicked.connect(lambda: self.add_num("."))
         self.btn_ac.clicked.connect(self.do_ac)
         self.btn_undo.clicked.connect(self.do_undo)
+        self.btn_devision.clicked.connect(lambda: self.add_operation("/"))
+        self.btn_plus.clicked.connect(lambda: self.add_operation("+"))
+        self.btn_minus.clicked.connect(lambda: self.add_operation("-"))
+        self.btn_multi.clicked.connect(lambda: self.add_operation("*"))
 
     def do_ac(self):
         self.lb_display.setText(DISP_SIZE)
@@ -135,6 +139,9 @@ class MainWindow(QWidget):
             if num != "." or "." not in self.lb_display.text():
                 new_text = self.lb_display.text()[1:] + num
                 self.lb_display.setText(new_text)
+    
+    def add_operation(self, op):
+        self.operation = op
 
 
 def main():
