@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLa
 DISP_SIZE = "0" * 17  # размер дисплея
 WIN_X, WIN_Y = 500, 250
 
+# Todo Добавить обработку скобок
 
 class MainWindow(QWidget):
     def __init__(self, parent=None, flags=Qt.WindowFlags()):

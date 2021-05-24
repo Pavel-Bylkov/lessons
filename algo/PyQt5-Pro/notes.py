@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt
 #подключаем необходимые виджеты
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QTextEdit, QLabel, QVBoxLayout, QListWidget, QHBoxLayout
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QTextEdit, QLabel,
+                            QVBoxLayout, QListWidget, QHBoxLayout, QMessageBox)
 
 import json
 
@@ -38,6 +39,7 @@ class MainWindow(QWidget):
         self.file.read_json()
         self.init_gui()
         self.load_data()
+        self.connects()
 
     def config(self):
         # создаём название главного окна
@@ -62,17 +64,17 @@ class MainWindow(QWidget):
     def layout_widgets(self):
         v_line1 = QVBoxLayout()
         v_line1.addWidget(self.lb_notebooks, alignment=Qt.AlignLeft)
-        v_line1.addWidget(self.lw_notebooks, stretch=80, alignment=Qt.AlignCenter)
+        v_line1.addWidget(self.lw_notebooks, stretch=80)
         v_line1.addWidget(self.btn_add_book, alignment=Qt.AlignCenter)
 
         v_line2 = QVBoxLayout()
         v_line2.addWidget(self.lb_notes, alignment=Qt.AlignLeft)
-        v_line2.addWidget(self.lw_notes, stretch=80, alignment=Qt.AlignCenter)
+        v_line2.addWidget(self.lw_notes, stretch=80)
         v_line2.addWidget(self.btn_add_note, alignment=Qt.AlignCenter)
 
         v_line3 = QVBoxLayout()
         v_line3.addWidget(self.btn_save, alignment=Qt.AlignRight)
-        v_line3.addWidget(self.note_text, stretch=90, alignment=Qt.AlignCenter)
+        v_line3.addWidget(self.note_text, stretch=90)
 
         h_line = QHBoxLayout()
         h_line.addLayout(v_line1, stretch=20)
@@ -85,7 +87,15 @@ class MainWindow(QWidget):
         self.lw_notebooks.addItems(self.file.data)
         self.lw_notebooks.setCurrentRow(0)  # выбираем первый блокнот в списке
         self.show_notes()
-    
+        
+    def connects(self):
+        self.lw_notebooks.itemClicked.connect(self.show_notes)
+        self.btn_add_book.clicked.connect(self.add_book)
+        self.lw_notes.itemClicked.connect(self.show_note)
+        self.btn_add_note.clicked.connect(self.add_note)
+        self.btn_save.clicked.connect(self.note_save)
+        #self.note_text
+
     def show_notes(self):
         """Получаем список заметок и отображаем его"""
         if self.lw_notebooks.selectedItems():
@@ -95,7 +105,7 @@ class MainWindow(QWidget):
             self.lw_notes.setCurrentRow(0)
             self.show_note()
         else:
-            pass  # Добавить уведомление об ошибке
+            QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот!")
     
     def show_note(self):
         """Получаем текст из заметки с выделенным названием и отображаем его в поле редактирования"""
@@ -105,9 +115,18 @@ class MainWindow(QWidget):
                 note = self.lw_notes.selectedItems()[0].text()
                 self.note_text.setText(self.file.data[notebook][note]["text"])
             else:
-                pass
+                QMessageBox.warning(self, "Сообщение об ошибке", "Не выбрана заметка!")
         else:
-            pass
+            QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот!")
+    
+    def add_book(self):
+        pass
+
+    def add_note(self):
+        pass
+
+    def note_save(self):
+        pass
 
 
 def main():
