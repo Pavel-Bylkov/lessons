@@ -1,7 +1,8 @@
 from PyQt5.QtCore import Qt
 #подключаем необходимые виджеты
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QTextEdit, QLabel,
-                            QVBoxLayout, QListWidget, QHBoxLayout, QMessageBox)
+                            QVBoxLayout, QListWidget, QHBoxLayout, QMessageBox,
+                            QInputDialog)
 
 import json
 
@@ -12,19 +13,17 @@ class File:
         self.name = name
         self.data = None
     
+    def get_default_note(self) -> dict:
+        return {"default note":{"text": "some text",
+                                "tags": ["default", "start"]}
+                }
+
     def read_json(self):
         try:
             with open(self.name, "r", encoding="utf-8") as file:
                 self.data = json.load(file)
         except:
-            self.data = {
-                "default book":{
-                    "default note":{
-                        "text": "some text",
-                        "tags": ["default", "start"]
-                    }
-                }
-            }
+            self.data = {"default book": self.get_default_note()}
             self.write_json()
     
     def write_json(self):
@@ -45,7 +44,7 @@ class MainWindow(QWidget):
         # создаём название главного окна
         self.setWindowTitle('Заметки')
         # задаём размер окна
-        self.resize(1200, 850)
+        self.resize(1200, 750)
 
     def init_gui(self):
         """ Метод для создания интерфейса - здесь создаются все виджеты"""
@@ -120,13 +119,44 @@ class MainWindow(QWidget):
             QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот!")
     
     def add_book(self):
-        pass
+        name_book, ok = QInputDialog.getText(self, "Добавление блокнота", "Введите название:")
+        if ok and name_book != "":
+            if name_book not in self.file.data:
+                self.file.data[name_book] = self.file.get_default_note()
+                self.lw_notebooks.addItem(name_book)
+                self.file.write_json()
+            else:
+                QMessageBox.warning(self, "Сообщение об ошибке", "Блокнот уже создан!")
+        elif ok:
+            QMessageBox.warning(self, "Сообщение об ошибке", "Название не должно быть пустым!")
 
     def add_note(self):
-        pass
+        if self.lw_notebooks.selectedItems():
+            notebook = self.lw_notebooks.selectedItems()[0].text()
+            name_note, ok = QInputDialog.getText(self, "Добавление заметки", "Введите название:")
+            if ok and name_note != "":
+                if name_note not in self.file.data[notebook]:
+                    self.file.data[notebook][name_note] = {"text": "", "tags": []}
+                    self.lw_notes.addItem(name_note)
+                    self.file.write_json()
+                else:
+                    QMessageBox.warning(self, "Сообщение об ошибке", "Заметка с этим названием уже есть!")
+            elif ok:
+                QMessageBox.warning(self, "Сообщение об ошибке", "Название не должно быть пустым!")
+        else:
+            QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот для новой заметки!")
 
     def note_save(self):
-        pass
+        if self.lw_notebooks.selectedItems():
+            notebook = self.lw_notebooks.selectedItems()[0].text()
+            if self.lw_notes.selectedItems():
+                note = self.lw_notes.selectedItems()[0].text()
+                self.file.data[notebook][note]["text"] = self.note_text.toPlainText()
+                self.file.write_json()
+            else:
+                QMessageBox.warning(self, "Сообщение об ошибке", "Не выбрана заметка!")
+        else:
+            QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот!")
 
 
 def main():
