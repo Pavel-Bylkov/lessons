@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from PyQt5.QtCore import Qt
 #подключаем необходимые виджеты
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QTextEdit, QLabel,
@@ -18,12 +19,15 @@ class File:
                                 "tags": ["default", "start"]}
                 }
 
+    def get_default_book(self):
+        return {"default book": self.get_default_note()}
+    
     def read_json(self):
         try:
             with open(self.name, "r", encoding="utf-8") as file:
                 self.data = json.load(file)
         except:
-            self.data = {"default book": self.get_default_note()}
+            self.data = self.get_default_book()
             self.write_json()
     
     def write_json(self):
@@ -50,11 +54,13 @@ class MainWindow(QWidget):
         """ Метод для создания интерфейса - здесь создаются все виджеты"""
         self.lb_notebooks = QLabel("Список блокнотов")
         self.lw_notebooks = QListWidget()
-        self.btn_add_book = QPushButton("Добавить блокнот")
+        self.btn_add_book = QPushButton("Добавить")
+        self.btn_del_book = QPushButton("Удалить")
 
         self.lb_notes = QLabel("Список заметок")
         self.lw_notes = QListWidget()
-        self.btn_add_note = QPushButton("Добавить заметку")
+        self.btn_add_note = QPushButton("Добавить")
+        self.btn_del_note = QPushButton("Удалить")
 
         self.note_text = QTextEdit()
         self.btn_save = QPushButton("Сохранить")
@@ -63,22 +69,28 @@ class MainWindow(QWidget):
     def layout_widgets(self):
         v_line1 = QVBoxLayout()
         v_line1.addWidget(self.lb_notebooks, alignment=Qt.AlignLeft)
-        v_line1.addWidget(self.lw_notebooks, stretch=80)
-        v_line1.addWidget(self.btn_add_book, alignment=Qt.AlignCenter)
+        v_line1.addWidget(self.lw_notebooks)
+        row_btn1 = QHBoxLayout()
+        row_btn1.addWidget(self.btn_add_book)
+        row_btn1.addWidget(self.btn_del_book)
+        v_line1.addLayout(row_btn1)
 
         v_line2 = QVBoxLayout()
         v_line2.addWidget(self.lb_notes, alignment=Qt.AlignLeft)
-        v_line2.addWidget(self.lw_notes, stretch=80)
-        v_line2.addWidget(self.btn_add_note, alignment=Qt.AlignCenter)
+        v_line2.addWidget(self.lw_notes)
+        row_btn2 = QHBoxLayout()
+        row_btn2.addWidget(self.btn_add_note)
+        row_btn2.addWidget(self.btn_del_note)
+        v_line2.addLayout(row_btn2)
 
         v_line3 = QVBoxLayout()
         v_line3.addWidget(self.btn_save, alignment=Qt.AlignRight)
-        v_line3.addWidget(self.note_text, stretch=90)
+        v_line3.addWidget(self.note_text)
 
         h_line = QHBoxLayout()
-        h_line.addLayout(v_line1, stretch=20)
-        h_line.addLayout(v_line2, stretch=20)
-        h_line.addLayout(v_line3, stretch=60)
+        h_line.addLayout(v_line1, stretch=15)
+        h_line.addLayout(v_line2, stretch=15)
+        h_line.addLayout(v_line3, stretch=70)
         self.setLayout(h_line)
 
     def load_data(self):
@@ -90,8 +102,10 @@ class MainWindow(QWidget):
     def connects(self):
         self.lw_notebooks.itemClicked.connect(self.show_notes)
         self.btn_add_book.clicked.connect(self.add_book)
+        self.btn_del_book.clicked.connect(self.del_book)
         self.lw_notes.itemClicked.connect(self.show_note)
         self.btn_add_note.clicked.connect(self.add_note)
+        self.btn_del_note.clicked.connect(self.del_note)
         self.btn_save.clicked.connect(self.note_save)
         #self.note_text
 
@@ -157,7 +171,42 @@ class MainWindow(QWidget):
                 QMessageBox.warning(self, "Сообщение об ошибке", "Не выбрана заметка!")
         else:
             QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот!")
+    
+    def del_book(self):
+        if self.lw_notebooks.selectedItems():
+            notebook = self.lw_notebooks.selectedItems()[0].text()
+            reply = QMessageBox.warning(self, "Предупреждение",
+                                f"Вы уверенны, что хотите удалить {notebook}",
+                                buttons=(QMessageBox.Yes | QMessageBox.Cancel))
+            if reply == QMessageBox.Yes:
+                del self.file.data[notebook]
+                if len(self.file.data) == 0:
+                    self.file.data = self.file.get_default_book()
+                self.lw_notebooks.clear()
+                self.file.write_json()
+                self.load_data()
+        else:
+            QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот!")
 
+    def del_note(self):
+        if self.lw_notebooks.selectedItems():
+            notebook = self.lw_notebooks.selectedItems()[0].text()
+            if self.lw_notes.selectedItems():
+                note = self.lw_notes.selectedItems()[0].text()
+                reply = QMessageBox.warning(self, "Предупреждение",
+                                            f"Вы уверены, что хотите удалить заметку {note}",
+                                            buttons=(QMessageBox.Yes | QMessageBox.Cancel))
+                if reply == QMessageBox.Yes:
+                    del self.file.data[notebook][note]
+                    if len(self.file.data[notebook]) == 0:
+                        self.file.data[notebook] = self.file.get_default_note()
+                    self.lw_notes.clear()
+                    self.file.write_json()
+                    self.show_notes()
+            else:
+                QMessageBox.warning(self, "Сообщение об ошибке", "Не выбрана заметка!")
+        else:
+            QMessageBox.warning(self, "Сообщение об ошибке", "Не выбран блокнот!")
 
 def main():
     #создаём объект приложения
