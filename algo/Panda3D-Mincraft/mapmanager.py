@@ -295,8 +295,8 @@ if __name__ == '__main__':
                 return s_floor
 
             blocks.append(floor())
-            for k in range(4):
-                with open("map1.txt", "r") as map:
+            for k in range(2):
+                with open("map2.txt", "r") as map:
                     s_level = []
                     for line in map:
                         s_line = list(line)  # создаем список из строки
