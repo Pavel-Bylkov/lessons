@@ -2,13 +2,16 @@
 
 import play
 
+# todo сделать непроходимыми стены
 
-fon = play.new_image(
-        image='labirint.jpeg',
-        x=0, y=0, angle=0, size=60,
-        transparency=100
-    )
+# fon = play.new_image(
+#         image='labirint.jpeg',
+#         x=0, y=0, angle=0, size=60,
+#         transparency=100
+#     )
 
+# todo скорректировать координаты линий и длины - убрать хвосты
+# в списке храним параметры построения линий лабиринта
 param_lines = [
     {"x": -285, "y": 280, "length": 565, "angle": 0},
     {"x": -285, "y": -285, "length": 560, "angle": 90},
@@ -49,9 +52,8 @@ param_lines = [
     {"x": -215, "y": -165, "length": 190, "angle": 90}
     ]
 
-lines = [
-    play.new_line(color='blue', **args, thickness=5, x1=None, y1=None)
-    for args in param_lines]
+lines = [play.new_line(color='blue', **args, thickness=5, x1=None, y1=None)
+         for args in param_lines]
 
 box = play.new_box(
         color='black', x=-240, y=240,
