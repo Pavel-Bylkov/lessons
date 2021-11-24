@@ -4,7 +4,7 @@ import play
 
 from config import param_lines
 
-# todo сделать непроходимыми стены
+# todo
 
 # fon = play.new_image(
 #         image='labirint.jpeg',
@@ -22,6 +22,13 @@ box = play.new_box(
         border_color="light blue",
         border_width=1
     )
+
+key = play.new_image(
+        image='key.png',
+        x=0, y=110, angle=0, size=2,
+        transparency=100
+    )
+
 
 @play.repeat_forever
 async def move_box():
