@@ -1,6 +1,7 @@
 # pip install replit-play
 
 import play
+import pygame
 
 from config import param_lines
 
@@ -33,7 +34,7 @@ timer_display = play.new_text(
         x=-350, y=240, angle=0, size=100,
         transparency=100
     )
-timer = 2 * 60  # 2 минуты по 60 секунд (120 секунд)
+timer = 1 * 60  # 2 минуты по 60 секунд (120 секунд)
 
 key = play.new_image(
         image='key.png',
@@ -58,21 +59,26 @@ winner.hide()
 @play.repeat_forever
 async def move_box():
 
-    old_x, old_y = box.x, box.y
-    if play.key_is_pressed('up', 'w'):
-        box.y += 5   # y = y + 15   y += 15
-    elif play.key_is_pressed('down', 's'):
-        box.y -= 5
+    if timer == 0:
+        gameover.show()
+        await play.timer(seconds=3)
+        pygame.quit()
+    else:
+        old_x, old_y = box.x, box.y
+        if play.key_is_pressed('up', 'w'):
+            box.y += 5   # y = y + 15   y += 15
+        elif play.key_is_pressed('down', 's'):
+            box.y -= 5
 
-    if play.key_is_pressed('right', 'd'):
-        box.x += 5
-    elif play.key_is_pressed('left', 'a'):
-        box.x -= 5
+        if play.key_is_pressed('right', 'd'):
+            box.x += 5
+        elif play.key_is_pressed('left', 'a'):
+            box.x -= 5
 
-    if box.x != old_x or box.y != old_y:
-        for line in lines:
-            if box.is_touching(line):
-                box.x, box.y = old_x, old_y
+        if box.x != old_x or box.y != old_y:
+            for line in lines:
+                if box.is_touching(line):
+                    box.x, box.y = old_x, old_y
 
     await play.timer(seconds=0.001)
 
