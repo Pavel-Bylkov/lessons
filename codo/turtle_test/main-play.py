@@ -23,12 +23,37 @@ box = play.new_box(
         border_width=1
     )
 
+timer_title = play.new_text(
+        words='TIME:', font=None, font_size=40, color='blue',
+        x=-350, y=280, angle=0, size=100,
+        transparency=100
+    )
+timer_display = play.new_text(
+        words='00:00', font=None, font_size=50, color='blue',
+        x=-350, y=240, angle=0, size=100,
+        transparency=100
+    )
+timer = 2 * 60  # 2 минуты по 60 секунд (120 секунд)
+
 key = play.new_image(
         image='key.png',
         x=0, y=110, angle=0, size=2,
         transparency=100
     )
 
+gameover = play.new_image(
+        image='gameover.jpeg',
+        x=0, y=0, angle=0, size=85,
+        transparency=100
+    )
+gameover.hide()
+
+winner = play.new_text(
+        words='YOU WIN', font=None, font_size=200, color='green',
+        x=0, y=0, angle=0, size=100,
+        transparency=100
+    )
+winner.hide()
 
 @play.repeat_forever
 async def move_box():
@@ -51,6 +76,16 @@ async def move_box():
 
     await play.timer(seconds=0.001)
 
+
+@play.repeat_forever
+async def timer_control():
+    global timer  # явно указываем что хотим использовать глобальную переменную
+
+    timer_display.words = "%0.2d:%0.2d" % (timer//60, timer % 60)
+    if timer > 0:
+        timer -= 1
+
+    await play.timer(seconds=1)
 
 # @play.mouse.when_clicked
 # def do():
