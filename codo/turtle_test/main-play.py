@@ -59,26 +59,21 @@ winner.hide()
 @play.repeat_forever
 async def move_box():
 
-    if timer == 0:
-        gameover.show()
-        await play.timer(seconds=3)
-        sys.exit(0)
-    else:
-        old_x, old_y = box.x, box.y
-        if play.key_is_pressed('up', 'w'):
-            box.y += 5   # y = y + 15   y += 15
-        elif play.key_is_pressed('down', 's'):
-            box.y -= 5
+    old_x, old_y = box.x, box.y
+    if play.key_is_pressed('up', 'w'):
+        box.y += 5   # y = y + 15   y += 15
+    elif play.key_is_pressed('down', 's'):
+        box.y -= 5
 
-        if play.key_is_pressed('right', 'd'):
-            box.x += 5
-        elif play.key_is_pressed('left', 'a'):
-            box.x -= 5
+    if play.key_is_pressed('right', 'd'):
+        box.x += 5
+    elif play.key_is_pressed('left', 'a'):
+        box.x -= 5
 
-        if box.x != old_x or box.y != old_y:
-            for line in lines:
-                if box.is_touching(line):
-                    box.x, box.y = old_x, old_y
+    if box.x != old_x or box.y != old_y:
+        for line in lines:
+            if box.is_touching(line):
+                box.x, box.y = old_x, old_y
 
     await play.timer(seconds=0.001)
 
@@ -90,6 +85,11 @@ async def timer_control():
     timer_display.words = "%0.2d:%0.2d" % (timer//60, timer % 60)
     if timer > 0:
         timer -= 1
+
+    if timer == 0:
+        gameover.show()
+        await play.timer(seconds=3)
+        sys.exit(0)
 
     await play.timer(seconds=1)
 
