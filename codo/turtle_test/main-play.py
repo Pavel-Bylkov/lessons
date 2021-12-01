@@ -34,7 +34,7 @@ timer_display = play.new_text(
         x=-350, y=240, angle=0, size=100,
         transparency=100
     )
-timer = 0.5 * 60  # 2 минуты по 60 секунд (120 секунд)
+timer = 2 * 60  # 2 минуты по 60 секунд (120 секунд)
 
 key = play.new_image(
         image='key.png',
