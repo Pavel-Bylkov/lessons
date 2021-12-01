@@ -1,7 +1,7 @@
 # pip install replit-play
 
 import play
-import pygame
+import sys
 
 from config import param_lines
 
@@ -34,7 +34,7 @@ timer_display = play.new_text(
         x=-350, y=240, angle=0, size=100,
         transparency=100
     )
-timer = 1 * 60  # 2 минуты по 60 секунд (120 секунд)
+timer = 0.5 * 60  # 2 минуты по 60 секунд (120 секунд)
 
 key = play.new_image(
         image='key.png',
@@ -62,7 +62,7 @@ async def move_box():
     if timer == 0:
         gameover.show()
         await play.timer(seconds=3)
-        pygame.quit()
+        sys.exit(0)
     else:
         old_x, old_y = box.x, box.y
         if play.key_is_pressed('up', 'w'):
