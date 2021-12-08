@@ -5,8 +5,6 @@ import sys
 
 from config import param_lines
 
-# todo
-
 # fon = play.new_image(
 #         image='labirint.jpeg',
 #         x=0, y=0, angle=0, size=60,
@@ -21,19 +19,16 @@ box = play.new_box(
         color='black', x=-240, y=240,
         width=30, height=30,
         border_color="light blue",
-        border_width=1
-    )
+        border_width=1)
 
 timer_title = play.new_text(
         words='TIME:', font=None, font_size=40, color='blue',
         x=-350, y=280, angle=0, size=100,
-        transparency=100
-    )
+        transparency=100)
 timer_display = play.new_text(
         words='00:00', font=None, font_size=50, color='blue',
         x=-350, y=240, angle=0, size=100,
-        transparency=100
-    )
+        transparency=100)
 timer = 2 * 60  # 2 минуты по 60 секунд (120 секунд)
 
 key = play.new_image(
@@ -70,10 +65,17 @@ async def move_box():
     elif play.key_is_pressed('left', 'a'):
         box.x -= 5
 
+    # Делаем непроходимыми стены проверяем условие касания стен и делаем возврат на исходную точку
     if box.x != old_x or box.y != old_y:
         for line in lines:
             if box.is_touching(line):
                 box.x, box.y = old_x, old_y
+
+    # условие Победы
+    if box.is_touching(key):
+        winner.show()
+        await play.timer(seconds=3)
+        sys.exit(0)
 
     await play.timer(seconds=0.001)
 
@@ -86,15 +88,12 @@ async def timer_control():
     if timer > 0:
         timer -= 1
 
+    # условие Поражения
     if timer == 0:
         gameover.show()
         await play.timer(seconds=3)
         sys.exit(0)
 
     await play.timer(seconds=1)
-
-# @play.mouse.when_clicked
-# def do():
-#     box.go_to(play.mouse)
 
 play.start_program()
