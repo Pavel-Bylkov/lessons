@@ -16,4 +16,18 @@ async def move_snake():
 
     await play.timer(seconds=speed)
 
+@play.repeat_forever
+async def keys_control():
+    if play.key_is_pressed('up', 'w'):
+        had.angle = 90
+    if play.key_is_pressed('down', 's'):
+        had.angle = -90
+
+    if play.key_is_pressed('right', 'd'):
+        had.angle = 0
+    if play.key_is_pressed('left', 'a'):
+        had.angle = 180
+
+    await play.timer(seconds=0.01)
+
 play.start_program()
