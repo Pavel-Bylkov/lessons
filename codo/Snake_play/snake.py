@@ -2,6 +2,7 @@ import play
 
 play.set_backdrop("light blue")
 # Создание спрайтов
+# todo суперяблоко добавить
 
 # print(play.screen.width, play.screen.height)  # получаем размер экрана
 y_top = 290
@@ -14,9 +15,8 @@ apple = play.new_box(color='red', x=play.random_number(-19, 19) * 20,
                      y=play.random_number(-14, 14) * 20, width=19, height=19,
                      border_color="yellow", border_width=1)
 
-had = play.new_box(color='green', x=0, y=0,
-        width=19, height=19,
-        border_color="light blue", border_width=1)
+had = play.new_box(color='green', x=0, y=0, width=19, height=19,
+                   border_color="light blue", border_width=1)
 
 display = play.new_text(words=('%.03d' % score), x=350, y=270, angle=0,
                         font=None, font_size=50, color='black', transparency=100)
@@ -35,6 +35,7 @@ borders = [
 # Переменные конфиг
 speed = 0.5  #
 
+
 # Функция движения
 @play.repeat_forever
 async def move_snake():
@@ -45,6 +46,7 @@ async def move_snake():
         had.move(-20)
 
     await play.timer(seconds=speed)
+
 
 @play.repeat_forever
 async def eat_control():
@@ -68,7 +70,7 @@ async def eat_control():
         apple.y = y
         apple.show()
 
-    await play.timer(seconds=speed)
+    await play.timer(seconds=speed//4)
 
 
 @play.repeat_forever
@@ -81,6 +83,6 @@ async def keys_control():
         had.angle = 0
     if play.key_is_pressed('left', 'a'):
         had.angle = 180
-    await play.timer(seconds=0.01)
+    await play.timer(seconds=0.001)
 
 play.start_program()
