@@ -2,15 +2,20 @@ import play
 
 play.set_backdrop("light blue")
 # Создание спрайтов
-had = play.new_box(color='green', x=0, y=0,
-        width=20, height=20,
-        border_color="light blue", border_width=1)
 
 # print(play.screen.width, play.screen.height)  # получаем размер экрана
 y_top = 290
 y_bottom = -290
 x_right = 390
 x_left = -390
+
+apple = play.new_box(color='red', x=play.random_number(-19, 19) * 20,
+                     y=play.random_number(-14, 14) * 20, width=19, height=19,
+                     border_color="yellow", border_width=1)
+
+had = play.new_box(color='green', x=0, y=0,
+        width=19, height=19,
+        border_color="light blue", border_width=1)
 
 borders = [
     play.new_line(color='green', x=x_left, y=y_top, length=780, angle=0,
@@ -34,6 +39,27 @@ async def move_snake():
 
     if had.x > 390 or had.x < -390 or had.y > 290 or had.y < -290:
         had.move(-20)
+
+    await play.timer(seconds=speed)
+
+@play.repeat_forever
+async def eat_control():
+
+    if had.is_touching(apple):
+        apple.hide()
+        x = play.random_number(-19, 19) * 20
+        y = play.random_number(-14, 14) * 20
+        flag = True
+        while flag:
+            flag = False
+            for sprite in play.all_sprites:
+                if sprite.x == x and sprite.y == y:
+                    x = play.random_number(-19, 19) * 20
+                    y = play.random_number(-14, 14) * 20
+                    flag = True
+        apple.x = x
+        apple.y = y
+        apple.show()
 
     await play.timer(seconds=speed)
 
