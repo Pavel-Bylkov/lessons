@@ -8,6 +8,7 @@ y_top = 290
 y_bottom = -290
 x_right = 390
 x_left = -390
+score = 0
 
 apple = play.new_box(color='red', x=play.random_number(-19, 19) * 20,
                      y=play.random_number(-14, 14) * 20, width=19, height=19,
@@ -16,6 +17,9 @@ apple = play.new_box(color='red', x=play.random_number(-19, 19) * 20,
 had = play.new_box(color='green', x=0, y=0,
         width=19, height=19,
         border_color="light blue", border_width=1)
+
+display = play.new_text(words=('%.03d' % score), x=350, y=270, angle=0,
+                        font=None, font_size=50, color='black', transparency=100)
 
 borders = [
     play.new_line(color='green', x=x_left, y=y_top, length=780, angle=0,
@@ -44,8 +48,11 @@ async def move_snake():
 
 @play.repeat_forever
 async def eat_control():
+    global score
 
     if had.is_touching(apple):
+        score += 1
+        display.words = ('%.03d' % score)
         apple.hide()
         x = play.random_number(-19, 19) * 20
         y = play.random_number(-14, 14) * 20
