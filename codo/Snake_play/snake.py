@@ -1,5 +1,8 @@
 import play
 
+from time import sleep
+import sys
+
 play.set_backdrop("light blue")
 # Создание спрайтов
 # todo суперяблоко добавить
@@ -15,8 +18,34 @@ apple = play.new_box(color='red', x=play.random_number(-19, 19) * 20,
                      y=play.random_number(-14, 14) * 20, width=19, height=19,
                      border_color="yellow", border_width=1)
 
+# Тело змейки
+body = []
+
 had = play.new_box(color='green', x=0, y=0, width=19, height=19,
                    border_color="light blue", border_width=1)
+
+
+def add_to_body():
+    global body
+
+    if len(body) > 0:
+        x, y = body[-1].x, body[-1].y
+    else:
+        x, y = had.x, had.y
+    body.append(
+        play.new_box(color='light green', x=x, y=y, width=19, height=19,
+                     border_color="light blue", border_width=1)
+    )
+
+
+def body_step(x, y):
+    global body
+
+    for chank in body:
+        old_x, old_y = chank.x, chank.y
+        chank.x, chank.y = x, y
+        x, y = old_x, old_y
+
 
 display = play.new_text(words=('%.03d' % score), x=350, y=270, angle=0,
                         font=None, font_size=50, color='black', transparency=100)
@@ -32,18 +61,30 @@ borders = [
                   thickness=3, x1=None, y1=None)
 ]
 
+game_over = play.new_text(words="GAME OVER", x=0, y=50, angle=0,
+                        font=None, font_size=150, color='red', transparency=100)
+game_over.hide()
+
 # Переменные конфиг
 speed = 0.5  #
+
+run = True
 
 
 # Функция движения
 @play.repeat_forever
 async def move_snake():
+    global run
 
-    had.move(20)
+    if run:
+        body_step(had.x, had.y)
+        had.move(20)
 
     if had.x > 390 or had.x < -390 or had.y > 290 or had.y < -290:
-        had.move(-20)
+        game_over.show()
+        run = False
+        await play.timer(seconds=3)
+        sys.exit()
 
     await play.timer(seconds=speed)
 
@@ -53,6 +94,7 @@ async def eat_control():
     global score
 
     if had.is_touching(apple):
+        add_to_body()
         score += 1
         display.words = ('%.03d' % score)
         apple.hide()
