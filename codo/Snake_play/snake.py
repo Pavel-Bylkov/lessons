@@ -13,10 +13,16 @@ y_bottom = -290
 x_right = 390
 x_left = -390
 score = 0
+timer = 10
+
 
 apple = play.new_box(color='red', x=play.random_number(-19, 19) * 20,
                      y=play.random_number(-14, 14) * 20, width=19, height=19,
                      border_color="yellow", border_width=1)
+
+super_apple = play.new_box(color='yellow', x=-400, y=-300, width=19, height=19,
+                           border_color="red", border_width=1)
+super_apple.hide()
 
 # Тело змейки
 body = []
@@ -74,6 +80,10 @@ def get_random_free_space():
 
 display = play.new_text(words=('%.03d' % score), x=350, y=270, angle=0,
                         font=None, font_size=50, color='black', transparency=100)
+
+display_timer = play.new_text(words=('%.02d' % 0), x=-350, y=270, angle=0,
+                              font=None, font_size=50, color='red', transparency=100)
+display_timer.hide()
 
 borders = [
     play.new_line(color='green', x=x_left, y=y_top, length=780, angle=0,
@@ -133,7 +143,40 @@ async def eat_control():
         apple.x, apple.y = get_random_free_space()
         apple.show()
 
+    if had.is_touching(super_apple):
+        for _ in range(4):
+            add_to_body()
+        score += 4
+        speed -= 0.01
+        display.words = ('%.03d' % score)
+        super_apple.hide()
+        super_apple.x, super_apple.y = -400, -300
+        display_timer.hide()
+
     await play.timer(seconds=speed//4)
+
+
+@play.repeat_forever
+async def gen_super_apple():
+    """Генератор супер яблок"""
+    await play.timer(seconds=10)
+    super_apple.x, super_apple.y = get_random_free_space()
+    super_apple.show()
+    display_timer.words = ('%.02d' % timer)
+    display_timer.show()
+    color = "yellow"
+    time = timer
+    for _ in range(timer):
+        await play.timer(seconds=1)
+        if color == "yellow":
+            display_timer.color = "red"
+        else:
+            display_timer.color = "yellow"
+        time -= 1
+        display_timer.words = ('%.02d' % time)
+    super_apple.hide()
+    super_apple.x, super_apple.y = -400, -300
+    display_timer.hide()
 
 
 @play.repeat_forever
