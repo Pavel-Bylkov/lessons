@@ -26,6 +26,7 @@ had = play.new_box(color='green', x=0, y=0, width=19, height=19,
 
 
 def add_to_body():
+    """Добавляем в список новый кусочек тела"""
     global body
 
     if len(body) > 0:
@@ -39,13 +40,37 @@ def add_to_body():
 
 
 def body_step(x, y):
+    """Передвигаем все части хвоста друг за другом"""
     global body
 
-    for chank in body:
-        old_x, old_y = chank.x, chank.y
-        chank.x, chank.y = x, y
+    for chunk in body:
+        old_x, old_y = chunk.x, chunk.y
+        chunk.x, chunk.y = x, y
         x, y = old_x, old_y
 
+
+def has_had_bite_body():
+    """Проверяем касание головой хвоста"""
+    global body
+
+    for chunk in body:
+        if had.x == chunk.x and had.y == chunk.y:
+            return True
+    return False
+
+
+def get_random_free_space():
+    x = play.random_number(-19, 19) * 20
+    y = play.random_number(-14, 14) * 20
+    flag = True
+    while flag:
+        flag = False
+        for sprite in play.all_sprites:
+            if sprite.x == x and sprite.y == y:
+                x = play.random_number(-19, 19) * 20
+                y = play.random_number(-14, 14) * 20
+                flag = True
+    return x, y
 
 display = play.new_text(words=('%.03d' % score), x=350, y=270, angle=0,
                         font=None, font_size=50, color='black', transparency=100)
@@ -62,7 +87,7 @@ borders = [
 ]
 
 game_over = play.new_text(words="GAME OVER", x=0, y=50, angle=0,
-                        font=None, font_size=150, color='red', transparency=100)
+                          font=None, font_size=150, color='red', transparency=100)
 game_over.hide()
 
 # Переменные конфиг
@@ -77,13 +102,19 @@ async def move_snake():
     global run
 
     if run:
-        body_step(had.x, had.y)
+        old_x, old_y = had.x, had.y
         had.move(20)
+        if has_had_bite_body():
+            game_over.show()
+            run = False
+            await play.timer(seconds=2)
+            sys.exit()
+        body_step(old_x, old_y)
 
     if had.x > 390 or had.x < -390 or had.y > 290 or had.y < -290:
         game_over.show()
         run = False
-        await play.timer(seconds=3)
+        await play.timer(seconds=2)
         sys.exit()
 
     await play.timer(seconds=speed)
@@ -91,25 +122,15 @@ async def move_snake():
 
 @play.repeat_forever
 async def eat_control():
-    global score
+    global score, speed
 
     if had.is_touching(apple):
         add_to_body()
         score += 1
+        speed -= 0.01
         display.words = ('%.03d' % score)
         apple.hide()
-        x = play.random_number(-19, 19) * 20
-        y = play.random_number(-14, 14) * 20
-        flag = True
-        while flag:
-            flag = False
-            for sprite in play.all_sprites:
-                if sprite.x == x and sprite.y == y:
-                    x = play.random_number(-19, 19) * 20
-                    y = play.random_number(-14, 14) * 20
-                    flag = True
-        apple.x = x
-        apple.y = y
+        apple.x, apple.y = get_random_free_space()
         apple.show()
 
     await play.timer(seconds=speed//4)
