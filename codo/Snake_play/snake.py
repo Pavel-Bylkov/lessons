@@ -7,6 +7,10 @@ play.set_backdrop("light blue")
 # Создание спрайтов
 
 # print(play.screen.width, play.screen.height)  # получаем размер экрана
+
+# Переменные конфиг
+speed = 0.5
+run = True
 y_top = 290
 y_bottom = -290
 x_right = 390
@@ -33,6 +37,28 @@ had = play.new_box(color='green', x=0, y=0, width=19, height=19,
 rock = play.new_box(color='grey', x=play.random_number(-19, 19) * 20,
                     y=play.random_number(-14, 14) * 20, width=19, height=19,
                     border_color="black", border_width=1)
+
+display = play.new_text(words=('%.03d' % score), x=350, y=270, angle=0,
+                        font=None, font_size=50, color='black', transparency=100)
+
+display_timer = play.new_text(words=('%.02d' % 0), x=-350, y=270, angle=0,
+                              font=None, font_size=50, color='red', transparency=100)
+display_timer.hide()
+
+borders = [
+    play.new_line(color='green', x=x_left, y=y_top, length=780, angle=0,
+                  thickness=3, x1=None, y1=None),
+    play.new_line(color='green', x=x_left, y=y_bottom, length=780, angle=0,
+                  thickness=3, x1=None, y1=None),
+    play.new_line(color='green', x=x_left, y=y_bottom, length=580, angle=90,
+                  thickness=3, x1=None, y1=None),
+    play.new_line(color='green', x=x_right, y=y_bottom, length=580, angle=90,
+                  thickness=3, x1=None, y1=None)
+]
+
+game_over = play.new_text(words="GAME OVER", x=0, y=50, angle=0,
+                          font=None, font_size=150, color='red', transparency=100)
+game_over.hide()
 
 
 def add_to_body():
@@ -81,33 +107,6 @@ def get_random_free_space():
                 y = play.random_number(-14, 14) * 20
                 flag = True
     return x, y
-
-display = play.new_text(words=('%.03d' % score), x=350, y=270, angle=0,
-                        font=None, font_size=50, color='black', transparency=100)
-
-display_timer = play.new_text(words=('%.02d' % 0), x=-350, y=270, angle=0,
-                              font=None, font_size=50, color='red', transparency=100)
-display_timer.hide()
-
-borders = [
-    play.new_line(color='green', x=x_left, y=y_top, length=780, angle=0,
-                  thickness=3, x1=None, y1=None),
-    play.new_line(color='green', x=x_left, y=y_bottom, length=780, angle=0,
-                  thickness=3, x1=None, y1=None),
-    play.new_line(color='green', x=x_left, y=y_bottom, length=580, angle=90,
-                  thickness=3, x1=None, y1=None),
-    play.new_line(color='green', x=x_right, y=y_bottom, length=580, angle=90,
-                  thickness=3, x1=None, y1=None)
-]
-
-game_over = play.new_text(words="GAME OVER", x=0, y=50, angle=0,
-                          font=None, font_size=150, color='red', transparency=100)
-game_over.hide()
-
-# Переменные конфиг
-speed = 0.5  #
-
-run = True
 
 
 # Функция движения
