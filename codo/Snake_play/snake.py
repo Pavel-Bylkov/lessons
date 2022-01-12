@@ -5,7 +5,6 @@ import sys
 
 play.set_backdrop("light blue")
 # Создание спрайтов
-# todo суперяблоко добавить
 
 # print(play.screen.width, play.screen.height)  # получаем размер экрана
 y_top = 290
@@ -14,6 +13,7 @@ x_right = 390
 x_left = -390
 score = 0
 timer = 10
+time_for_rock = 15
 
 
 apple = play.new_box(color='red', x=play.random_number(-19, 19) * 20,
@@ -29,6 +29,10 @@ body = []
 
 had = play.new_box(color='green', x=0, y=0, width=19, height=19,
                    border_color="light blue", border_width=1)
+
+rock = play.new_box(color='grey', x=play.random_number(-19, 19) * 20,
+                    y=play.random_number(-14, 14) * 20, width=19, height=19,
+                    border_color="black", border_width=1)
 
 
 def add_to_body():
@@ -121,7 +125,9 @@ async def move_snake():
             sys.exit()
         body_step(old_x, old_y)
 
-    if had.x > 390 or had.x < -390 or had.y > 290 or had.y < -290:
+    if (had.is_touching(rock)
+            or had.x > 390 or had.x < -390
+            or had.y > 290 or had.y < -290):
         game_over.show()
         run = False
         await play.timer(seconds=2)
@@ -154,6 +160,16 @@ async def eat_control():
         display_timer.hide()
 
     await play.timer(seconds=speed//4)
+
+
+@play.repeat_forever
+async def rock_control():
+
+    rock.hide()
+    rock.x, rock.y = get_random_free_space()
+    rock.show()
+
+    await play.timer(seconds=time_for_rock)
 
 
 @play.repeat_forever
