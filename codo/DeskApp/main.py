@@ -1,3 +1,4 @@
+# https://pythonworld.ru/gui/pyqt5-firstprograms.html
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout,
                             QPushButton)
@@ -6,6 +7,7 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout,
 app = QApplication([])
 # создаем окно
 win = QWidget()
+win.resize(900, 600)
 win.setWindowTitle('Мое приложение')
 
 # добавляем виджеты
