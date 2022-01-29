@@ -50,11 +50,9 @@ def button_click():
 
 
 def question():
-
     reply = QMessageBox.question(win, 'Message',
                                  "У тебя все хорошо?", QMessageBox.Yes |
                                  QMessageBox.No, QMessageBox.Yes)
-
     if reply == QMessageBox.Yes:
         win.setWindowTitle('Сегодня хороший день')
     else:
