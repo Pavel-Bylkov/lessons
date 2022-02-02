@@ -25,12 +25,13 @@ def game_controller(pos, turn_char):
     else:
         game_map[row][column] = -1
 
+    # Проверяем сумму по строкам
     for row1 in game_map:
         if sum(row1) == 3:
             print("победили Х")
         elif sum(row1) == -3:
             print("победили 0")
-
+    # Проверяем сумму по столбцам
     for col in range(3):
         summ = 0
         for row2 in range(3):
@@ -39,6 +40,7 @@ def game_controller(pos, turn_char):
             print("победили Х")
         elif summ == -3:
             print("победили 0")
+    # Проверяем сумму по диагоналям
 
 
 class MyButton(QPushButton):
