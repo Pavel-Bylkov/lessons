@@ -41,10 +41,6 @@ def game_controller(pos, turn_char):
             print("победили 0")
 
 
-
-
-
-
 class MyButton(QPushButton):
     # переопределяем конструктор класса
     def __init__(self, row, column, *args, **kwargs):
@@ -68,6 +64,7 @@ class MyButton(QPushButton):
                 turn_char = 'X'
                 turn = 1
             self.setText(turn_char)
+            game_controller(self.pos, turn_char)
 
 
 # вертикальная линия для привязки трех горизонтальных
