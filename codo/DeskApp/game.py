@@ -23,12 +23,14 @@ class MyButton(QPushButton):
     def push(self):
         global turn
         if self.text() == " ":
-            if turn % 2 == 0:
+            if turn == 1:
                 turn_char = '0'
+                turn = 0
             else:
                 turn_char = 'X'
+                turn = 1
             self.setText(turn_char)
-            turn += 1
+
 
 # вертикальная линия для привязки трех горизонтальных
 vertical_line = QVBoxLayout()
