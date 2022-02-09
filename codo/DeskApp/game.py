@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
-                            QPushButton, QToolTip, QMessageBox)
-from PyQt5.QtGui import QFont
+                            QPushButton, QToolTip, QMessageBox, QLineEdit)
+from PyQt5.QtGui import QFont, QIntValidator
 
 # создаем приложение
 app = QApplication([])
@@ -10,6 +10,47 @@ win = QWidget()
 win.resize(600, 600)
 win.setWindowTitle('Крестики - Нолики')
 
+number_sets = 5
+
+class Question(QWidget):
+    def __init__(self, main, *args, **kwargs):
+        # вызываем родительский конструктор
+        super().__init__(*args, **kwargs)
+        self.main = main
+        self.main.hide()
+        self.setWindowTitle("Выбор количества партий")
+        self.resize(400, 200)
+
+        self.label = QLabel("Сколько партий до победы?")
+        self.lineedit = QLineEdit("5")
+        self.lineedit.setFixedWidth(40)  # задаем фиксированный размер
+        self.lineedit.setValidator(QIntValidator())  # для проверки что ввели число
+
+        self.btn = QPushButton("Ok")
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        layout.addStretch()
+        layout.addWidget(self.label, alignment=Qt.AlignCenter)
+        layout.addWidget(self.lineedit, alignment=Qt.AlignCenter)
+        layout.addStretch()
+        layout.addWidget(self.btn)
+
+        self.btn.clicked.connect(self.push)
+
+        self.show()
+
+    def push(self):
+        global number_sets
+        number_sets = self.getValue()
+        # скрываем окно ввода
+        self.hide()
+        self.main.show()
+
+    def getValue(self):
+        return int(self.lineedit.text())
+
 turn = 1
 game_map = [[0, 0, 0],
             [0, 0, 0],
@@ -17,7 +58,6 @@ game_map = [[0, 0, 0],
 
 # todo Добавить выбор количества партий - для общей победы
 # todo Добавить вызов всплывающего окна - Победа
-# todo Доделать подсчет суммы по диагонали
 
 def game_controller(pos, turn_char):
     """Меняет значение ячейки game_map с 0 или на 1 или на -1
@@ -90,6 +130,9 @@ for row in range(3):
 
 win.setLayout(vertical_line)
 
-win.show()
+# Создаем окно с выбором количества партий
+q = Question(win)
+
+# win.show() - убрали после нажатия Ок
 # главный цикл
 app.exec_()
