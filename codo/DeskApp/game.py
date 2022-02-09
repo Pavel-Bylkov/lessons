@@ -11,6 +11,8 @@ win.resize(600, 600)
 win.setWindowTitle('Крестики - Нолики')
 
 number_sets = 5
+totalX = 0
+total0 = 0
 
 class Question(QWidget):
     def __init__(self, main, *args, **kwargs):
@@ -59,10 +61,25 @@ game_map = [[0, 0, 0],
 # todo Добавить выбор количества партий - для общей победы
 # todo Добавить вызов всплывающего окна - Победа
 
+def winX():
+    global totalX
+
+    print("победили Х")
+    totalX += 1
+    print("Текущий счет: Х -", totalX, ", 0 -", total0)
+
+def win0():
+    global total0
+
+    print("победили 0")
+    total0 += 1
+    print("Текущий счет: Х -", totalX, ", 0 -", total0)
+
 def game_controller(pos, turn_char):
     """Меняет значение ячейки game_map с 0 или на 1 или на -1
         И при достижении суммы соседних ячеек 3 или -3 фиксировать победу
         """
+    global total0, totalX
     row, column = pos
     if turn_char == 'X':
         game_map[row][column] = 1
@@ -72,26 +89,25 @@ def game_controller(pos, turn_char):
     # Проверяем сумму по строкам
     for row1 in game_map:
         if sum(row1) == 3:
-            print("победили Х")
+            winX()
         elif sum(row1) == -3:
-            print("победили 0")
+            win0()
     # Проверяем сумму по столбцам
     for col in range(3):
         summ = 0
         for row2 in range(3):
             summ += game_map[row2][col]
         if summ == 3:
-            print("победили Х")
+            winX()
         elif summ == -3:
-            print("победили 0")
+            win0()
     # Проверяем сумму по диагоналям
     d1 = game_map[0][0] + game_map[1][1] + game_map[2][2]
     d2 = game_map[2][0] + game_map[1][1] + game_map[0][2]
     if d1 == 3 or d2 == 3:
-        print("победили Х")
+        winX()
     if d1 == -3 or d2 == -3:
-        print("победили 0")
-
+        win0()
 
 class MyButton(QPushButton):
     # переопределяем конструктор класса
