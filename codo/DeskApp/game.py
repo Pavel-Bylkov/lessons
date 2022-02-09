@@ -24,11 +24,14 @@ class Question(QWidget):
         self.resize(400, 200)
 
         self.label = QLabel("Сколько партий до победы?")
+        self.label.setFont(QFont('Arial', 20))
         self.lineedit = QLineEdit("5")
+        self.lineedit.setFont(QFont('Arial', 20))
         self.lineedit.setFixedWidth(40)  # задаем фиксированный размер
         self.lineedit.setValidator(QIntValidator())  # для проверки что ввели число
 
         self.btn = QPushButton("Ok")
+        self.btn.setFont(QFont('Arial', 20))
 
         layout = QVBoxLayout()
         self.setLayout(layout)
@@ -58,7 +61,7 @@ game_map = [[0, 0, 0],
             [0, 0, 0],
             [0, 0, 0]]
 
-# todo Добавить выбор количества партий - для общей победы
+# todo Добавить перезапуск игры после каждой победы, до финала
 # todo Добавить вызов всплывающего окна - Победа
 
 def winX():
