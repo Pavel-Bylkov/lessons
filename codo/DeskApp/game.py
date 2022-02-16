@@ -13,6 +13,7 @@ win.setWindowTitle('Крестики - Нолики')
 number_sets = 5
 totalX = 0
 total0 = 0
+buttons = []  # список всех кнопок
 
 class Question(QWidget):
     def __init__(self, main, *args, **kwargs):
@@ -63,20 +64,54 @@ game_map = [[0, 0, 0],
 
 # todo Добавить перезапуск игры после каждой победы, до финала
 # todo Добавить вызов всплывающего окна - Победа
+# todo Проверить закрытие окна с выбором партий
+
+def restart_game():
+    """Перезапуск всей игры"""
+    global number_sets, total0, totalX
+
+    number_sets = 5
+    totalX = 0
+    total0 = 0
+    question.show()
+    win.hide()
+
+def restart_part():
+    """Презапуск поля для новой партии"""
+    global turn, game_map
+
+    turn = 1
+    game_map = [[0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]]
+    for button in buttons:
+        button.setText(" ")
 
 def winX():
-    global totalX
+    global totalX, number_sets
 
-    print("победили Х")
+    number_sets -= 1
+    print("В этой партии победили Х", "осталось сыграть", number_sets, "партий")
     totalX += 1
     print("Текущий счет: Х -", totalX, ", 0 -", total0)
+    restart_part()
 
 def win0():
-    global total0
+    global total0, number_sets
 
-    print("победили 0")
+    number_sets -= 1
+    print("В этой партии победили 0", "осталось сыграть", number_sets, "партий")
     total0 += 1
     print("Текущий счет: Х -", totalX, ", 0 -", total0)
+    restart_part()
+
+def game_to_a_draw():
+    global number_sets
+
+    number_sets -= 1
+    print("В этой партии Ничья!", "осталось сыграть", number_sets, "партий")
+    print("Текущий счет: Х -", totalX, ", 0 -", total0)
+    restart_part()
 
 def game_controller(pos, turn_char):
     """Меняет значение ячейки game_map с 0 или на 1 или на -1
@@ -111,6 +146,15 @@ def game_controller(pos, turn_char):
         winX()
     if d1 == -3 or d2 == -3:
         win0()
+    # Проверяем на ничью
+    cheker_zero = False
+    for row2 in range(3):
+        for col in range(3):
+            if game_map[row2][col] == 0:
+                cheker_zero = True
+                break
+    if not cheker_zero:
+        game_to_a_draw()
 
 class MyButton(QPushButton):
     # переопределяем конструктор класса
@@ -144,13 +188,14 @@ for row in range(3):
     horizontal_line = QHBoxLayout()
     for column in range(3):
         button = MyButton(row, column)
+        buttons.append(button)
         horizontal_line.addWidget(button)  # , alignment=Qt.AlignCenter
     vertical_line.addLayout(horizontal_line)
 
 win.setLayout(vertical_line)
 
 # Создаем окно с выбором количества партий
-q = Question(win)
+question = Question(win)
 
 # win.show() - убрали после нажатия Ок
 # главный цикл
