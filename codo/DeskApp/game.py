@@ -62,8 +62,7 @@ game_map = [[0, 0, 0],
             [0, 0, 0],
             [0, 0, 0]]
 
-# todo Добавить перезапуск игры после каждой победы, до финала
-# todo Добавить вызов всплывающего окна - Победа
+# todo Добавить перезапуск всей игры после окончания выбранного количества партий
 # todo Проверить закрытие окна с выбором партий
 
 def restart_game():
@@ -87,30 +86,33 @@ def restart_part():
     for button in buttons:
         button.setText(" ")
 
+def end_part(winner):
+    msg = f"В этой партии {winner} осталось сыграть {number_sets} партий\n"
+    msg += f"Текущий счет: Х - {totalX},  0 - {total0}"
+    print(msg)
+    QMessageBox.information(win, "Результат партии", msg, QMessageBox.Ok)
+
 def winX():
     global totalX, number_sets
 
     number_sets -= 1
-    print("В этой партии победили Х", "осталось сыграть", number_sets, "партий")
     totalX += 1
-    print("Текущий счет: Х -", totalX, ", 0 -", total0)
+    end_part("победили Х")
     restart_part()
 
 def win0():
     global total0, number_sets
 
     number_sets -= 1
-    print("В этой партии победили 0", "осталось сыграть", number_sets, "партий")
     total0 += 1
-    print("Текущий счет: Х -", totalX, ", 0 -", total0)
+    end_part("победили 0")
     restart_part()
 
 def game_to_a_draw():
     global number_sets
 
     number_sets -= 1
-    print("В этой партии Ничья!", "осталось сыграть", number_sets, "партий")
-    print("Текущий счет: Х -", totalX, ", 0 -", total0)
+    end_part("Ничья!")
     restart_part()
 
 def game_controller(pos, turn_char):
