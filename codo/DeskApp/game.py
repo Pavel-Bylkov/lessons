@@ -93,10 +93,21 @@ def restart_part():
     label.setText(f"Текущий ход делает {turn_char}")
 
 def end_part(winner):
+    global totalX, total0, number_sets
+
+    number_sets -= 1
+    if winner == "победили Х":
+        totalX += 1
+    elif winner == "победили 0":
+        total0 += 1
     msg = f"В этой партии {winner} осталось сыграть {number_sets} партий\n"
     msg += f"Текущий счет: Х - {totalX},  0 - {total0}"
     print(msg)
     QMessageBox.information(win, "Результат партии", msg, QMessageBox.Ok)
+    if number_sets == 0:
+        end_game()
+    else:
+        restart_part()
 
 def end_game():
     if total0 > totalX:
@@ -111,37 +122,6 @@ def end_game():
     QMessageBox.information(win, "Результат серии партий", msg, QMessageBox.Ok)
     restart_game()
 
-def winX():
-    global totalX, number_sets
-
-    number_sets -= 1
-    totalX += 1
-    end_part("победили Х")
-    if number_sets == 0:
-        end_game()
-    else:
-        restart_part()
-
-def win0():
-    global total0, number_sets
-
-    number_sets -= 1
-    total0 += 1
-    end_part("победили 0")
-    if number_sets == 0:
-        end_game()
-    else:
-        restart_part()
-
-def game_to_a_draw():
-    global number_sets
-
-    number_sets -= 1
-    end_part("Ничья!")
-    if number_sets == 0:
-        end_game()
-    else:
-        restart_part()
 
 def game_controller(pos):
     """Меняет значение ячейки game_map с 0 или на 1 или на -1
@@ -159,25 +139,25 @@ def game_controller(pos):
     # Проверяем сумму по строкам
     for row1 in game_map:
         if sum(row1) == 3:
-            winX()
+            end_part("победили Х")
         elif sum(row1) == -3:
-            win0()
+            end_part("победили 0")
     # Проверяем сумму по столбцам
     for col in range(3):
         summ = 0
         for row2 in range(3):
             summ += game_map[row2][col]
         if summ == 3:
-            winX()
+            end_part("победили Х")
         elif summ == -3:
-            win0()
+            end_part("победили 0")
     # Проверяем сумму по диагоналям
     d1 = game_map[0][0] + game_map[1][1] + game_map[2][2]
     d2 = game_map[2][0] + game_map[1][1] + game_map[0][2]
     if d1 == 3 or d2 == 3:
-        winX()
+        end_part("победили Х")
     if d1 == -3 or d2 == -3:
-        win0()
+        end_part("победили 0")
     # Проверяем на ничью
     cheker_zero = False
     for row2 in range(3):
@@ -186,7 +166,7 @@ def game_controller(pos):
                 cheker_zero = True
                 break
     if not cheker_zero:
-        game_to_a_draw()
+        end_part("Ничья!")
     turn = 0 if turn == 1 else 1
     turn_char = '0' if turn == 1 else 'X'
     label.setText(f"Текущий ход делает {turn_char}")
