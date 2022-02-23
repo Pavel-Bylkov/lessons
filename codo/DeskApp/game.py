@@ -62,8 +62,8 @@ game_map = [[0, 0, 0],
             [0, 0, 0],
             [0, 0, 0]]
 
-# todo Добавить перезапуск всей игры после окончания выбранного количества партий
 # todo Проверить закрытие окна с выбором партий
+# todo Настроить внешний вид всплывающего окна
 
 def restart_game():
     """Перезапуск всей игры"""
@@ -72,6 +72,7 @@ def restart_game():
     number_sets = 5
     totalX = 0
     total0 = 0
+    restart_part()
     question.show()
     win.hide()
 
@@ -92,13 +93,29 @@ def end_part(winner):
     print(msg)
     QMessageBox.information(win, "Результат партии", msg, QMessageBox.Ok)
 
+def end_game():
+    if total0 > totalX:
+        winner = "0"
+    elif total0 < totalX:
+        winner = "X"
+    else:
+        winner = "Дружба"
+    msg = f"В этой серии партий победил {winner}\n"
+    msg += f"Со счетом: Х - {totalX},  0 - {total0}"
+    print(msg)
+    QMessageBox.information(win, "Результат серии партий", msg, QMessageBox.Ok)
+    restart_game()
+
 def winX():
     global totalX, number_sets
 
     number_sets -= 1
     totalX += 1
     end_part("победили Х")
-    restart_part()
+    if number_sets == 0:
+        end_game()
+    else:
+        restart_part()
 
 def win0():
     global total0, number_sets
@@ -106,14 +123,20 @@ def win0():
     number_sets -= 1
     total0 += 1
     end_part("победили 0")
-    restart_part()
+    if number_sets == 0:
+        end_game()
+    else:
+        restart_part()
 
 def game_to_a_draw():
     global number_sets
 
     number_sets -= 1
     end_part("Ничья!")
-    restart_part()
+    if number_sets == 0:
+        end_game()
+    else:
+        restart_part()
 
 def game_controller(pos, turn_char):
     """Меняет значение ячейки game_map с 0 или на 1 или на -1
