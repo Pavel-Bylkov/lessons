@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLa
                             QPushButton, QToolTip, QMessageBox, QLineEdit)
 from PyQt5.QtGui import QFont, QIntValidator
 
+from random import randint
+
 # создаем приложение
 app = QApplication([])
 # создаем окно
@@ -57,7 +59,8 @@ class Question(QWidget):
     def getValue(self):
         return int(self.lineedit.text())
 
-turn = 1
+turn = randint(0, 1)
+turn_char = '0' if turn == 1 else 'X'
 game_map = [[0, 0, 0],
             [0, 0, 0],
             [0, 0, 0]]
@@ -78,14 +81,16 @@ def restart_game():
 
 def restart_part():
     """Презапуск поля для новой партии"""
-    global turn, game_map
+    global turn, game_map,turn_char
 
-    turn = 1
+    turn = randint(0, 1)
+    turn_char = '0' if turn == 1 else 'X'
     game_map = [[0, 0, 0],
                 [0, 0, 0],
                 [0, 0, 0]]
     for button in buttons:
         button.setText(" ")
+    label.setText(f"Текущий ход делает {turn_char}")
 
 def end_part(winner):
     msg = f"В этой партии {winner} осталось сыграть {number_sets} партий\n"
@@ -138,11 +143,13 @@ def game_to_a_draw():
     else:
         restart_part()
 
-def game_controller(pos, turn_char):
+def game_controller(pos):
     """Меняет значение ячейки game_map с 0 или на 1 или на -1
         И при достижении суммы соседних ячеек 3 или -3 фиксировать победу
         """
     global total0, totalX
+    global turn, turn_char
+
     row, column = pos
     if turn_char == 'X':
         game_map[row][column] = 1
@@ -180,6 +187,9 @@ def game_controller(pos, turn_char):
                 break
     if not cheker_zero:
         game_to_a_draw()
+    turn = 0 if turn == 1 else 1
+    turn_char = '0' if turn == 1 else 'X'
+    label.setText(f"Текущий ход делает {turn_char}")
 
 class MyButton(QPushButton):
     # переопределяем конструктор класса
@@ -195,20 +205,17 @@ class MyButton(QPushButton):
         self.clicked.connect(self.push)
 
     def push(self):
-        global turn
         if self.text() == " ":
-            if turn == 1:
-                turn_char = '0'
-                turn = 0
-            else:
-                turn_char = 'X'
-                turn = 1
             self.setText(turn_char)
-            game_controller(self.pos, turn_char)
+            game_controller(self.pos)
+
 
 
 # вертикальная линия для привязки трех горизонтальных
 vertical_line = QVBoxLayout()
+label = QLabel(f"Текущий ход делает {turn_char}")
+label.setFont(QFont('Arial', 25))
+vertical_line.addWidget(label, alignment=Qt.AlignCenter)
 for row in range(3):
     horizontal_line = QHBoxLayout()
     for column in range(3):
