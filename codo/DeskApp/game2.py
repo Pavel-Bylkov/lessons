@@ -3,24 +3,36 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLa
                             QPushButton, QToolTip, QMessageBox, QLineEdit)
 from PyQt5.QtGui import QFont, QIntValidator
 
-from random import randint
-
+from random import shuffle
+from copy import deepcopy
 
 class Controller:
     def __init__(self):
-        self.numbers = [str(x) for x in range(1, 16)]  # Создаем список чисел от 1 до 15
-        self.numbers.append(" ")
+        numbers = ["1", "2", "3", "4", "5", "6", "7", "8",
+                   "9", "10", "11", "12", "13", "14", "15", " "]
+        # Создаем список чисел от 1 до 15
+        self.result = Controller.get_numbers(numbers)
+        shuffle(numbers)
+        self.numbers = Controller.get_numbers(numbers)
+        # print(self.result)
         # print(self.numbers)
-        self.i = 0
 
-    def get_number(self):
-        if self.i < len(self.numbers):
-            value = self.numbers[self.i]
-            self.i += 1
-            return value
-        self.i = 0
-        return "stop"
+    def get_number(self, row, col):
+        return self.numbers[row][col]
 
+    def check_win(self):
+        return self.numbers == self.result
+
+    @staticmethod
+    def get_numbers(list_num):
+        iter_l = iter(list_num)
+        result = []
+        for i in range(4):
+            row = []
+            for j in range(4):
+                row.append(next(iter_l))
+            result.append(row)
+        return result
 
 class MyWin(QWidget):
     def __init__(self, *args, **kwargs):
@@ -41,7 +53,7 @@ class MyWin(QWidget):
         for row in range(4):
             horizontal_line = QHBoxLayout()
             for column in range(4):
-                button = MyButton(row, column, self.controller.get_number())
+                button = MyButton(row, column, self.controller.get_number(row, column))
                 self.buttons.append(button)
                 horizontal_line.addWidget(button)  # , alignment=Qt.AlignCenter
             vertical_line.addLayout(horizontal_line)
