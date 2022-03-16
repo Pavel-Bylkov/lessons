@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLa
 from PyQt5.QtGui import QFont, QIntValidator
 
 from random import shuffle
-from copy import deepcopy
+
 
 class Controller:
     def __init__(self):
@@ -12,10 +12,10 @@ class Controller:
                    "9", "10", "11", "12", "13", "14", "15", " "]
         # Создаем список чисел от 1 до 15
         self.result = Controller.get_numbers(numbers)
-        shuffle(numbers)
+        shuffle(numbers)  # Перемешиваем список случайным образом
         self.numbers = Controller.get_numbers(numbers)
-        # print(self.result)
-        # print(self.numbers)
+        print(self.result)
+        print(self.numbers)
 
     def get_number(self, row, col):
         return self.numbers[row][col]
@@ -33,6 +33,7 @@ class Controller:
                 row.append(next(iter_l))
             result.append(row)
         return result
+
 
 class MyWin(QWidget):
     def __init__(self, *args, **kwargs):
@@ -53,7 +54,8 @@ class MyWin(QWidget):
         for row in range(4):
             horizontal_line = QHBoxLayout()
             for column in range(4):
-                button = MyButton(row, column, self.controller.get_number(row, column))
+                text = self.controller.get_number(row, column)
+                button = MyButton(row, column, text)
                 self.buttons.append(button)
                 horizontal_line.addWidget(button)  # , alignment=Qt.AlignCenter
             vertical_line.addLayout(horizontal_line)
@@ -74,7 +76,23 @@ class MyButton(QPushButton):
         self.clicked.connect(self.push)
 
     def push(self):
-        pass
+        # if self.pos[0] > 0:
+        #     start0 = 1
+        # else:
+        #     start0 = 0
+        start0 = 1 if self.pos[0] > 0 else 0
+        start1 = 1 if self.pos[1] > 0 else 0
+        end0 = 1 if self.pos[0] < 3 else 0
+        end1 = 1 if self.pos[1] < 3 else 0
+        for row in range(self.pos[0] - start0, self.pos[0] + end0 + 1):
+            for col in range(self.pos[1] - start1, self.pos[1] + end1 + 1):
+                if ((row, col) != self.pos
+                        and not (self.pos[0] - start0 == row and self.pos[1] - start1 == col)
+                        and not (self.pos[0] + end0 == row and self.pos[1] - start1 == col)
+                        and not (self.pos[0] - start0 == row and self.pos[1] + end1 == col)
+                        and not (self.pos[0] + end0 == row and self.pos[1] + end1 == col)):
+                    print(row, col)
+
         # if self.text() == " ":
         #     self.setText(turn_char)
         #     game_controller(self.pos)
