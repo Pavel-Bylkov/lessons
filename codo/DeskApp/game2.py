@@ -78,7 +78,8 @@ class MyWin(QWidget):
                 return btn
         return None
 
-    def get_neib(self, row, col):
+    @staticmethod
+    def get_neib(row, col):
         list_neib = []
         if row - 1 >= 0:
             list_neib.append((row - 1, col))
