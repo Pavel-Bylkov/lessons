@@ -97,7 +97,8 @@ class MyButton(QPushButton):
     def __init__(self, row, column, text, main_win, *args, **kwargs):
         # вызываем родительский конструктор
         super().__init__(*args, **kwargs)
-        self.main_win = main_win  # сохраняем ссылку на главное окно
+        # сохраняем ссылку на главное окно
+        self.main_win = main_win
         # переопределяем значения по умолчанию
         self.setFixedSize(QSize(148, 148))
         self.setFont(QFont('Arial', 100))
@@ -107,19 +108,15 @@ class MyButton(QPushButton):
         self.clicked.connect(self.push)
 
     def push(self):
-        # if self.pos[0] > 0:
-        #     start0 = 1
-        # else:
-        #     start0 = 0
-        start0 = 1 if self.pos[0] > 0 else 0
-        start1 = 1 if self.pos[1] > 0 else 0
-        end0 = 1 if self.pos[0] < 3 else 0
-        end1 = 1 if self.pos[1] < 3 else 0
         list_neib = []
-        for row in range(self.pos[0] - start0, self.pos[0] + end0 + 1):
-            for col in range(self.pos[1] - start1, self.pos[1] + end1 + 1):
-                if (row, col) != self.pos and (self.pos[0] == row or self.pos[1] == col):
-                    list_neib.append((row, col))
+        if self.pos[0] - 1 >= 0:
+            list_neib.append((self.pos[0] - 1, self.pos[1]))
+        if self.pos[1] - 1 >= 0:
+            list_neib.append((self.pos[0], self.pos[1] - 1))
+        if self.pos[1] + 1 <= 3:
+            list_neib.append((self.pos[0], self.pos[1] + 1))
+        if self.pos[0] + 1 <= 3:
+            list_neib.append((self.pos[0] + 1, self.pos[1]))
         self.main_win.swap(self.pos[0], self.pos[1], list_neib)
 
 
