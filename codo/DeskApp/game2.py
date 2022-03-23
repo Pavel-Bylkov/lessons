@@ -78,7 +78,20 @@ class MyWin(QWidget):
                 return btn
         return None
 
-    def swap(self, row, col, list_neib):
+    def get_neib(self, row, col):
+        list_neib = []
+        if row - 1 >= 0:
+            list_neib.append((row - 1, col))
+        if col - 1 >= 0:
+            list_neib.append((row, col - 1))
+        if col + 1 <= 3:
+            list_neib.append((row, col + 1))
+        if row + 1 <= 3:
+            list_neib.append((row + 1, col))
+        return list_neib
+
+    def swap(self, row, col):
+        list_neib = self.get_neib(row, col)  # получаем список координат соседей
         btn1 = self.get_btn(row, col)  # получаем ссылку на кнопку куда кликнули
         btn2 = self.get_btn_space(list_neib)  # получаем ссылку на кнопку с пустой ячейкой
         if btn1 is not None and btn2 is not None:
@@ -108,16 +121,7 @@ class MyButton(QPushButton):
         self.clicked.connect(self.push)
 
     def push(self):
-        list_neib = []
-        if self.pos[0] - 1 >= 0:
-            list_neib.append((self.pos[0] - 1, self.pos[1]))
-        if self.pos[1] - 1 >= 0:
-            list_neib.append((self.pos[0], self.pos[1] - 1))
-        if self.pos[1] + 1 <= 3:
-            list_neib.append((self.pos[0], self.pos[1] + 1))
-        if self.pos[0] + 1 <= 3:
-            list_neib.append((self.pos[0] + 1, self.pos[1]))
-        self.main_win.swap(self.pos[0], self.pos[1], list_neib)
+        self.main_win.swap(self.pos[0], self.pos[1])
 
 
 def main():
