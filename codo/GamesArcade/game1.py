@@ -39,6 +39,35 @@ arcade.draw_rectangle_filled(center_x=150, center_y=500, width=100, height=50,
 arcade.draw_triangle_filled(x1=500, y1=500, x2=550, y2=550,
                             x3=600, y3=450, color=DARK_RED)
 
+
+def arca(x, y):
+    arcade.draw_arc_outline(x, y - 250, 370, 150, arcade.color.GREEN, 0, 180, 300)
+
+
+arca(250, 250)
+
+
+def house(x, y):
+    arcade.draw_rectangle_filled(x, y - 100, 200, 150, arcade.color.BROWN)
+    arcade.draw_circle_filled(x - 50, y - 100, 25, arcade.color.BLUEBERRY)
+    arcade.draw_circle_filled(x + 50, y - 100, 25, arcade.color.BLUEBERRY)
+    arcade.draw_line(x + 100, y - 100, 150, 150, arcade.color.BROWN, 3)
+    arcade.draw_triangle_filled(120, 220, 260, 300, 380, 220, arcade.color.BLACK)
+
+
+house(250, 250)
+
+
+def sun(x, y):
+    arcade.draw_circle_filled(x, y + 20, 50, arcade.color.YELLOW)
+    arcade.draw_line(x - 50, y - 100, 370, 350, arcade.color.YELLOW)
+    arcade.draw_line(x + 20, y - 35, 435, 320, arcade.color.YELLOW)
+    arcade.draw_line(x + 20, y + 40, 280, 350, arcade.color.YELLOW)
+
+
+sun(400, 400)
+
+
 # заканчиваем рисование
 arcade.finish_render()
 
