@@ -28,6 +28,16 @@ arcade.draw_circle_filled(center_x=WIDTH//2, center_y=HEIGHT//2,
 arcade.draw_circle_outline(center_x=150, center_y=150, radius=50,
                            color=BLACK, border_width=5, tilt_angle=0,
                            num_segments=-1)
+# рисуем часть закрашенного круга
+arcade.draw_arc_filled(center_x=550, center_y=150, width=50, height=50,
+                       color=BLUE, start_angle=15, end_angle=190, tilt_angle=30,
+                       num_segments=100)
+# рисуем закрашенный прямоугольник
+arcade.draw_rectangle_filled(center_x=150, center_y=500, width=100, height=50,
+                             color=DARK_CORAL, tilt_angle=0)
+# рисуем закрашенный треугольник
+arcade.draw_triangle_filled(x1=500, y1=500, x2=550, y2=550,
+                            x3=600, y3=450, color=DARK_RED)
 
 # заканчиваем рисование
 arcade.finish_render()
