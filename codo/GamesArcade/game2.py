@@ -25,12 +25,17 @@ class MyGame(arcade.Window):
         self.move_right = False
 
     def on_draw(self):
+        """Здесь мы очищаем экран и отрисовываем спрайты.
+        Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
         # старт рисования
         # arcade.start_render()
         self.clear()
         self.sprite.draw()
+        arcade.draw_text(text="Text", start_x=10, start_y=20, color=WHITE, font_size=20)
 
     def on_update(self, delta_time: float):
+        """Здесь мы обновляем параметры и перемещаем спрайты.
+        Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
         if self.move_left:
             self.center_x -= self.speed
         if self.move_right:
@@ -60,6 +65,7 @@ class MyGame(arcade.Window):
             self.move_up = False
         if key == arcade.key.DOWN:
             self.move_down = False
+
 
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
 game.run()
