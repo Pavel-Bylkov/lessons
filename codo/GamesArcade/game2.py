@@ -1,3 +1,5 @@
+import random
+
 import arcade
 from arcade.color import *
 
@@ -6,6 +8,7 @@ HEIGHT = 600
 TITLE = "Game 2"
 
 HERO_IMG = ":resources:images/alien/alienBlue_front.png"
+COIN_IMG = ":resources:images/items/coinGold.png"
 
 
 class MyGame(arcade.Window):
@@ -24,12 +27,20 @@ class MyGame(arcade.Window):
         self.move_left = False
         self.move_right = False
 
+        self.coins_list = arcade.SpriteList()
+        for i in range(20):
+            coin = arcade.Sprite(filename=COIN_IMG, scale=0.5,
+                                 center_x=random.randint(20, width - 20),
+                                 center_y=random.randint(20, height - 20))
+            self.coins_list.append(coin)
+
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
         # старт рисования
         # arcade.start_render()
         self.clear()
+        self.coins_list.draw()
         self.sprite.draw()
         arcade.draw_text(text="Text", start_x=10, start_y=20, color=WHITE, font_size=20)
 
@@ -55,6 +66,10 @@ class MyGame(arcade.Window):
             self.move_up = True
         if key == arcade.key.DOWN:
             self.move_down = True
+        if key == arcade.key.SPACE:
+            for coin in self.coins_list:
+                coin.set_position(center_x=random.randint(20, self.width - 20),
+                                  center_y=random.randint(20, self.height - 20))
 
     def on_key_release(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
