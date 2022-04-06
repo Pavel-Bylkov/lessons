@@ -9,6 +9,7 @@ TITLE = "Game 1"
 arcade.open_window(width=WIDTH, height=HEIGHT, window_title=TITLE)
 # задаем фон окна
 arcade.set_background_color(color=DARK_GREEN)
+
 # старт рисования
 arcade.start_render()
 # рисуем линию
@@ -41,18 +42,18 @@ arcade.draw_triangle_filled(x1=500, y1=500, x2=550, y2=550,
 
 
 def arca(x, y):
-    arcade.draw_arc_outline(x, y - 250, 370, 150, arcade.color.GREEN, 0, 180, 300)
+    arcade.draw_arc_outline(x, y - 250, 370, 150, GREEN, 0, 180, 300)
 
 
 arca(250, 250)
 
 
 def house(x, y):
-    arcade.draw_rectangle_filled(x, y - 100, 200, 150, arcade.color.BROWN)
-    arcade.draw_circle_filled(x - 50, y - 100, 25, arcade.color.BLUEBERRY)
-    arcade.draw_circle_filled(x + 50, y - 100, 25, arcade.color.BLUEBERRY)
-    arcade.draw_line(x + 100, y - 100, 150, 150, arcade.color.BROWN, 3)
-    arcade.draw_triangle_filled(120, 220, 260, 300, 380, 220, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(x, y - 100, 200, 150, BROWN)
+    arcade.draw_circle_filled(x - 50, y - 100, 25, BLUEBERRY)
+    arcade.draw_circle_filled(x + 50, y - 100, 25, BLUEBERRY)
+    arcade.draw_line(x + 100, y - 100, 150, 150, BROWN, 3)
+    arcade.draw_triangle_filled(120, 220, 260, 300, 380, 220, BLACK)
 
 
 house(250, 250)
