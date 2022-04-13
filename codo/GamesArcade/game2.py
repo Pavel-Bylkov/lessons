@@ -11,21 +11,37 @@ HERO_IMG = ":resources:images/alien/alienBlue_front.png"
 COIN_IMG = ":resources:images/items/coinGold.png"
 
 
+class Hero(arcade.Sprite):
+    def __init__(self, filename, scale, center_x, center_y, speed):
+        super().__init__(filename=filename, scale=scale,
+                         center_x=center_x, center_y=center_y)
+        self.speed = speed
+        self.move_up = False
+        self.move_down = False
+        self.move_left = False
+        self.move_right = False
+
+    def update(self):
+        if self.move_left:
+            self.center_x -= self.speed
+        if self.move_right:
+            self.center_x += self.speed
+        if self.move_up:
+            self.center_y += self.speed
+        if self.move_down:
+            self.center_y -= self.speed
+        self.set_position(self.center_x, self.center_y)
+
+
+
 class MyGame(arcade.Window):
     def __init__(self, width, height, window_title):
         super().__init__(width, height, window_title)
         # задаем фон окна
         arcade.set_background_color(color=DARK_GREEN)
 
-        self.sprite = arcade.Sprite(filename=HERO_IMG, scale=0.5,
-                                    center_x=width//2, center_y=height//2)
-        self.speed = 5
-        self.center_x = width//2
-        self.center_y = height//2
-        self.move_up = False
-        self.move_down = False
-        self.move_left = False
-        self.move_right = False
+        self.sprite = Hero(filename=HERO_IMG, scale=0.5,
+                           center_x=width//2, center_y=height//2, speed=5)
 
         self.coins_list = arcade.SpriteList()
         for i in range(20):
@@ -47,25 +63,17 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time: float):
         """Здесь мы обновляем параметры и перемещаем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
-        if self.move_left:
-            self.center_x -= self.speed
-        if self.move_right:
-            self.center_x += self.speed
-        if self.move_up:
-            self.center_y += self.speed
-        if self.move_down:
-            self.center_y -= self.speed
-        self.sprite.set_position(self.center_x, self.center_y)
+        self.sprite.update()
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
-            self.move_left = True
+            self.sprite.move_left = True
         if key == arcade.key.RIGHT:
-            self.move_right = True
+            self.sprite.move_right = True
         if key == arcade.key.UP:
-            self.move_up = True
+            self.sprite.move_up = True
         if key == arcade.key.DOWN:
-            self.move_down = True
+            self.sprite.move_down = True
         if key == arcade.key.SPACE:
             for coin in self.coins_list:
                 coin.set_position(center_x=random.randint(20, self.width - 20),
@@ -73,13 +81,13 @@ class MyGame(arcade.Window):
 
     def on_key_release(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
-            self.move_left = False
+            self.sprite.move_left = False
         if key == arcade.key.RIGHT:
-            self.move_right = False
+            self.sprite.move_right = False
         if key == arcade.key.UP:
-            self.move_up = False
+            self.sprite.move_up = False
         if key == arcade.key.DOWN:
-            self.move_down = False
+            self.sprite.move_down = False
 
 
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
