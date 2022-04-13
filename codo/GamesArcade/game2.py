@@ -64,6 +64,9 @@ class MyGame(arcade.Window):
         """Здесь мы обновляем параметры и перемещаем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
         self.sprite.update()
+        for coin in self.coins_list:
+            if arcade.check_for_collision(self.sprite, coin):
+                self.coins_list.remove(coin)
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -92,3 +95,36 @@ class MyGame(arcade.Window):
 
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
 game.run()
+
+
+"""
+arcade.check_for_collision(#спрайт1, #спрайт2)
+-возвращает True или False в зависимости от того, было столкновение 
+или нет
+
+arcade.check_for_collision_with_list(#основной спрайт,#список (arcade.SpriteList())
+-возвращает список объектов с которыми произошла коллизия(столкновение)
+
+arcade.check_for_collision_with_lists(#основной спрайт,
+#список из списков, которые содержат спрайты)
+-возвращает список объектов с которыми пересекся основной спрайт
+
+sprite,distance = arcade.get_closest_sprite(#основной спрайт,
+#список из спрайтов(arcade.SpriteList())
+-возвращает два параметра ближайший спрайт и расстояние до него
+
+if len(self.coin_list) == 0: -условие, когда все спрайты исчезли
+    return None
+
+arcade.get_sprites_at_exact_point(#точка, с которой будет искаться коллизия, 
+#список спрайтов) 
+-возвращает список объектов которые свои центром перескли указанную точку
+
+arcade.get_sprites_at_point(#точка, с которой будет искаться коллизия, 
+#список спрайтов) 
+-возвращает список объектов которые перескли указанную точку
+
+arcade.draw_text(#надпись с переменными или без,
+#Координата икс,игрек, цвет,размер шрифта) 
+-выводит надпись на экран
+"""
