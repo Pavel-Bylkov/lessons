@@ -1,4 +1,5 @@
 import random
+import time
 
 import arcade
 from arcade.color import *
@@ -50,6 +51,10 @@ class MyGame(arcade.Window):
                                  center_y=random.randint(20, height - 20))
             self.coins_list.append(coin)
 
+        self.score = 0
+        self.timer = 10
+        self.last_time = time.time()
+
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
@@ -58,15 +63,27 @@ class MyGame(arcade.Window):
         self.clear()
         self.coins_list.draw()
         self.sprite.draw()
-        arcade.draw_text(text="Text", start_x=10, start_y=20, color=WHITE, font_size=20)
+        arcade.draw_text(text=f"Score {self.score}", start_x=10, start_y=20,
+                         color=WHITE, font_size=20)
+        arcade.draw_text(text=f"Time {self.timer}", start_x=10, start_y=HEIGHT - 20,
+                         color=WHITE, font_size=20)
 
     def on_update(self, delta_time: float):
         """Здесь мы обновляем параметры и перемещаем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
-        self.sprite.update()
+
+        if self.timer > 0:
+            self.sprite.update()
+
         for coin in self.coins_list:
             if arcade.check_for_collision(self.sprite, coin):
                 self.coins_list.remove(coin)
+                self.score += 1
+
+        if self.timer > 0 and time.time() - self.last_time >= 1:
+            self.timer -= 1
+            self.last_time = time.time()  # запоминаем текущее значение времени
+
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
