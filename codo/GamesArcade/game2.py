@@ -34,7 +34,6 @@ class Hero(arcade.Sprite):
         self.set_position(self.center_x, self.center_y)
 
 
-
 class MyGame(arcade.Window):
     def __init__(self, width, height, window_title):
         super().__init__(width, height, window_title)
@@ -46,14 +45,22 @@ class MyGame(arcade.Window):
 
         self.coins_list = arcade.SpriteList()
         for i in range(20):
-            coin = arcade.Sprite(filename=COIN_IMG, scale=0.5,
+            coin = arcade.Sprite(filename=COIN_IMG, scale=0.4,
                                  center_x=random.randint(20, width - 20),
                                  center_y=random.randint(20, height - 20))
             self.coins_list.append(coin)
 
+        self.big_coins_list = arcade.SpriteList()
+        for i in range(20):
+            coin = arcade.Sprite(filename=COIN_IMG, scale=0.8,
+                                 center_x=random.randint(20, width - 20),
+                                 center_y=random.randint(20, height - 20))
+            self.big_coins_list.append(coin)
+
+        self.coins = [self.coins_list, self.big_coins_list]
         self.score = 0
         self.timer = 10
-        self.last_time = time.time()
+        self.last_time = time.time()  # запоминаем текущее значение времени
 
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
@@ -62,6 +69,7 @@ class MyGame(arcade.Window):
         # arcade.start_render()
         self.clear()
         self.coins_list.draw()
+        self.big_coins_list.draw()
         self.sprite.draw()
         arcade.draw_text(text=f"Score {self.score}", start_x=10, start_y=20,
                          color=WHITE, font_size=20)
@@ -75,10 +83,20 @@ class MyGame(arcade.Window):
         if self.timer > 0:
             self.sprite.update()
 
-        for coin in self.coins_list:
-            if arcade.check_for_collision(self.sprite, coin):
-                self.coins_list.remove(coin)
-                self.score += 1
+        # for coin in self.coins_list:
+        #     if arcade.check_for_collision(self.sprite, coin):
+        #         self.coins_list.remove(coin)
+        #         self.score += 1
+
+        # collisions = arcade.check_for_collision_with_list(self.sprite, self.coins_list)
+        # for coin in collisions:
+        #     self.coins_list.remove(coin)
+        #     self.score += 1
+
+        collisions = arcade.check_for_collision_with_lists(self.sprite, self.coins)
+        for coin in collisions:
+            coin.remove_from_sprite_lists()  # чтобы не перепутать списки, удаляем из всех списков
+            self.score += 1
 
         if self.timer > 0 and time.time() - self.last_time >= 1:
             self.timer -= 1
