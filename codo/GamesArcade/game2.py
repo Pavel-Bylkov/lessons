@@ -34,6 +34,24 @@ class Hero(arcade.Sprite):
             self.center_y -= self.speed
         self.set_position(self.center_x, self.center_y)
 
+class Button(arcade.SpriteSolidColor):
+    def __init__(self, center_x, center_y, width, height, color, text, text_color):
+        super(Button, self).__init__(width, height, color)
+        self.text = text
+        self.text_color = text_color
+        self.center_x = center_x
+        self.center_y = center_y
+
+    def draw(self, *, filter=None, pixelated=None, blend_function=None):
+        super(Button, self).draw()
+        arcade.draw_text(text=self.text,
+                         start_x=self.center_x - len(self.text)//2 * self.height//2,
+                         start_y=self.center_y - self.height//4,
+                         color=self.text_color,
+                         font_size=self.height//2)
+
+    def on_click(self):
+        pass
 
 class Coin(arcade.Sprite):
     def reset_pos(self):
@@ -78,6 +96,12 @@ class MyGame(arcade.Window):
 
         self.cursor = Cursor()
 
+        self.button = Button(center_x=WIDTH//2, center_y=HEIGHT//2,
+                             width=150, height=30,
+                             color=RED, text="START", text_color=BLACK)
+        self.button_list = arcade.SpriteList()
+        self.button_list.append(self.button)
+
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
@@ -92,6 +116,9 @@ class MyGame(arcade.Window):
         arcade.draw_text(text=f"Time {self.timer}", start_x=10, start_y=HEIGHT - 20,
                          color=WHITE, font_size=20)
         self.cursor.draw()
+
+        if len(self.coins_list) == 0 and len(self.big_coins_list) == 0:
+            self.button.draw()
 
     def on_update(self, delta_time: float):
         """Здесь мы обновляем параметры и перемещаем спрайты.
@@ -117,9 +144,9 @@ class MyGame(arcade.Window):
             if distance < 150:
                 sprite.remove_from_sprite_lists()  # чтобы не перепутать списки, удаляем из всех списков
 
-        if self.timer > 0 and time.time() - self.last_time >= 1:
-            self.timer -= 1
-            self.last_time = time.time()  # запоминаем текущее значение времени
+        # if self.timer > 0 and time.time() - self.last_time >= 1:
+        #     self.timer -= 1
+        #     self.last_time = time.time()  # запоминаем текущее значение времени
 
         # нужно совместить центр курсора и центр спрайта-монеты
         # collide = arcade.get_sprites_at_exact_point(self.cursor.get_pos(), self.coins_list)
@@ -127,9 +154,9 @@ class MyGame(arcade.Window):
         #     coin.reset_pos()
 
         # нужно попасть центром курсора в любую точку спрайта-монеты
-        collide = arcade.get_sprites_at_point(self.cursor.get_pos(), self.coins_list)
-        for coin in collide:
-            coin.reset_pos()
+        collide = arcade.get_sprites_at_point(self.cursor.get_pos(), self.button_list)
+        for button in collide:
+            print("Restart game")
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -157,6 +184,9 @@ class MyGame(arcade.Window):
 
     def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
         self.cursor.set_position(x, y)
+
+    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        pass
 
 
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
