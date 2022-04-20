@@ -10,6 +10,7 @@ TITLE = "Game 2"
 
 HERO_IMG = ":resources:images/alien/alienBlue_front.png"
 COIN_IMG = ":resources:images/items/coinGold.png"
+CURSOR = ":resources:images/pinball/pool_cue_ball.png"
 
 
 class Hero(arcade.Sprite):
@@ -34,6 +35,19 @@ class Hero(arcade.Sprite):
         self.set_position(self.center_x, self.center_y)
 
 
+class Coin(arcade.Sprite):
+    def reset_pos(self):
+        self.center_x = random.randint(20, WIDTH - 20)
+        self.center_y = random.randint(20, HEIGHT - 20)
+
+class Cursor(arcade.Sprite):
+    def __init__(self):
+        super().__init__(filename=CURSOR, scale=0.2,
+                         center_x=WIDTH//2, center_y=HEIGHT//2)
+
+    def get_pos(self):
+        return (self.center_x, self.center_y)
+
 class MyGame(arcade.Window):
     def __init__(self, width, height, window_title):
         super().__init__(width, height, window_title)
@@ -45,7 +59,7 @@ class MyGame(arcade.Window):
 
         self.coins_list = arcade.SpriteList()
         for i in range(20):
-            coin = arcade.Sprite(filename=COIN_IMG, scale=0.4,
+            coin = Coin(filename=COIN_IMG, scale=0.4,
                                  center_x=random.randint(20, width - 20),
                                  center_y=random.randint(20, height - 20))
             self.coins_list.append(coin)
@@ -62,6 +76,8 @@ class MyGame(arcade.Window):
         self.timer = 10
         self.last_time = time.time()  # запоминаем текущее значение времени
 
+        self.cursor = Cursor()
+
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
@@ -75,6 +91,7 @@ class MyGame(arcade.Window):
                          color=WHITE, font_size=20)
         arcade.draw_text(text=f"Time {self.timer}", start_x=10, start_y=HEIGHT - 20,
                          color=WHITE, font_size=20)
+        self.cursor.draw()
 
     def on_update(self, delta_time: float):
         """Здесь мы обновляем параметры и перемещаем спрайты.
@@ -88,20 +105,31 @@ class MyGame(arcade.Window):
         #         self.coins_list.remove(coin)
         #         self.score += 1
 
-        # collisions = arcade.check_for_collision_with_list(self.sprite, self.coins_list)
-        # for coin in collisions:
-        #     self.coins_list.remove(coin)
-        #     self.score += 1
-
-        collisions = arcade.check_for_collision_with_lists(self.sprite, self.coins)
+        collisions = arcade.check_for_collision_with_list(self.sprite, self.coins_list)
         for coin in collisions:
-            coin.remove_from_sprite_lists()  # чтобы не перепутать списки, удаляем из всех списков
+            self.coins_list.remove(coin)
             self.score += 1
+
+        collide_distance = arcade.get_closest_sprite(self.sprite, self.big_coins_list)
+        if collide_distance is not None:
+            sprite, distance = collide_distance
+            # print(distance)
+            if distance < 150:
+                sprite.remove_from_sprite_lists()  # чтобы не перепутать списки, удаляем из всех списков
 
         if self.timer > 0 and time.time() - self.last_time >= 1:
             self.timer -= 1
             self.last_time = time.time()  # запоминаем текущее значение времени
 
+        # нужно совместить центр курсора и центр спрайта-монеты
+        # collide = arcade.get_sprites_at_exact_point(self.cursor.get_pos(), self.coins_list)
+        # for coin in collide:
+        #     coin.reset_pos()
+
+        # нужно попасть центром курсора в любую точку спрайта-монеты
+        collide = arcade.get_sprites_at_point(self.cursor.get_pos(), self.coins_list)
+        for coin in collide:
+            coin.reset_pos()
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -126,6 +154,9 @@ class MyGame(arcade.Window):
             self.sprite.move_up = False
         if key == arcade.key.DOWN:
             self.sprite.move_down = False
+
+    def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
+        self.cursor.set_position(x, y)
 
 
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
