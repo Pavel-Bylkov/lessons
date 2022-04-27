@@ -11,6 +11,7 @@ TITLE = "Game 2"
 HERO_IMG = ":resources:images/alien/alienBlue_front.png"
 COIN_IMG = ":resources:images/items/coinGold.png"
 CURSOR = ":resources:images/pinball/pool_cue_ball.png"
+SOUND = ":resources:sounds/jump5.wav"
 
 
 class Hero(arcade.Sprite):
@@ -41,6 +42,7 @@ class Button(arcade.SpriteSolidColor):
         self.text_color = text_color
         self.center_x = center_x
         self.center_y = center_y
+        self.sound = arcade.Sound(SOUND)   # подготавливаем звук
 
     def draw(self, *, filter=None, pixelated=None, blend_function=None):
         super(Button, self).draw()
@@ -51,7 +53,7 @@ class Button(arcade.SpriteSolidColor):
                          font_size=self.height//2)
 
     def on_click(self):
-        pass
+        self.sound.play(volume=0.5)
 
 class Coin(arcade.Sprite):
     def reset_pos(self):
@@ -76,18 +78,7 @@ class MyGame(arcade.Window):
                            center_x=width//2, center_y=height//2, speed=5)
 
         self.coins_list = arcade.SpriteList()
-        for i in range(20):
-            coin = Coin(filename=COIN_IMG, scale=0.4,
-                                 center_x=random.randint(20, width - 20),
-                                 center_y=random.randint(20, height - 20))
-            self.coins_list.append(coin)
-
         self.big_coins_list = arcade.SpriteList()
-        for i in range(20):
-            coin = arcade.Sprite(filename=COIN_IMG, scale=0.8,
-                                 center_x=random.randint(20, width - 20),
-                                 center_y=random.randint(20, height - 20))
-            self.big_coins_list.append(coin)
 
         self.coins = [self.coins_list, self.big_coins_list]
         self.score = 0
@@ -101,6 +92,24 @@ class MyGame(arcade.Window):
                              color=RED, text="START", text_color=BLACK)
         self.button_list = arcade.SpriteList()
         self.button_list.append(self.button)
+        self.start()
+
+    def start(self):
+        self.sprite.center_x = WIDTH//2
+        self.sprite.center_y = HEIGHT//2
+        for i in range(20):
+            coin = Coin(filename=COIN_IMG, scale=0.4,
+                                 center_x=random.randint(20, WIDTH - 20),
+                                 center_y=random.randint(20, HEIGHT - 20))
+            self.coins_list.append(coin)
+        for i in range(20):
+            coin = arcade.Sprite(filename=COIN_IMG, scale=0.8,
+                                 center_x=random.randint(20, WIDTH - 20),
+                                 center_y=random.randint(20, HEIGHT - 20))
+            self.big_coins_list.append(coin)
+        self.score = 0
+        self.timer = 10
+        self.last_time = time.time()
 
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
@@ -115,10 +124,11 @@ class MyGame(arcade.Window):
                          color=WHITE, font_size=20)
         arcade.draw_text(text=f"Time {self.timer}", start_x=10, start_y=HEIGHT - 20,
                          color=WHITE, font_size=20)
-        self.cursor.draw()
 
         if len(self.coins_list) == 0 and len(self.big_coins_list) == 0:
             self.button.draw()
+
+        self.cursor.draw()
 
     def on_update(self, delta_time: float):
         """Здесь мы обновляем параметры и перемещаем спрайты.
@@ -154,9 +164,7 @@ class MyGame(arcade.Window):
         #     coin.reset_pos()
 
         # нужно попасть центром курсора в любую точку спрайта-монеты
-        collide = arcade.get_sprites_at_point(self.cursor.get_pos(), self.button_list)
-        for button in collide:
-            print("Restart game")
+
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -186,7 +194,11 @@ class MyGame(arcade.Window):
         self.cursor.set_position(x, y)
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
-        pass
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            collide = arcade.get_sprites_at_point(self.cursor.get_pos(), self.button_list)
+            for button in collide:
+                button.on_click()
+                self.start()
 
 
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
