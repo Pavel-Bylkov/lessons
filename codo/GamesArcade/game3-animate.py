@@ -9,7 +9,8 @@ HEIGHT = 600
 TITLE = "Game 3"
 
 
-COIN_IMG = ":resources:images/items/coinGold.png"
+COIN_IMG = "timeanim/coinanim.png"
+COIN_IMG2 = ":resources:images/items/coinGold.png"
 CURSOR = ":resources:images/pinball/pool_cue_ball.png"
 SOUND = ":resources:sounds/jump5.wav"
 
@@ -48,7 +49,17 @@ class Button(arcade.SpriteSolidColor):
         self.sound.play(volume=0.5)
 
 
-class Coin(arcade.Sprite):
+class Coin(arcade.AnimatedTimeBasedSprite):
+    def __init__(self, scale, center_x, center_y):
+        super(Coin, self).__init__(scale=scale, center_x=center_x, center_y=center_y)
+        for row in range(2):
+            for col in range(3):
+                texture = arcade.load_texture(COIN_IMG, x=col * 220, y=row * 230,
+                                    width=220, height=230)
+                frame = arcade.AnimationKeyframe(tile_id=1, duration=80, texture=texture)
+                self.frames.append(frame)
+                self._points = texture.hit_box_points
+
     def reset_pos(self):
         self.center_x = random.randint(20, WIDTH - 20)
         self.center_y = random.randint(20, HEIGHT - 20)
@@ -93,12 +104,12 @@ class MyGame(arcade.Window):
         self.sprite.center_x = WIDTH//2
         self.sprite.center_y = HEIGHT//2
         for i in range(20):
-            coin = Coin(filename=COIN_IMG, scale=0.4,
-                                 center_x=random.randint(20, WIDTH - 20),
-                                 center_y=random.randint(20, HEIGHT - 20))
+            coin = Coin(scale=0.2,
+                        center_x=random.randint(20, WIDTH - 20),
+                        center_y=random.randint(20, HEIGHT - 20))
             self.coins_list.append(coin)
         for i in range(20):
-            coin = arcade.Sprite(filename=COIN_IMG, scale=0.8,
+            coin = arcade.Sprite(filename=COIN_IMG2, scale=0.5,
                                  center_x=random.randint(20, WIDTH - 20),
                                  center_y=random.randint(20, HEIGHT - 20))
             self.big_coins_list.append(coin)
@@ -129,9 +140,10 @@ class MyGame(arcade.Window):
         """Здесь мы обновляем параметры и перемещаем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
 
+        self.coins_list.update_animation()
         if self.timer > 0:
             self.sprite.update()
-            self.sprite.update_animation()
+            self.sprite.update_animation()  # обязательно для анимации
 
         collisions = arcade.check_for_collision_with_lists(self.sprite, self.coins)
         for coin in collisions:
@@ -177,8 +189,7 @@ game.run()
 в котором реализованны параметры для хранения картинок движения спрайта
 
 self.player_list.update() -обновление всех элементов, которые переданы в список
-self.player_list.update_animation() -обновление параметров класса
-AnimatedWalkingSprite()
+self.player_list.update_animation() -обновление параметров класса AnimatedWalkingSprite()
 
 arcade.load_texture(#текстура) -загружает текстуру из вашего диска в проект
 
