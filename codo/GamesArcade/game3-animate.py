@@ -6,34 +6,25 @@ from arcade.color import *
 
 WIDTH = 800
 HEIGHT = 600
-TITLE = "Game 2"
+TITLE = "Game 3"
 
-HERO_IMG = ":resources:images/alien/alienBlue_front.png"
+
 COIN_IMG = ":resources:images/items/coinGold.png"
 CURSOR = ":resources:images/pinball/pool_cue_ball.png"
 SOUND = ":resources:sounds/jump5.wav"
 
 
-class Hero(arcade.Sprite):
-    def __init__(self, filename, scale, center_x, center_y, speed):
-        super().__init__(filename=filename, scale=scale,
+class Hero(arcade.AnimatedWalkingSprite):
+    def __init__(self, scale, center_x, center_y, speed):
+        super().__init__(scale=scale,
                          center_x=center_x, center_y=center_y)
         self.speed = speed
-        self.move_up = False
-        self.move_down = False
-        self.move_left = False
-        self.move_right = False
+        self.stand_right_textures.append(arcade.load_texture("animations/r1.png"))
+        self.stand_left_textures.append(arcade.load_texture("animations/l1.png"))
+        for i in range(1, 6):
+            self.walk_left_textures.append(arcade.load_texture(f"animations/l{i}.png"))
+            self.walk_right_textures.append(arcade.load_texture(f"animations/r{i}.png"))
 
-    def update(self):
-        if self.move_left:
-            self.center_x -= self.speed
-        if self.move_right:
-            self.center_x += self.speed
-        if self.move_up:
-            self.center_y += self.speed
-        if self.move_down:
-            self.center_y -= self.speed
-        self.set_position(self.center_x, self.center_y)
 
 
 class Button(arcade.SpriteSolidColor):
@@ -78,7 +69,7 @@ class MyGame(arcade.Window):
         # задаем фон окна
         arcade.set_background_color(color=DARK_GREEN)
 
-        self.sprite = Hero(filename=HERO_IMG, scale=0.5,
+        self.sprite = Hero(scale=2,
                            center_x=width//2, center_y=height//2, speed=5)
 
         self.coins_list = arcade.SpriteList()
@@ -140,58 +131,33 @@ class MyGame(arcade.Window):
 
         if self.timer > 0:
             self.sprite.update()
+            self.sprite.update_animation()
 
-        # for coin in self.coins_list:
-        #     if arcade.check_for_collision(self.sprite, coin):
-        #         self.coins_list.remove(coin)
-        #         self.score += 1
-
-        collisions = arcade.check_for_collision_with_list(self.sprite, self.coins_list)
+        collisions = arcade.check_for_collision_with_lists(self.sprite, self.coins)
         for coin in collisions:
-            self.coins_list.remove(coin)
+            coin.remove_from_sprite_lists()
             self.score += 1
 
-        collide_distance = arcade.get_closest_sprite(self.sprite, self.big_coins_list)
-        if collide_distance is not None:
-            sprite, distance = collide_distance
-            # print(distance)
-            if distance < 150:
-                sprite.remove_from_sprite_lists()  # чтобы не перепутать списки, удаляем из всех списков
-
-        # if self.timer > 0 and time.time() - self.last_time >= 1:
-        #     self.timer -= 1
-        #     self.last_time = time.time()  # запоминаем текущее значение времени
-
-        # нужно совместить центр курсора и центр спрайта-монеты
-        # collide = arcade.get_sprites_at_exact_point(self.cursor.get_pos(), self.coins_list)
-        # for coin in collide:
-        #     coin.reset_pos()
-
-        # нужно попасть центром курсора в любую точку спрайта-монеты
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
-            self.sprite.move_left = True
+            self.sprite.change_x = - self.sprite.speed
         if key == arcade.key.RIGHT:
-            self.sprite.move_right = True
+            self.sprite.change_x = self.sprite.speed
         if key == arcade.key.UP:
-            self.sprite.move_up = True
+            self.sprite.change_y = self.sprite.speed
         if key == arcade.key.DOWN:
-            self.sprite.move_down = True
-        if key == arcade.key.SPACE:
-            for coin in self.coins_list:
-                coin.set_position(center_x=random.randint(20, self.width - 20),
-                                  center_y=random.randint(20, self.height - 20))
+            self.sprite.change_y = - self.sprite.speed
 
     def on_key_release(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
-            self.sprite.move_left = False
+            self.sprite.change_x = 0
         if key == arcade.key.RIGHT:
-            self.sprite.move_right = False
+            self.sprite.change_x = 0
         if key == arcade.key.UP:
-            self.sprite.move_up = False
+            self.sprite.change_y = 0
         if key == arcade.key.DOWN:
-            self.sprite.move_down = False
+            self.sprite.change_y = 0
 
     def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
         self.cursor.set_position(x, y)
@@ -207,35 +173,24 @@ class MyGame(arcade.Window):
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
 game.run()
 
+"""self.player = arcade.AnimatedWalkingSprite() -создаем объект класса,
+в котором реализованны параметры для хранения картинок движения спрайта
 
-"""
-arcade.check_for_collision(#спрайт1, #спрайт2)
--возвращает True или False в зависимости от того, было столкновение 
-или нет
+self.player_list.update() -обновление всех элементов, которые переданы в список
+self.player_list.update_animation() -обновление параметров класса
+AnimatedWalkingSprite()
 
-arcade.check_for_collision_with_list(#основной спрайт,#список (arcade.SpriteList())
--возвращает список объектов с которыми произошла коллизия(столкновение)
+arcade.load_texture(#текстура) -загружает текстуру из вашего диска в проект
 
-arcade.check_for_collision_with_lists(#основной спрайт,
-#список из списков, которые содержат спрайты)
--возвращает список объектов с которыми пересекся основной спрайт
+self.player = arcade.AnimatedTimeBasedSprite() -объект класса, в котором
+реализованы функции хранения кадров спрайта
 
-sprite,distance = arcade.get_closest_sprite(#основной спрайт,
-#список из спрайтов(arcade.SpriteList())
--возвращает два параметра ближайший спрайт и расстояние до него
+frame = arcade.AnimationKeyframe(#id, #длительность показа слайда, #текстура)
+-объект класса, который используется для хранения элементов в объекте
+arcade.AnimatedTimeBasedSprite()
 
-if len(self.coin_list) == 0: -условие, когда все спрайты исчезли
-    return None
+self.frames = [] -список для хранения кадров спрайта
+self._points-присваивание объекту списка точек для коллизии
 
-arcade.get_sprites_at_exact_point(#точка, с которой будет искаться коллизия, 
-#список спрайтов) 
--возвращает список объектов которые свои центром перескли указанную точку
-
-arcade.get_sprites_at_point(#точка, с которой будет искаться коллизия, 
-#список спрайтов) 
--возвращает список объектов которые перескли указанную точку
-
-arcade.draw_text(#надпись с переменными или без,
-#Координата икс,игрек, цвет,размер шрифта) 
--выводит надпись на экран
-"""
+#текстура.hit_box_points -получение размеров изображения по 4 точкам
+(верние -левая, правая, нижние -левая, правая)"""
