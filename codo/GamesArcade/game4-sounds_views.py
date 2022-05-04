@@ -4,6 +4,8 @@ import time
 import arcade
 from arcade.color import *
 
+# ToDo Добавить главное меню и меню паузы
+
 WIDTH = 800
 HEIGHT = 600
 TITLE = "Game 4"
@@ -78,9 +80,6 @@ class Cursor(arcade.Sprite):
 class MyGame(arcade.View):
     def __init__(self):
         super().__init__()
-        # задаем фон окна
-        arcade.set_background_color(color=DARK_GREEN)
-
         self.sprite = Hero(scale=2,
                            center_x=self.window.width//2,
                            center_y=self.window.height//2, speed=5)
@@ -107,6 +106,9 @@ class MyGame(arcade.View):
         self.sound_effect = arcade.Sound(SOUND)  # звук сбора монет
         self.player = None  # понадобиться для управления музыкой
 
+    def on_show(self):
+        # задаем фон окна
+        arcade.set_background_color(color=DARK_GREEN)
         self.start()
 
     def start(self):
@@ -195,10 +197,31 @@ class MyGame(arcade.View):
                 self.start()
 
 
+class MainMenu(arcade.View):
+    def __init__(self):
+        super(MainMenu, self).__init__()
+        self.text = "For start game press any key"
+
+    def on_show(self):
+        arcade.set_background_color(color=DARK_BLUE)
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_text(text=self.text,
+                         start_x=self.window.width //2 - len(self.text) // 2 * 25,
+                         start_y=self.window.height //2 - 20,
+                         color=GREEN,
+                         font_size=40)
+
+    def on_key_press(self, symbol: int, modifiers: int):
+        game = MyGame()
+        self.window.show_view(game)
+
+
 main_window = arcade.Window(width=WIDTH, height=HEIGHT, title=TITLE)
 
-game = MyGame()
-main_window.show_view(game)
+menu = MainMenu()
+main_window.show_view(menu)
 
 main_window.run()
 
