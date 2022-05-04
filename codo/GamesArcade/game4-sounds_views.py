@@ -6,7 +6,7 @@ from arcade.color import *
 
 WIDTH = 800
 HEIGHT = 600
-TITLE = "Game 3"
+TITLE = "Game 4"
 
 
 COIN_IMG = "timeanim/coinanim.png"
@@ -75,14 +75,15 @@ class Cursor(arcade.Sprite):
         return (self.center_x, self.center_y)
 
 
-class MyGame(arcade.Window):
-    def __init__(self, width, height, window_title):
-        super().__init__(width, height, window_title)
+class MyGame(arcade.View):
+    def __init__(self):
+        super().__init__()
         # задаем фон окна
         arcade.set_background_color(color=DARK_GREEN)
 
         self.sprite = Hero(scale=2,
-                           center_x=width//2, center_y=height//2, speed=5)
+                           center_x=self.window.width//2,
+                           center_y=self.window.height//2, speed=5)
 
         self.coins_list = arcade.SpriteList()
         self.big_coins_list = arcade.SpriteList()
@@ -94,15 +95,17 @@ class MyGame(arcade.Window):
 
         self.cursor = Cursor()
 
-        self.button = Button(center_x=WIDTH//2, center_y=HEIGHT//2,
+        self.button = Button(center_x=self.window.width//2,
+                             center_y=self.window.height//2,
                              width=150, height=30,
                              color=RED, text="START", text_color=BLACK)
         self.button_list = arcade.SpriteList()
         self.button_list.append(self.button)
 
         # подготавливаем звуки
-        self.music = arcade.Sound(MUSIC)
-        self.sound_effect = arcade.Sound(SOUND)
+        self.music = arcade.Sound(MUSIC)  # фоновая музыка
+        self.sound_effect = arcade.Sound(SOUND)  # звук сбора монет
+        self.player = None  # понадобиться для управления музыкой
 
         self.start()
 
@@ -122,7 +125,10 @@ class MyGame(arcade.Window):
         self.score = 0
         self.timer = 10
         self.last_time = time.time()
-        self.music.play(volume=0.5, loop=True)  # loop - повторение
+        # останавливаем звук если он уже был запущен
+        if self.player is not None:
+            self.music.stop(self.player)
+        self.player = self.music.play(volume=0.5, loop=True)  # loop - повторение
 
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
@@ -158,7 +164,6 @@ class MyGame(arcade.Window):
             self.score += 1
             self.sound_effect.play(volume=0.5)
 
-
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
             self.sprite.change_x = - self.sprite.speed
@@ -190,8 +195,12 @@ class MyGame(arcade.Window):
                 self.start()
 
 
-game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
-game.run()
+main_window = arcade.Window(width=WIDTH, height=HEIGHT, title=TITLE)
+
+game = MyGame()
+main_window.show_view(game)
+
+main_window.run()
 
 """
 ***mouse***
