@@ -13,6 +13,7 @@ COIN_IMG = "timeanim/coinanim.png"
 COIN_IMG2 = ":resources:images/items/coinGold.png"
 CURSOR = ":resources:images/pinball/pool_cue_ball.png"
 SOUND = ":resources:sounds/jump5.wav"
+MUSIC = ":resources:music/funkyrobot.mp3"
 
 
 class Hero(arcade.AnimatedWalkingSprite):
@@ -98,6 +99,11 @@ class MyGame(arcade.Window):
                              color=RED, text="START", text_color=BLACK)
         self.button_list = arcade.SpriteList()
         self.button_list.append(self.button)
+
+        # подготавливаем звуки
+        self.music = arcade.Sound(MUSIC)
+        self.sound_effect = arcade.Sound(SOUND)
+
         self.start()
 
     def start(self):
@@ -116,6 +122,7 @@ class MyGame(arcade.Window):
         self.score = 0
         self.timer = 10
         self.last_time = time.time()
+        self.music.play(volume=0.5, loop=True)  # loop - повторение
 
     def on_draw(self):
         """Здесь мы очищаем экран и отрисовываем спрайты.
@@ -149,6 +156,7 @@ class MyGame(arcade.Window):
         for coin in collisions:
             coin.remove_from_sprite_lists()
             self.score += 1
+            self.sound_effect.play(volume=0.5)
 
 
     def on_key_press(self, key: int, modifiers: int):
@@ -185,23 +193,25 @@ class MyGame(arcade.Window):
 game = MyGame(width=WIDTH, height=HEIGHT, window_title=TITLE)
 game.run()
 
-"""self.player = arcade.AnimatedWalkingSprite() -создаем объект класса,
-в котором реализованны параметры для хранения картинок движения спрайта
+"""
+***mouse***
+def on_mouse_press(self, x, y, button, modifiers) 
+-отслеживание нажатия кнопок мышки 
+if button == arcade.MOUSE_BUTTON_LEFT: -условие на кнопку 
 
-self.player_list.update() -обновление всех элементов, которые переданы в список
-self.player_list.update_animation() -обновление параметров класса AnimatedWalkingSprite()
+def on_mouse_release(self, x, y, button, modifiers) 
+-отслеживание отжатия кнопок мышки 
 
-arcade.load_texture(#текстура) -загружает текстуру из вашего диска в проект
+def on_mouse_motion(self, x: float, y: float, dx: float, dy: float) 
+-отслеживание положения
 
-self.player = arcade.AnimatedTimeBasedSprite() -объект класса, в котором
-реализованы функции хранения кадров спрайта
+***sound***
+arcade.Sound(file) -основной класс музыки в arcade
+(переменная с музыкой).play(self.volume,self.pan) 
+-проигрыш с указанием громкости и панорамирования
 
-frame = arcade.AnimationKeyframe(#id, #длительность показа слайда, #текстура)
--объект класса, который используется для хранения элементов в объекте
-arcade.AnimatedTimeBasedSprite()
-
-self.frames = [] -список для хранения кадров спрайта
-self._points-присваивание объекту списка точек для коллизии
-
-#текстура.hit_box_points -получение размеров изображения по 4 точкам
-(верние -левая, правая, нижние -левая, правая)"""
+***display***
+arcade.View -класс для управления экранами и передаваемым видом 
+display.show_view(menu) 
+-функция для выбора показа экрана в следующем кадре
+"""
