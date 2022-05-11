@@ -92,15 +92,6 @@ class MyGame(arcade.View):
         self.timer = 10
         self.last_time = time.time()  # запоминаем текущее значение времени
 
-        self.cursor = Cursor()
-
-        self.button = Button(center_x=self.window.width//2,
-                             center_y=self.window.height//2,
-                             width=150, height=30,
-                             color=RED, text="START", text_color=BLACK)
-        self.button_list = arcade.SpriteList()
-        self.button_list.append(self.button)
-
         # подготавливаем звуки
         self.music = arcade.Sound(MUSIC)  # фоновая музыка
         self.sound_effect = arcade.Sound(SOUND)  # звук сбора монет
@@ -114,6 +105,8 @@ class MyGame(arcade.View):
     def start(self):
         self.sprite.center_x = WIDTH//2
         self.sprite.center_y = HEIGHT//2
+        self.sprite.change_x = 0
+        self.sprite.change_y = 0
         for i in range(20):
             coin = Coin(scale=0.2,
                         center_x=random.randint(20, WIDTH - 20),
@@ -146,11 +139,6 @@ class MyGame(arcade.View):
         arcade.draw_text(text=f"Time {self.timer}", start_x=10, start_y=HEIGHT - 20,
                          color=WHITE, font_size=20)
 
-        if len(self.coins_list) == 0 and len(self.big_coins_list) == 0:
-            self.button.draw()
-
-        self.cursor.draw()
-
     def on_update(self, delta_time: float):
         """Здесь мы обновляем параметры и перемещаем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
@@ -165,6 +153,10 @@ class MyGame(arcade.View):
             coin.remove_from_sprite_lists()
             self.score += 1
             self.sound_effect.play(volume=0.5)
+
+        if len(self.coins_list) == 0 and len(self.big_coins_list) == 0:
+            restart = Restart(self)
+            self.window.show_view(restart)
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -189,15 +181,6 @@ class MyGame(arcade.View):
         if key == arcade.key.DOWN:
             self.sprite.change_y = 0
 
-    def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
-        self.cursor.set_position(x, y)
-
-    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
-        if button == arcade.MOUSE_BUTTON_LEFT:
-            collide = arcade.get_sprites_at_point(self.cursor.get_pos(), self.button_list)
-            for button in collide:
-                button.on_click()
-                self.start()
 
 
 class MainMenu(arcade.View):
@@ -245,15 +228,43 @@ class Pause(arcade.View):
                          color=GREEN,
                          font_size=40)
 
-    def on_update(self, delta_time: float):
-        """Здесь мы обновляем параметры и перемещаем спрайты.
-        Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
-        pass
-
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.P:
             self.game.player.play()
             self.window.show_view(self.game)
+
+
+class Restart(arcade.View):
+    def __init__(self, game):
+        super().__init__()
+        self.game = game
+        self.button = Button(center_x=self.window.width // 2,
+                             center_y=self.window.height // 2,
+                             width=150, height=30,
+                             color=RED, text="START", text_color=BLACK)
+        self.button_list = arcade.SpriteList()
+        self.button_list.append(self.button)
+        self.cursor = Cursor()
+
+    def on_draw(self):
+        """Здесь мы очищаем экран и отрисовываем спрайты.
+        Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
+        self.clear()
+        self.game.on_draw()
+
+        self.button.draw()
+        self.cursor.draw()
+
+    def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
+        self.cursor.set_position(x, y)
+
+    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            collide = arcade.get_sprites_at_point((x, y), self.button_list)
+            for button in collide:
+                button.on_click()
+                self.game.start()
+                self.window.show_view(self.game)
 
 
 main_window = arcade.Window(width=WIDTH, height=HEIGHT, title=TITLE)
