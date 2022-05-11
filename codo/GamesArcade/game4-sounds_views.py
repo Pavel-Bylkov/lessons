@@ -8,6 +8,8 @@ from arcade.color import *
 
 WIDTH = 800
 HEIGHT = 600
+
+VIEW_MARGIN = 200  # ширина рамки после которого начнет двигаться экран
 TITLE = "Game 4"
 
 
@@ -98,6 +100,10 @@ class MyGame(arcade.View):
         self.player = None  # понадобиться для управления музыкой
         self.start()
 
+        # для управления координатами экрана - перемещения
+        self.view_left = 0
+        self.view_bottom = 0
+
     def on_show(self):
         # задаем фон окна
         arcade.set_background_color(color=DARK_GREEN)
@@ -134,9 +140,11 @@ class MyGame(arcade.View):
         self.coins_list.draw()
         self.big_coins_list.draw()
         self.sprite.draw()
-        arcade.draw_text(text=f"Score {self.score}", start_x=10, start_y=20,
+        arcade.draw_text(text=f"Score {self.score}",
+                         start_x=10+self.view_left, start_y=20+self.view_bottom,
                          color=WHITE, font_size=20)
-        arcade.draw_text(text=f"Time {self.timer}", start_x=10, start_y=HEIGHT - 20,
+        arcade.draw_text(text=f"Time {self.timer}",
+                         start_x=10+self.view_left, start_y=HEIGHT - 20+self.view_bottom,
                          color=WHITE, font_size=20)
 
     def on_update(self, delta_time: float):
@@ -157,6 +165,31 @@ class MyGame(arcade.View):
         if len(self.coins_list) == 0 and len(self.big_coins_list) == 0:
             restart = Restart(self)
             self.window.show_view(restart)
+
+        self.view_point()
+
+    def view_point(self):
+        #создание границ для персонажа и камеры
+        left_boundary = self.view_left + VIEW_MARGIN
+        if self.sprite.left < left_boundary:
+            self.view_left -= left_boundary - self.sprite.left
+
+        right_boundary = self.view_left + self.window.width - VIEW_MARGIN
+        if self.sprite.right > right_boundary:
+            self.view_left += self.sprite.right - right_boundary
+
+        bottom_boundary = self.view_bottom + VIEW_MARGIN
+        if self.sprite.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.sprite.bottom
+
+        top_boundary = self.view_bottom + self.window.height - VIEW_MARGIN
+        if self.sprite.top > top_boundary:
+            self.view_bottom += self.sprite.top - top_boundary
+
+        arcade.set_viewport(self.view_left,
+                            self.view_left + self.window.width,
+                            self.view_bottom,
+                            self.view_bottom + self.window.height)
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -219,12 +252,13 @@ class Pause(arcade.View):
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
         self.clear()
         self.game.on_draw()
-        arcade.draw_rectangle_filled(center_x=self.window.width // 2,
-                                     center_y=self.window.height // 2, width=300,
+        arcade.draw_rectangle_filled(center_x=self.window.width // 2+self.game.view_left,
+                                     center_y=self.window.height // 2+self.game.view_bottom,
+                                     width=300,
                                      height=200, color=ASH_GREY)
         arcade.draw_text(text="PAUSE",
-                         start_x=self.window.width // 2 - 100,
-                         start_y=self.window.height // 2 - 20,
+                         start_x=self.window.width // 2 - 100+self.game.view_left,
+                         start_y=self.window.height // 2 - 20+self.game.view_bottom,
                          color=GREEN,
                          font_size=40)
 
@@ -254,6 +288,10 @@ class Restart(arcade.View):
 
         self.button.draw()
         self.cursor.draw()
+
+    def on_update(self, delta_time: float):
+        self.button.set_position(self.window.width // 2+self.game.view_left,
+                             self.window.height // 2+self.game.view_bottom)
 
     def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
         self.cursor.set_position(x, y)
@@ -295,4 +333,11 @@ arcade.Sound(file) -основной класс музыки в arcade
 arcade.View -класс для управления экранами и передаваемым видом 
 display.show_view(menu) 
 -функция для выбора показа экрана в следующем кадре
+
+
+arcade.set_viewport(
+    self.view_left,self.view_left + self.width,
+    self.view_bottom,
+    self.view_bottom + self.height)
+-установка координат которые будут охватывать текущее окно
 """
