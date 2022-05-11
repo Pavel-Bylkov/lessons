@@ -4,7 +4,7 @@ import time
 import arcade
 from arcade.color import *
 
-# ToDo Добавить главное меню и меню паузы
+# ToDo
 
 WIDTH = 800
 HEIGHT = 600
@@ -236,6 +236,9 @@ class Pause(arcade.View):
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
         self.clear()
         self.game.on_draw()
+        arcade.draw_rectangle_filled(center_x=self.window.width // 2,
+                                     center_y=self.window.height // 2, width=300,
+                                     height=200, color=ASH_GREY)
         arcade.draw_text(text="PAUSE",
                          start_x=self.window.width // 2 - 100,
                          start_y=self.window.height // 2 - 20,
