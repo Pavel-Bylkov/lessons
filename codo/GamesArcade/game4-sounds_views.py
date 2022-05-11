@@ -292,15 +292,14 @@ class Restart(arcade.View):
     def on_update(self, delta_time: float):
         self.button.set_position(self.window.width // 2+self.game.view_left,
                              self.window.height // 2+self.game.view_bottom)
-        self.cursor.set_position(self.window.width // 2 + self.game.view_left,
-                                 self.window.height // 2 + self.game.view_bottom)
 
     def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
-        self.cursor.set_position(x, y)
+        self.cursor.set_position(x+ self.game.view_left, y+ self.game.view_bottom)
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         if button == arcade.MOUSE_BUTTON_LEFT:
-            collide = arcade.get_sprites_at_point((x, y), self.button_list)
+            collide = arcade.get_sprites_at_point((x+ self.game.view_left,
+                                                   y+ self.game.view_bottom), self.button_list)
             for button in collide:
                 button.on_click()
                 self.game.start()
