@@ -61,7 +61,7 @@ class Coin(arcade.AnimatedTimeBasedSprite):
                                               width=220, height=230)
                 frame = arcade.AnimationKeyframe(tile_id=1, duration=80, texture=texture)
                 self.frames.append(frame)
-                self._points = texture.hit_box_points
+                self._points = texture.hit_box_points  # для отслеживания столкновений
 
     def reset_pos(self):
         self.center_x = random.randint(20, WIDTH - 20)
@@ -105,11 +105,11 @@ class MyGame(arcade.View):
         self.music = arcade.Sound(MUSIC)  # фоновая музыка
         self.sound_effect = arcade.Sound(SOUND)  # звук сбора монет
         self.player = None  # понадобиться для управления музыкой
+        self.start()
 
     def on_show(self):
         # задаем фон окна
         arcade.set_background_color(color=DARK_GREEN)
-        self.start()
 
     def start(self):
         self.sprite.center_x = WIDTH//2
@@ -175,6 +175,9 @@ class MyGame(arcade.View):
             self.sprite.change_y = self.sprite.speed
         if key == arcade.key.DOWN:
             self.sprite.change_y = - self.sprite.speed
+        if key == arcade.key.P:
+            pause = Pause(self)
+            self.window.show_view(pause)
 
     def on_key_release(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -216,6 +219,38 @@ class MainMenu(arcade.View):
     def on_key_press(self, symbol: int, modifiers: int):
         game = MyGame()
         self.window.show_view(game)
+
+
+class Pause(arcade.View):
+    def __init__(self, game):
+        super().__init__()
+        self.game = game
+
+    def on_show(self):
+        # задаем фон окна
+        arcade.set_background_color(color=DARK_GREEN)
+        self.game.player.pause()
+
+    def on_draw(self):
+        """Здесь мы очищаем экран и отрисовываем спрайты.
+        Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
+        self.clear()
+        self.game.on_draw()
+        arcade.draw_text(text="PAUSE",
+                         start_x=self.window.width // 2 - 100,
+                         start_y=self.window.height // 2 - 20,
+                         color=GREEN,
+                         font_size=40)
+
+    def on_update(self, delta_time: float):
+        """Здесь мы обновляем параметры и перемещаем спрайты.
+        Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
+        pass
+
+    def on_key_press(self, key: int, modifiers: int):
+        if key == arcade.key.P:
+            self.game.player.play()
+            self.window.show_view(self.game)
 
 
 main_window = arcade.Window(width=WIDTH, height=HEIGHT, title=TITLE)

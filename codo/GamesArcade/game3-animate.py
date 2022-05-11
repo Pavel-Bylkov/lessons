@@ -150,7 +150,6 @@ class MyGame(arcade.Window):
             coin.remove_from_sprite_lists()
             self.score += 1
 
-
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
             self.sprite.change_x = - self.sprite.speed
