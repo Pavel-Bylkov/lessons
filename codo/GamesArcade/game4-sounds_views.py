@@ -109,6 +109,8 @@ class MyGame(arcade.View):
         arcade.set_background_color(color=DARK_GREEN)
 
     def start(self):
+        self.view_left = 0
+        self.view_bottom = 0
         self.sprite.center_x = WIDTH//2
         self.sprite.center_y = HEIGHT//2
         self.sprite.change_x = 0
