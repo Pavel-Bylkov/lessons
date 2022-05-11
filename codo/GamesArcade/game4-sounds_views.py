@@ -292,6 +292,8 @@ class Restart(arcade.View):
     def on_update(self, delta_time: float):
         self.button.set_position(self.window.width // 2+self.game.view_left,
                              self.window.height // 2+self.game.view_bottom)
+        self.cursor.set_position(self.window.width // 2 + self.game.view_left,
+                                 self.window.height // 2 + self.game.view_bottom)
 
     def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
         self.cursor.set_position(x, y)
