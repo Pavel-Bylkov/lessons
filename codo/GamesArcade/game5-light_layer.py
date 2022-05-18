@@ -110,6 +110,7 @@ class MyGame(arcade.View):
         self.view_bottom = 0
 
         # работаем со световыми слоями
+        self.night = False
         self.light_layer = LightLayer(WIDTH, HEIGHT)
         self.light = Light(self.sprite.center_x, self.sprite.center_y,
                            radius=100.0, color=(255, 255, 255), mode='soft')
@@ -117,12 +118,11 @@ class MyGame(arcade.View):
         self.light_layer.add(Light(100, 100,
                                    radius=100.0, color=(0, 250, 0), mode='soft'))
         self.light_layer.add(Light(WIDTH - 100, 100,
-                                   radius=100.0, color=(255, 0, 0), mode='soft'))
+                                   radius=100.0, color=(255, 0, 0), mode='hard'))
         self.light_layer.add(Light(100, HEIGHT - 100,
                                    radius=100.0, color=(0, 0, 255), mode='hard'))
         self.light_layer.add(Light(WIDTH - 100, HEIGHT - 100,
                                    radius=100.0, color=(155, 150, 205), mode='soft'))
-
 
     def on_show(self):
         # задаем фон окна
@@ -159,14 +159,19 @@ class MyGame(arcade.View):
         # старт рисования
         # arcade.start_render()
         self.clear()
-        with self.light_layer:
+
+        if self.night:
+            with self.light_layer:
+                self.back.draw()
+                self.coins_list.draw()
+                self.big_coins_list.draw()
+                self.sprite.draw()
+            self.light_layer.draw(ambient_color=(50, 50, 50))
+        else:
             self.back.draw()
             self.coins_list.draw()
             self.big_coins_list.draw()
             self.sprite.draw()
-
-        self.light_layer.draw(ambient_color=(50, 50, 50))
-
         arcade.draw_text(text=f"Score {self.score}",
                          start_x=10+self.view_left, start_y=20+self.view_bottom,
                          color=WHITE, font_size=20)
@@ -238,6 +243,11 @@ class MyGame(arcade.View):
                 self.light_layer.remove(self.light)
             else:
                 self.light_layer.add(self.light)
+        if key == arcade.key.N:
+            if self.night:
+                self.night = False
+            else:
+                self.night = True
 
     def on_key_release(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
