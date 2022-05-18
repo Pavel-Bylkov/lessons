@@ -19,6 +19,7 @@ COIN_IMG2 = ":resources:images/items/coinGold.png"
 CURSOR = ":resources:images/pinball/pool_cue_ball.png"
 SOUND = ":resources:sounds/jump5.wav"
 MUSIC = ":resources:music/funkyrobot.mp3"
+BACK = ":resources:images/backgrounds/abstract_1.jpg"
 
 
 class Hero(arcade.AnimatedWalkingSprite):
@@ -83,6 +84,9 @@ class Cursor(arcade.Sprite):
 class MyGame(arcade.View):
     def __init__(self):
         super().__init__()
+        self.back = arcade.Sprite(filename=BACK, scale=2,
+                                  center_x=self.window.width//2,
+                                  center_y=self.window.height//2)
         self.sprite = Hero(scale=2,
                            center_x=self.window.width//2,
                            center_y=self.window.height//2, speed=5)
@@ -111,18 +115,18 @@ class MyGame(arcade.View):
                            radius=100.0, color=(255, 255, 255), mode='soft')
         self.light_layer.add(self.light)
         self.light_layer.add(Light(100, 100,
-                                   radius=50.0, color=(55, 200, 55), mode='soft'))
+                                   radius=100.0, color=(0, 250, 0), mode='soft'))
         self.light_layer.add(Light(WIDTH - 100, 100,
-                                   radius=50.0, color=(255, 50, 55), mode='soft'))
+                                   radius=100.0, color=(255, 0, 0), mode='soft'))
         self.light_layer.add(Light(100, HEIGHT - 100,
-                                   radius=50.0, color=(55, 50, 205), mode='hard'))
+                                   radius=100.0, color=(0, 0, 255), mode='hard'))
         self.light_layer.add(Light(WIDTH - 100, HEIGHT - 100,
-                                   radius=50.0, color=(155, 150, 205), mode='soft'))
+                                   radius=100.0, color=(155, 150, 205), mode='soft'))
 
 
     def on_show(self):
         # задаем фон окна
-        arcade.set_background_color(color=DARK_GREEN)
+        arcade.set_background_color(color=WHITE)
 
     def start(self):
         self.view_left = 0
@@ -156,6 +160,7 @@ class MyGame(arcade.View):
         # arcade.start_render()
         self.clear()
         with self.light_layer:
+            self.back.draw()
             self.coins_list.draw()
             self.big_coins_list.draw()
             self.sprite.draw()
@@ -189,6 +194,7 @@ class MyGame(arcade.View):
             self.window.show_view(restart)
 
         self.light.position = self.sprite.position
+        self.back.position = self.sprite.position
 
         self.view_point()
 
