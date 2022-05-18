@@ -3,6 +3,7 @@ import time
 
 import arcade
 from arcade.color import *
+from arcade.experimental.lights import Light, LightLayer
 
 # ToDo
 
@@ -104,6 +105,12 @@ class MyGame(arcade.View):
         self.view_left = 0
         self.view_bottom = 0
 
+        # работаем со световыми слоями
+        self.light_layer = LightLayer(WIDTH, HEIGHT)
+        self.light = Light(self.sprite.center_x, self.sprite.center_y,
+                           radius=100.0, color=(255, 255, 255), mode='hard')
+        self.light_layer.add(self.light)
+
     def on_show(self):
         # задаем фон окна
         arcade.set_background_color(color=DARK_GREEN)
@@ -139,9 +146,13 @@ class MyGame(arcade.View):
         # старт рисования
         # arcade.start_render()
         self.clear()
-        self.coins_list.draw()
-        self.big_coins_list.draw()
-        self.sprite.draw()
+        with self.light_layer:
+            self.coins_list.draw()
+            self.big_coins_list.draw()
+            self.sprite.draw()
+
+        self.light_layer.draw(ambient_color=(50, 50, 50))
+
         arcade.draw_text(text=f"Score {self.score}",
                          start_x=10+self.view_left, start_y=20+self.view_bottom,
                          color=WHITE, font_size=20)
@@ -167,6 +178,8 @@ class MyGame(arcade.View):
         if len(self.coins_list) == 0 and len(self.big_coins_list) == 0:
             restart = Restart(self)
             self.window.show_view(restart)
+
+        self.light.position = self.sprite.position
 
         self.view_point()
 
@@ -205,6 +218,11 @@ class MyGame(arcade.View):
         if key == arcade.key.P:
             pause = Pause(self)
             self.window.show_view(pause)
+        if key == arcade.key.SPACE:
+            if self.light in self.light_layer:
+                self.light_layer.remove(self.light)
+            else:
+                self.light_layer.add(self.light)
 
     def on_key_release(self, key: int, modifiers: int):
         if key == arcade.key.LEFT:
@@ -315,31 +333,28 @@ main_window.show_view(menu)
 main_window.run()
 
 """
-***mouse***
-def on_mouse_press(self, x, y, button, modifiers) 
--отслеживание нажатия кнопок мышки 
-if button == arcade.MOUSE_BUTTON_LEFT: -условие на кнопку 
+from arcade.experimental.lights import Light,LightLayer
+-импорт класса для создания лучей и светового слоя
 
-def on_mouse_release(self, x, y, button, modifiers) 
--отслеживание отжатия кнопок мышки 
+self.light_layer = LightLayer(WIDTH,HEIGHT)
+-создание светового слоя
 
-def on_mouse_motion(self, x: float, y: float, dx: float, dy: float) 
--отслеживание положения
+self.light = Light(x,y,radius,color,mode)
+-создание луча света
 
-***sound***
-arcade.Sound(file) -основной класс музыки в arcade
-(переменная с музыкой).play(self.volume,self.pan) 
--проигрыш с указанием громкости и панорамирования
+with self.light_layer:
+    -отрисовка бекграунда вместо со световым слоем
+    (всё что должно быть освещено световым слоем должно быть внутри оператора with)
+    self.background_list.draw()
+    self.player_sprite_list.draw()
 
-***display***
-arcade.View -класс для управления экранами и передаваемым видом 
-display.show_view(menu) 
--функция для выбора показа экрана в следующем кадре
-
+self.light_layer.draw(ambient_color=default_color)
+-отрисовка светового слоя с общим светом на весь слой
 
 arcade.set_viewport(
     self.view_left,self.view_left + self.width,
     self.view_bottom,
     self.view_bottom + self.height)
 -установка координат которые будут охватывать текущее окно
+
 """
