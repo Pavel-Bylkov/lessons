@@ -108,8 +108,17 @@ class MyGame(arcade.View):
         # работаем со световыми слоями
         self.light_layer = LightLayer(WIDTH, HEIGHT)
         self.light = Light(self.sprite.center_x, self.sprite.center_y,
-                           radius=100.0, color=(255, 255, 255), mode='hard')
+                           radius=100.0, color=(255, 255, 255), mode='soft')
         self.light_layer.add(self.light)
+        self.light_layer.add(Light(100, 100,
+                                   radius=50.0, color=(55, 200, 55), mode='soft'))
+        self.light_layer.add(Light(WIDTH - 100, 100,
+                                   radius=50.0, color=(255, 50, 55), mode='soft'))
+        self.light_layer.add(Light(100, HEIGHT - 100,
+                                   radius=50.0, color=(55, 50, 205), mode='hard'))
+        self.light_layer.add(Light(WIDTH - 100, HEIGHT - 100,
+                                   radius=50.0, color=(155, 150, 205), mode='soft'))
+
 
     def on_show(self):
         # задаем фон окна
