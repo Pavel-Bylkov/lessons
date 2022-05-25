@@ -3,7 +3,7 @@ import time
 
 import arcade
 from arcade.color import *
-from arcade.experimental.lights import Light, LightLayer
+import pymunk
 
 # ToDo
 
@@ -11,7 +11,7 @@ WIDTH = 800
 HEIGHT = 600
 
 VIEW_MARGIN = 200  # ширина рамки после которого начнет двигаться экран
-TITLE = "Game 5"
+TITLE = "Game Platformer"
 
 
 COIN_IMG = "timeanim/coinanim.png"
@@ -20,6 +20,9 @@ CURSOR = ":resources:images/pinball/pool_cue_ball.png"
 SOUND = ":resources:sounds/jump5.wav"
 MUSIC = ":resources:music/funkyrobot.mp3"
 BACK = ":resources:images/backgrounds/abstract_1.jpg"
+
+space = pymunk.Space()
+space.gravity = 0, -1000  # -создание гравитации
 
 
 class Hero(arcade.AnimatedWalkingSprite):
@@ -32,6 +35,51 @@ class Hero(arcade.AnimatedWalkingSprite):
         for i in range(1, 6):
             self.walk_left_textures.append(arcade.load_texture(f"animations/l{i}.png"))
             self.walk_right_textures.append(arcade.load_texture(f"animations/r{i}.png"))
+        radius = self.height // 2
+        mass = 10
+        circle_moment = pymunk.moment_for_circle(mass, 0, radius)
+        self.body = pymunk.Body(mass, circle_moment)
+        self.body.position = center_x, center_y
+        circle_shape = pymunk.Circle(self.body, radius)
+        circle_shape.elasticity = 0.8  # - коэффициент отскока
+        circle_shape.friction = 1  # - коэффициент трения
+        space.add(self.body, circle_shape)
+
+    def update(self):
+        super().update()
+        self.set_position(self.body.position.x, self.body.position.y)
+
+    def on_key_press(self, key):
+        if key == arcade.key.LEFT:
+            self.body.position.x -= self.speed
+        if key == arcade.key.RIGHT:
+            self.body.position.x += self.speed
+        if key == arcade.key.SPACE:
+            self.jump()
+
+    def jump(self):
+        self.body.position.y += 10
+
+    def set_center(self, x, y):
+        self.body.position = x, y
+
+class Line:
+    def __init__(self, start_x, start_y, end_x, end_y, color, line_width):
+        self.start_x = start_x
+        self.start_y = start_y
+        self.end_x = end_x
+        self.end_y = end_y
+        self.color = color
+        self.line_width = line_width
+        shape = pymunk.Segment(space.static_body, (start_x, start_y),
+                               (end_x, end_y), radius=line_width)
+        shape.elasticity = 0.8
+        shape.friction = 10
+        space.add(shape)
+
+    def draw(self):
+        arcade.draw_line(self.start_x, self.start_y, self.end_x, self.end_y,
+                         self.color, self.line_width)
 
 
 class Button(arcade.SpriteSolidColor):
@@ -109,20 +157,12 @@ class MyGame(arcade.View):
         self.view_left = 0
         self.view_bottom = 0
 
-        # работаем со световыми слоями
-        self.night = False
-        self.light_layer = LightLayer(WIDTH, HEIGHT)
-        self.light = Light(self.sprite.center_x, self.sprite.center_y,
-                           radius=100.0, color=(255, 255, 255), mode='soft')
-        self.light_layer.add(self.light)
-        self.light_layer.add(Light(100, 100,
-                                   radius=100.0, color=(0, 250, 0), mode='soft'))
-        self.light_layer.add(Light(WIDTH - 100, 100,
-                                   radius=100.0, color=(255, 0, 0), mode='hard'))
-        self.light_layer.add(Light(100, HEIGHT - 100,
-                                   radius=100.0, color=(0, 0, 255), mode='hard'))
-        self.light_layer.add(Light(WIDTH - 100, HEIGHT - 100,
-                                   radius=100.0, color=(155, 150, 205), mode='soft'))
+        # Физические объекты
+        self.static_lines = [
+            Line(0, 10, WIDTH, 10, WHITE, 5),
+        ]
+
+
 
     def on_show(self):
         # задаем фон окна
@@ -131,10 +171,7 @@ class MyGame(arcade.View):
     def start(self):
         self.view_left = 0
         self.view_bottom = 0
-        self.sprite.center_x = WIDTH//2
-        self.sprite.center_y = HEIGHT//2
-        self.sprite.change_x = 0
-        self.sprite.change_y = 0
+        self.sprite.set_center(WIDTH//2, HEIGHT//2)
         for i in range(20):
             coin = Coin(scale=0.2,
                         center_x=random.randint(20, WIDTH - 20),
@@ -160,18 +197,13 @@ class MyGame(arcade.View):
         # arcade.start_render()
         self.clear()
 
-        if self.night:
-            with self.light_layer:
-                self.back.draw()
-                self.coins_list.draw()
-                self.big_coins_list.draw()
-                self.sprite.draw()
-            self.light_layer.draw(ambient_color=(50, 50, 50))
-        else:
-            self.back.draw()
-            self.coins_list.draw()
-            self.big_coins_list.draw()
-            self.sprite.draw()
+        self.back.draw()
+        self.coins_list.draw()
+        self.big_coins_list.draw()
+        self.sprite.draw()
+
+        for line in self.static_lines:
+            line.draw()
 
         arcade.draw_text(text=f"Score {self.score}",
                          start_x=10+self.view_left, start_y=20+self.view_bottom,
@@ -183,7 +215,7 @@ class MyGame(arcade.View):
     def on_update(self, delta_time: float):
         """Здесь мы обновляем параметры и перемещаем спрайты.
         Этот метод вызывается автоматически с частотой 60 кадров в секунду"""
-
+        space.step(delta_time)
         self.coins_list.update_animation()
         if self.timer > 0:
             self.sprite.update()
@@ -199,7 +231,6 @@ class MyGame(arcade.View):
             restart = Restart(self)
             self.window.show_view(restart)
 
-        self.light.position = self.sprite.position
         self.back.position = self.sprite.position
 
         self.view_point()
@@ -228,22 +259,10 @@ class MyGame(arcade.View):
                             self.view_bottom + self.window.height)
 
     def on_key_press(self, key: int, modifiers: int):
-        if key == arcade.key.LEFT:
-            self.sprite.change_x = - self.sprite.speed
-        if key == arcade.key.RIGHT:
-            self.sprite.change_x = self.sprite.speed
-        if key == arcade.key.UP:
-            self.sprite.change_y = self.sprite.speed
-        if key == arcade.key.DOWN:
-            self.sprite.change_y = - self.sprite.speed
+        self.sprite.on_key_press(key)
         if key == arcade.key.P:
             pause = Pause(self)
             self.window.show_view(pause)
-        if key == arcade.key.SPACE:
-            if self.light in self.light_layer:
-                self.light_layer.remove(self.light)
-            else:
-                self.light_layer.add(self.light)
         if key == arcade.key.N:
             if self.night:
                 self.night = False
@@ -359,28 +378,27 @@ main_window.show_view(menu)
 main_window.run()
 
 """
-from arcade.experimental.lights import Light,LightLayer
--импорт класса для создания лучей и светового слоя
+import pymunk -импорт модуля
+space = pymunk.Space() -создание пространства
+space.gravity = 0, -1000 -создание гравитации
+segment_shape1 = pymunk.Segment(space.static_body, (400, 300), (700, 320), 2) 
+-создание статичного объекта (линии)
 
-self.light_layer = LightLayer(WIDTH,HEIGHT)
--создание светового слоя
-
-self.light = Light(x,y,radius,color,mode)
--создание луча света
-
-with self.light_layer:
-    -отрисовка бекграунда вместо со световым слоем
-    (всё что должно быть освещено световым слоем должно быть внутри оператора with)
-    self.background_list.draw()
-    self.player_sprite_list.draw()
-
-self.light_layer.draw(ambient_color=default_color)
--отрисовка светового слоя с общим светом на весь слой
-
-arcade.set_viewport(
-    self.view_left,self.view_left + self.width,
-    self.view_bottom,
-    self.view_bottom + self.height)
--установка координат которые будут охватывать текущее окно
+segment_shape1.elasticity = 0.8 -коэффициент отскока
+segment_shape1.friction = 1 -коэффициент трения
+space.step(delta_time)-задание частоты обновления пространства
+circle_moment = pymunk.moment_for_circle(mass, 0, radius) 
+-создание момента иннерции для круга
+circle_body = pymunk.Body(mass, circle_moment) 
+-создание тела с определенной массой и моментом иннерции
+circle_shape = pymunk.Circle(circle_body, radius) -задание формы тела
+*****game*****
+self.ball_list:
+    arcade.SpriteList[CircleSprite] = arcade.SpriteList() 
+    -создание списка спрайтов, состоящего из списков спрайтов 
+    body = pymunk.Body(body_type=pymunk.Body.STATIC) 
+    -создание статичного тела
+    shape = pymunk.Segment(body, [0, 10], [SCREEN_WIDTH, 10], 0.0) 
+    -создание статичного объекта (линии)
 
 """
